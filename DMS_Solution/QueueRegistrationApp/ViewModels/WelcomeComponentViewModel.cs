@@ -14,8 +14,9 @@ namespace QueueRegistrationApp.ViewModels
         {
             Message = @"Welcome to the clinic.
 Please swipe your card to continue...";
-
             
         }
+
+
     }
 }

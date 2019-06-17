@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:QueueRegistrationApp.Views"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True" Title="Queue Register Application">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <ContentControl>
-            <local:WelcomeComponent></local:WelcomeComponent>
-        </ContentControl>
+        <ContentControl Content="{Binding CurrentView}"/>
     </StackPanel>
 </Window>
