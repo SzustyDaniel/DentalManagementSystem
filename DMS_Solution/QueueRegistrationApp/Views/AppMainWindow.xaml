@@ -6,7 +6,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <ContentControl>
-            <local:SelectQueueComponent></local:SelectQueueComponent>
+            <local:WelcomeComponent></local:WelcomeComponent>
         </ContentControl>
     </StackPanel>
 </Window>

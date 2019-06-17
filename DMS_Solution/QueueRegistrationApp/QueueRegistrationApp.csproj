@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Patient.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\QueueDetailsDisplayViewModel.cs" />
     <Compile Include="ViewModels\SelectQueueComponentViewModel.cs" />
@@ -133,7 +134,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

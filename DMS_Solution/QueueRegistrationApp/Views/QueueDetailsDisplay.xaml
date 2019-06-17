@@ -3,7 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
-            
-    </Grid>
+    <Window.Resources>
+        <Style x:Key="textStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="10,15"/>
+        </Style>
+    </Window.Resources>
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock Style="{StaticResource textStyle}" Text="{Binding NameText}"/>
+        <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineNumberText}"/>
+        <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineTypeText}"/>
+    </StackPanel>
 </Window>
