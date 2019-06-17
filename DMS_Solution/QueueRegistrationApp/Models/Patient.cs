@@ -16,20 +16,6 @@ namespace QueueRegistrationApp.Models
             set { SetProperty(ref id, value); }
         }
 
-        private string firstName;
-        public string FirstName
-        {
-            get { return firstName; }
-            set { SetProperty(ref firstName, value); }
-        }
-
-        private string lastName;
-        public string LastName
-        {
-            get { return lastName; }
-            set { SetProperty(ref lastName, value); }
-        }
-
         private string queueType;
         public string QueueType
         {

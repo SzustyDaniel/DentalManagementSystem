@@ -13,7 +13,6 @@
         </Style>
     </Window.Resources>
     <StackPanel VerticalAlignment="Center">
-        <TextBlock Style="{StaticResource textStyle}" Text="{Binding NameText}"/>
         <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineNumberText}"/>
         <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineTypeText}"/>
     </StackPanel>

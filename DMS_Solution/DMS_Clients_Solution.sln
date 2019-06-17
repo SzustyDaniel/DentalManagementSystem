@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueRegistrationApp", "Que
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffClientApplication", "StaffClientApplication\StaffClientApplication.csproj", "{E90D3F33-6B33-4C3E-9F6D-F0F004A64826}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\DMS_Web_APIs\Common\Common.csproj", "{1169CBF7-7550-44B0-B7E1-D84EF0391FC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E90D3F33-6B33-4C3E-9F6D-F0F004A64826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E90D3F33-6B33-4C3E-9F6D-F0F004A64826}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E90D3F33-6B33-4C3E-9F6D-F0F004A64826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1169CBF7-7550-44B0-B7E1-D84EF0391FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1169CBF7-7550-44B0-B7E1-D84EF0391FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1169CBF7-7550-44B0-B7E1-D84EF0391FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1169CBF7-7550-44B0-B7E1-D84EF0391FC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

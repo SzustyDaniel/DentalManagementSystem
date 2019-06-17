@@ -8,6 +8,7 @@ namespace StaffClientApplication.ViewModels
 {
     public class LoginUCViewModel : BindableBase
     {
+
         public LoginUCViewModel()
         {
 
