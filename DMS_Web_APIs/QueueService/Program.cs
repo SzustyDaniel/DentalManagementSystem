@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using QueueService.AzureStorage.QueueManagement;
+using QueueService.AzureStorage.StorageManagement;
 
 namespace QueueService
 {
@@ -24,7 +24,7 @@ namespace QueueService
                 try
                 {
                     IOptions<AzureStorageSettings> tableSettings = services.GetRequiredService<IOptions<AzureStorageSettings>>();
-                    await InitializeAzureStorage.CreateTablesIfNotExists(tableSettings);
+                    await InitializeAzureStorage.CreateStorageIfNotExists(tableSettings);
                 }
                 catch (Exception ex)
                 {

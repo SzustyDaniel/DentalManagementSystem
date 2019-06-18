@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Common;
 using Common.QueueModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
 using QueueService.AzureStorage;
-using QueueService.AzureStorage.QueueManagement;
-using QueueService.SignalR;
 
 namespace QueueService.Controller
 {
@@ -19,27 +11,27 @@ namespace QueueService.Controller
     {
         //IHubContext<QueueNotificationsHub, IQueueNotificationsHub> hubContext, 
         //private readonly IHubContext<QueueNotificationsHub, IQueueNotificationsHub> _hubContext;
-        private readonly IAzureQueueService _queueService;
+        private readonly IQueueStorageService _queueService;
 
-        public QueueController(IAzureQueueService queueService)
+        public QueueController(IQueueStorageService queueService)
         {
             _queueService = queueService;
             //_hubContext = hubContext;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToTable(EnqueuePosition newItem)
+        public async Task<IActionResult> AddToTable([FromBody]EnqueuePosition newItem)
         {
-            if(newItem is null)
+            if(newItem is null || newItem.ServiceType == ServiceType.none)
             {
-
+                return new BadRequestResult();
             }
 
             EnqueuePositionResult result = await _queueService.AddToQueue(newItem);
 
             if(result is null)
             {
-                return null;
+                return new StatusCodeResult(500);
             }
             return new JsonResult(result);
         }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace QueueService.AzureStorage
 {
-    public interface IAzureQueueService
+    public interface IQueueStorageService
     {
         Task<EnqueuePositionResult> AddToQueue(EnqueuePosition newItem);
-        Task RemoveToQueue(string queueName);
     }
 }

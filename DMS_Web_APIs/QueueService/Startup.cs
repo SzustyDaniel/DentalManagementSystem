@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QueueService.AzureStorage;
-using QueueService.AzureStorage.QueueManagement;
+using QueueService.AzureStorage.StorageManagement;
 
 namespace QueueService
 {
@@ -25,7 +25,7 @@ namespace QueueService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AzureStorageSettings>(_configuration.GetSection("Data:Azure"));
-            services.AddTransient<IAzureQueueService, AzureQueueService>();
+            services.AddTransient<IQueueStorageService, QueueStorageService>();
             services.AddMvc();
         }
 

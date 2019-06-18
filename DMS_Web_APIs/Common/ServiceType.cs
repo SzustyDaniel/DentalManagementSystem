@@ -6,6 +6,7 @@ namespace Common
 {
     public enum ServiceType
     {
+        none,
         Pharmacist,
         Nurse
     }
