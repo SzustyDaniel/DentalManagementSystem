@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using UsersService.Data;
 
 namespace UsersService
 {
@@ -14,7 +11,13 @@ namespace UsersService
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            IWebHost webHost = CreateWebHostBuilder(args).Build();
+            using (IServiceScope scope = webHost.Services.CreateScope())
+            {
+                IServiceProvider serviceProvider = scope.ServiceProvider;
+                DataGenerator.Initialize(serviceProvider.GetRequiredService<DbContextOptions<UsersContext>>());
+            }
+            webHost.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

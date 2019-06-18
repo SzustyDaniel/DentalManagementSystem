@@ -6,6 +6,6 @@ namespace Common.UserModels
 {
     public class CustomerRespone
     {
-        public int ID { get; set; }
+        public int CustomerId { get; set; }
     }
 }
