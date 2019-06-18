@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Common;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StaffClientApplication.Models
 {
-    public class UserModel: BindableBase
+    public class StationModel: BindableBase
     {
 
         private string _userName;
@@ -22,6 +23,20 @@ namespace StaffClientApplication.Models
         {
             get { return _password; }
             set { SetProperty(ref _password, value); }
+        }
+
+        private ServiceType serviceType;
+        public ServiceType StationServiceType
+        {
+            get { return serviceType; }
+            set { SetProperty(ref serviceType, value); }
+        }
+
+        private int stationNumber;
+        public int StationNumber
+        {
+            get { return stationNumber; }
+            set { SetProperty(ref stationNumber, value); }
         }
 
     }

@@ -72,7 +72,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\StationModel.cs" />
+    <Compile Include="Services\LoginService.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginUCViewModel.cs" />
     <Compile Include="ViewModels\StaffControlUCViewModel.cs" />
@@ -114,7 +115,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\..\DMS_Web_APIs\Common\Common.csproj">
+      <Project>{1169cbf7-7550-44b0-b7e1-d84ef0391fc7}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AppMainWindow.xaml">
@@ -129,6 +133,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
