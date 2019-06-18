@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"    Title="Staff End Node"         
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <StackPanel Margin="15,10">
-        <ContentControl Content="{Binding CurrentView}"/>
-    </StackPanel>
+    <DockPanel Margin="15,10" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ContentControl DockPanel.Dock="Top" Content="{Binding CurrentView}"/>
+    </DockPanel>
 </Window>

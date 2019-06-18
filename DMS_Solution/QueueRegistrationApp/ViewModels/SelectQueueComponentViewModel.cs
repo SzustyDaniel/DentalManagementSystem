@@ -15,9 +15,9 @@ namespace QueueRegistrationApp.ViewModels
 
         public SelectQueueComponentViewModel()
         {
-            Message = @"Select the service you wish to recieve";
+            Message = @"Select the service you wish to receive";
             FirstService = "Pharmacy";
-            SecondService = "Nures treatment";
+            SecondService = "Nurse treatment";
         }
 
         #region commands
