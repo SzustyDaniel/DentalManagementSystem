@@ -6,10 +6,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Common.QueueModels;
+using Common.UserModels;
 
 namespace QueueRegistrationApp.Services
 {
-    public class QueueActions: IQueueRegisterService
+    public class ClientHttpActions: IClientHttpActions
     {
 
         private readonly HttpClient client;
@@ -17,24 +18,23 @@ namespace QueueRegistrationApp.Services
 
         #region Singleton
 
-        private static QueueActions _instance;
-        public static QueueActions Instance
+        private static ClientHttpActions _instance;
+        public static ClientHttpActions Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new QueueActions();
+                    _instance = new ClientHttpActions();
                 }
 
                 return _instance;
             }
         }
 
-        private QueueActions()
+        private ClientHttpActions()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri(serverURI);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -46,7 +46,10 @@ namespace QueueRegistrationApp.Services
          */
         public async Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition requestPosition)
         {
+            
             EnqueuePositionResult positionResult = null;
+
+            client.BaseAddress = new Uri(serverURI);
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue",requestPosition);
             response.EnsureSuccessStatusCode();
 
@@ -59,5 +62,9 @@ namespace QueueRegistrationApp.Services
 
         }
 
+        public Task<CustomerRespone> ValidateCustomer(CardInfo cardInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
