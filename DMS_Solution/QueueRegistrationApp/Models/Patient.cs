@@ -19,7 +19,12 @@ namespace QueueRegistrationApp.Models
             set { SetProperty(ref clientCard, value); }
         }
 
-        // Missing ID
+        private ulong customerID;
+        public ulong CustomerID
+        {
+            get { return customerID; }
+            set { SetProperty(ref customerID, value); }
+        }
 
         private ServiceType queueType;
         public ServiceType QueueType

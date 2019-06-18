@@ -77,6 +77,7 @@
     <Compile Include="Models\Patient.cs" />
     <Compile Include="Services\IClientHttpActions.cs" />
     <Compile Include="Services\ClientHttpActions.cs" />
+    <Compile Include="Services\NavigationDialog.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\QueueDetailsDisplayViewModel.cs" />
     <Compile Include="ViewModels\SelectQueueComponentViewModel.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Views\WelcomeComponent.xaml.cs">
       <DependentUpon>WelcomeComponent.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewType.cs" />
     <Page Include="Views\AppMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

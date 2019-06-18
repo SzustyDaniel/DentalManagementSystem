@@ -14,7 +14,8 @@ namespace QueueRegistrationApp.Services
     {
 
         private readonly HttpClient client;
-        private readonly string serverURI = "http://localhost:55034/";
+        private readonly string queueServerURI = "http://localhost:55034/";
+        private readonly string usersServerURI = "http://localhost:/";
 
         #region Singleton
 
@@ -49,7 +50,7 @@ namespace QueueRegistrationApp.Services
             
             EnqueuePositionResult positionResult = null;
 
-            client.BaseAddress = new Uri(serverURI);
+            client.BaseAddress = new Uri(queueServerURI);
             HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue",requestPosition);
             response.EnsureSuccessStatusCode();
 
