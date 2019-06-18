@@ -23,8 +23,8 @@ namespace QueueService
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var queueSettings = services.GetRequiredService<IOptions<AzureStorageSettings>>();
-                    await InitializeAzureStorage.CreateQueuesIfNotExists(queueSettings);
+                    IOptions<AzureStorageSettings> tableSettings = services.GetRequiredService<IOptions<AzureStorageSettings>>();
+                    await InitializeAzureStorage.CreateTablesIfNotExists(tableSettings);
                 }
                 catch (Exception ex)
                 {
