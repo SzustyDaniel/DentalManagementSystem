@@ -7,5 +7,6 @@ namespace Common.QueueModels
     public class DequeuePositionResult
     {
         public int UserNumber { get; set; }
+        public int UserID { get; set; }
     }
 }

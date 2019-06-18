@@ -8,16 +8,8 @@ namespace QueueRegistrationApp.ViewModels
 {
     public class SelectQueueComponentViewModel : BindableBase
     {
-        public string Message { get; set; }
-        public string FirstService { get; set; }
-        public string SecondService { get; set; }
-
-
         public SelectQueueComponentViewModel()
         {
-            Message = @"Select the service you wish to recieve";
-            FirstService = "Pharmacy";
-            SecondService = "Nures treatment";
         }
 
         #region commands
