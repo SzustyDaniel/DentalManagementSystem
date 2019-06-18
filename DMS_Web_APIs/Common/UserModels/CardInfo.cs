@@ -4,6 +4,6 @@ namespace Common.UserModels
 {
     public struct CardInfo
     {
-        public Guid CardNumber { get; set; }
+        public ulong CardNumber { get; set; }
     }
 }
