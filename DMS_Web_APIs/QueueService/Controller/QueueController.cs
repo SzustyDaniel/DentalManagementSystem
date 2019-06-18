@@ -28,7 +28,7 @@ namespace QueueService.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToQueue(EnqueuePosition newItem)
+        public async Task<IActionResult> AddToTable(EnqueuePosition newItem)
         {
             if(newItem is null)
             {

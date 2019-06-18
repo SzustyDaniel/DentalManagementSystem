@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +10,14 @@ namespace QueueService.AzureStorage.QueueManagement
 {
     public static class InitializeAzureStorage
     {
-        public static async Task CreateQueuesIfNotExists(IOptions<AzureStorageSettings> settings)
+        public static async Task CreateTablesIfNotExists(IOptions<AzureStorageSettings> settings)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(settings.Value.ConnectionString);
-            CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-            foreach(var queueName in settings.Value.QueueNames)
+            foreach(var tableName in settings.Value.TablesToCreate)
             {
-                await queueClient.GetQueueReference(queueName).CreateIfNotExistsAsync();
+                await tableClient.GetTableReference(tableName).CreateIfNotExistsAsync();
             }
         }
     }

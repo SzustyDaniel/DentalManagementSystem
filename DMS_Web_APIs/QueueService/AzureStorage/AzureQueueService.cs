@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json.Linq;
 using QueueService.AzureStorage.QueueManagement;
 using System;
@@ -13,19 +14,16 @@ namespace QueueService.AzureStorage
 {
     public class AzureQueueService  : IAzureQueueService
     {
-        private readonly CloudQueueClient _queueClient;
+        private readonly CloudTableClient _tableClient;
 
         public AzureQueueService(IOptions<AzureStorageSettings> settings)
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(settings.Value.ConnectionString);
-            _queueClient = storageAccount.CreateCloudQueueClient();
+            _tableClient = storageAccount.CreateCloudTableClient();
         }
 
         public async Task<EnqueuePositionResult> AddToQueue(EnqueuePosition newItem)
         {
-            string queueName = newItem.ServiceType.ToString().ToLower();
-            CloudQueue queue = _queueClient.GetQueueReference(queueName);
-
             string newItemAsJsonString = string.Empty;
             try
             {
@@ -36,15 +34,16 @@ namespace QueueService.AzureStorage
 
             }
 
-            CloudQueueMessage message = new CloudQueueMessage(newItemAsJsonString);
-            await queue.AddMessageAsync(message);
-            await queue.FetchAttributesAsync();
-
-            int? UserNumber = queue.ApproximateMessageCount;
-            if (UserNumber.HasValue)
+            TableEntity entity = new TableEntity()
             {
-                return new EnqueuePositionResult { UserNumber = UserNumber.Value };
-            }
+                
+            };
+
+            string tableName = newItem.ServiceType.ToString().ToLower();
+            CloudTable table = _tableClient.GetTableReference(tableName);
+
+            
+
             return null;
         }
 

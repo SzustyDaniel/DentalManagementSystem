@@ -8,6 +8,6 @@ namespace QueueService.AzureStorage.QueueManagement
     public class AzureStorageSettings
     {
         public string ConnectionString { get; set; }
-        public List<string> QueueNames { get; set; }
+        public List<string> TablesToCreate { get; set; }
     }
 }
