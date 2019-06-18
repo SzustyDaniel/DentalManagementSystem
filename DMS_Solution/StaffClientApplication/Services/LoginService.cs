@@ -15,12 +15,7 @@ namespace StaffClientApplication.Services
 
         public static async Task<bool> SendCredentials(StationModel station)
         {
-            StaffIdentity status = new StaffIdentity();
-            status.UserName = station.UserName;
-            status.Password = station.Password;
-            status.StationNumber = station.StationNumber;
-            status.ServiceType = station.StationServiceType;
-
+            // TODO create the send credentials service
             throw new NotImplementedException();
         }
     }

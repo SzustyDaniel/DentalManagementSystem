@@ -9,7 +9,7 @@ using QueueRegistrationApp.Views;
 
 namespace QueueRegistrationApp.Services
 {
-    public class NavigationDialog
+    public class ViewsDialog
     {
         private Window window = null;
 
@@ -28,6 +28,18 @@ namespace QueueRegistrationApp.Services
                 default:
                     throw new ArgumentException("Not a valid type");
             }
+        }
+
+        public void ShowWindowDialog()
+        {
+            window = new QueueDetailsDisplay();
+            window.ShowDialog();
+        }
+
+        public void CloseWindowDialog()
+        {
+            if(window != null)
+                window.Close();
         }
 
 

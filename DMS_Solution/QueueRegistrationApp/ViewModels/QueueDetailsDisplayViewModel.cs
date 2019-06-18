@@ -28,7 +28,7 @@ namespace QueueRegistrationApp.ViewModels
         {
             Model = patient;
             LineTypeText = $"In line for {Model.QueueType}";
-            LineNumberText = $"Number in line: {Model.LineNumber}";
+            LineNumberText = $"Number in line: {Model.LineNumber.UserNumber}";
         }
     }
 }
