@@ -4,27 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
+using Common.QueueModels;
+using Common.UserModels;
+using Common;
 
 namespace QueueRegistrationApp.Models
 {
     public class Patient: BindableBase
     {
-        private int id;
-        public int ID
+        private CardInfo clientCard;
+        public CardInfo ClientCard
         {
-            get { return id; }
-            set { SetProperty(ref id, value); }
+            get { return clientCard; }
+            set { SetProperty(ref clientCard, value); }
         }
 
-        private string queueType;
-        public string QueueType
+        // Missing ID
+
+        private ServiceType queueType;
+        public ServiceType QueueType
         {
             get { return queueType; }
             set { SetProperty(ref queueType, value); }
         }
 
-        private int lineNumber;
-        public int LineNumber
+        private EnqueuePositionResult lineNumber;
+        public EnqueuePositionResult LineNumber
         {
             get { return lineNumber; }
             set { SetProperty(ref lineNumber, value); }

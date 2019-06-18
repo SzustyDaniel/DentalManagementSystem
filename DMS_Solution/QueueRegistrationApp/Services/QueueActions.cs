@@ -9,7 +9,7 @@ using Common.QueueModels;
 
 namespace QueueRegistrationApp.Services
 {
-    public class QueueActions
+    public class QueueActions: IQueueRegisterService
     {
 
         private readonly HttpClient client;
@@ -44,10 +44,10 @@ namespace QueueRegistrationApp.Services
         /*
          * Generate POST HTTP request to the API and return the queue position of the client.
          */
-        public async Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition request)
+        public async Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition requestPosition)
         {
             EnqueuePositionResult positionResult = null;
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue",request);
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue",requestPosition);
             response.EnsureSuccessStatusCode();
 
             if(response.IsSuccessStatusCode)

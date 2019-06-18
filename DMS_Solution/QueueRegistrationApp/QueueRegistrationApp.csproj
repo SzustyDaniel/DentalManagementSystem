@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Patient.cs" />
+    <Compile Include="Services\IQueueRegisterService.cs" />
     <Compile Include="Services\QueueActions.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\QueueDetailsDisplayViewModel.cs" />
