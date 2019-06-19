@@ -2,6 +2,6 @@
 {
     public enum LoginStatus
     {
-        LogIn, LogOut
+        None, LogIn, LogOut
     }
 }

@@ -8,7 +8,7 @@ using QueueService.SignalR;
 
 namespace QueueService.Controller
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class QueueController : ControllerBase
     {
         //IHubContext<QueueNotificationsHub, IQueueNotificationsHub> hubContext, 
