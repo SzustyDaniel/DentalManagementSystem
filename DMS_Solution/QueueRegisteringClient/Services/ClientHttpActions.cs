@@ -1,5 +1,6 @@
 ﻿using Common.QueueModels;
 using Common.UserModels;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,7 @@ namespace QueueRegisteringClient.Services
     {
 
         private readonly HttpClient client;
-        private readonly string queueServerURI = "https://localhost:44305/";
-        private readonly string usersServerURI = "http://localhost:53512/";
+
 
         #region Singleton
 
@@ -50,8 +50,8 @@ namespace QueueRegisteringClient.Services
 
             EnqueuePositionResult positionResult = null;
 
-            if(client.BaseAddress == null || client.BaseAddress.ToString() != queueServerURI)
-                client.BaseAddress = new Uri(queueServerURI);
+            if(client.BaseAddress == null || client.BaseAddress.ToString() != ConstantURI.queueServerURI)
+                client.BaseAddress = new Uri(ConstantURI.queueServerURI);
 
             HttpResponseMessage response = await client.PostAsJsonAsync("Queue", requestPosition);
             response.EnsureSuccessStatusCode();
@@ -72,8 +72,8 @@ namespace QueueRegisteringClient.Services
         {
             CustomerIdentification respone = new CustomerIdentification();
 
-            if (client.BaseAddress == null || client.BaseAddress.ToString() != usersServerURI)
-                client.BaseAddress = new Uri(usersServerURI);
+            if (client.BaseAddress == null || client.BaseAddress.ToString() != ConstantURI.usersServerURI)
+                client.BaseAddress = new Uri(ConstantURI.usersServerURI);
 
             // current suggested code for the get request
             /*
