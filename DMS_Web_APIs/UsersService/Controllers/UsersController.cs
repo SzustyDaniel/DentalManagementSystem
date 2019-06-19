@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Common.UserModels;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +25,26 @@ namespace UsersService.Controllers
         }
 
         [HttpPut("/staff/authentication")]
-        public async Task<IActionResult> PutEmployeeLogin([FromBody] EmployeeLogAction employeeLogAction)
+        public async Task<IActionResult> PutEmployeeLogAction([FromBody] EmployeeLogAction employeeLogAction)
         {
             // TODO : Delegate to IUsersService, it'll check if action is log in or log out. If log in, then check if already online. 
             // On either action update Queue API.
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("/customers/{customerId}/history")]
+        public async Task<IActionResult> PostCustomerTreatment(int customerId, [FromBody] CustomerTreatment customerTreatment)
+        {
+            if (customerId != customerTreatment.CustomerId)
+                return Conflict("Customer IDs do not match.");
+            // TODO : Delegate to IUsersService, it'll update the DB with customerTreatment.
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("/reports")]
+        public async Task<IActionResult> GetDailyReports([FromQuery(Name = "fromDate")] DateTime fromDate, [FromQuery(Name = "toDate")] DateTime toDate)
+        {
+            // TODO : Delegate to IUsersService, it'll return Dictionary< Key = Date, Value = List<DailyEmployeeReport> >
             throw new NotImplementedException();
         }
     }
