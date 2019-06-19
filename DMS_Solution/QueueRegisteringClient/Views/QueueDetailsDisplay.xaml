@@ -13,7 +13,10 @@
         </Style>
     </Window.Resources>
     <StackPanel VerticalAlignment="Center">
-        <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineNumberText}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource textStyle}" Text="Number in line: "/>
+            <TextBlock Style="{StaticResource textStyle}" Text="{Binding Model.LineNumber.UserNumber}"/>
+        </StackPanel>
         <TextBlock Style="{StaticResource textStyle}" Text="{Binding LineTypeText}"/>
     </StackPanel>
 </Window>

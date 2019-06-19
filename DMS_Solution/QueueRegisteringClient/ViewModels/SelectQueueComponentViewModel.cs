@@ -6,12 +6,16 @@ using QueueRegisteringClient.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
+using Common.QueueModels;
+using QueueRegisteringClient.Services;
 
 namespace QueueRegisteringClient.ViewModels
 {
     public class SelectQueueComponentViewModel : BindableBase
     {
         private IEventAggregator _ea;
+        private ClientHttpActions clientHttp;
 
         private Patient _model;
         public Patient Model
@@ -22,6 +26,7 @@ namespace QueueRegisteringClient.ViewModels
 
         public SelectQueueComponentViewModel(IEventAggregator ea)
         {
+            clientHttp = ClientHttpActions.Instance;
             _ea = ea;
             _ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
@@ -36,11 +41,15 @@ namespace QueueRegisteringClient.ViewModels
         #region commands
         private DelegateCommand _enterNurseQueue;
         public DelegateCommand EnterNurseQueueCommand =>
-            _enterNurseQueue ?? (_enterNurseQueue = new DelegateCommand(ExecuteEnterNurseQueueCommand, CanExecuteEnterNurseQueueCommand));
+            _enterNurseQueue ?? (_enterNurseQueue = new DelegateCommand(ExecuteEnterNurseQueueCommandAsync, CanExecuteEnterNurseQueueCommand));
 
-        void ExecuteEnterNurseQueueCommand()
+        async void ExecuteEnterNurseQueueCommandAsync()
         {
-            throw new NotImplementedException();
+            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = ServiceType.Nurse, UserID = Model.CustomerID };
+            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
+            ViewsDialog.ShowWindowDialog();
+            _ea.GetEvent<SendPatientEvent>().Publish(Model);
+            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
         }
 
         bool CanExecuteEnterNurseQueueCommand()

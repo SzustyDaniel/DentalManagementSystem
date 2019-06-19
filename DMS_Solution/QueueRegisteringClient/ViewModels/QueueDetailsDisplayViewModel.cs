@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using QueueRegisteringClient.Models;
+using QueueRegisteringClient.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,30 @@ namespace QueueRegisteringClient.ViewModels
             set { SetProperty(ref model, value); }
         }
 
-        public string LineNumberText { get; set; }
-        public string LineTypeText { get; set; }
+        private string _lineNumbertxt;
+        public string LineNumberText
+        {
+            get { return _lineNumbertxt; }
+            set { SetProperty(ref _lineNumbertxt, value); }
+        }
+
+        private string _lineTypeTxt;
+        public string LineTypeText
+        {
+            get { return _lineTypeTxt; }
+            set { SetProperty(ref _lineTypeTxt, value); }
+        }
+
 
         public QueueDetailsDisplayViewModel(IEventAggregator ea)
         {
-
+            ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
 
-        public QueueDetailsDisplayViewModel(Patient patient)
+        private void LoadModel(Patient obj)
         {
-            Model = patient;
-            LineTypeText = $"In line for {Model.QueueType}";
-            LineNumberText = $"Number in line: {Model.LineNumber.UserNumber}";
+            Model = obj;
         }
+
     }
 }

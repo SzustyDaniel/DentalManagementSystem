@@ -14,7 +14,6 @@ namespace QueueRegisteringClient.ViewModels
     public class AppMainWindowViewModel : BindableBase
     {
         private UserControl currentView;
-        private ViewsDialog viewsDialog;
         public UserControl CurrentView
         {
             get { return currentView; }
@@ -23,8 +22,7 @@ namespace QueueRegisteringClient.ViewModels
 
         public AppMainWindowViewModel(IEventAggregator ea)
         {
-            viewsDialog = new ViewsDialog();
-            CurrentView = viewsDialog.ChangeCurrentView(ViewType.welcome);
+            CurrentView = ViewsDialog.ChangeCurrentView(ViewType.welcome);
             ea.GetEvent<ChangeViewEvent>().Subscribe(ChangeCurrentView);
         }
 
@@ -33,10 +31,10 @@ namespace QueueRegisteringClient.ViewModels
             switch (obj)
             {
                 case ViewType.welcome:
-                    CurrentView = viewsDialog.ChangeCurrentView(obj);
+                    CurrentView = ViewsDialog.ChangeCurrentView(obj);
                     break;
                 case ViewType.select:
-                    CurrentView = viewsDialog.ChangeCurrentView(obj);
+                    CurrentView = ViewsDialog.ChangeCurrentView(obj);
                     break;
                 default:
                     throw new ApplicationException("Didn't receive a valid type");
