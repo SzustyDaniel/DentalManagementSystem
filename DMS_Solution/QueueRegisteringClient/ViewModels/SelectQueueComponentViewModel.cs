@@ -14,6 +14,9 @@ namespace QueueRegisteringClient.ViewModels
 {
     public class SelectQueueComponentViewModel : BindableBase
     {
+
+        #region Properties
+
         private IEventAggregator _ea;
         private ClientHttpActions clientHttp;
 
@@ -24,6 +27,10 @@ namespace QueueRegisteringClient.ViewModels
             set { SetProperty(ref _model, value); }
         }
 
+        #endregion
+
+        #region Constructor
+
         public SelectQueueComponentViewModel(IEventAggregator ea)
         {
             clientHttp = ClientHttpActions.Instance;
@@ -31,25 +38,17 @@ namespace QueueRegisteringClient.ViewModels
             _ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
 
-        // receive a model from another view-model
-        private void LoadModel(Patient obj)
-        {
-            Model = obj;
-            _ea.GetEvent<SendPatientEvent>().Unsubscribe(LoadModel); // stop listening to the event
-        }
+        #endregion     
 
         #region commands
+        // Nurse queue enter command
         private DelegateCommand _enterNurseQueue;
         public DelegateCommand EnterNurseQueueCommand =>
             _enterNurseQueue ?? (_enterNurseQueue = new DelegateCommand(ExecuteEnterNurseQueueCommandAsync, CanExecuteEnterNurseQueueCommand));
 
-        async void ExecuteEnterNurseQueueCommandAsync()
+        private void ExecuteEnterNurseQueueCommandAsync()
         {
-            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = ServiceType.Nurse, UserID = Model.CustomerID };
-            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
-            ViewsDialog.ShowWindowDialog();
-            _ea.GetEvent<SendPatientEvent>().Publish(Model);
-            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
+            EnterToQueueActions(ServiceType.Nurse);
         }
 
         bool CanExecuteEnterNurseQueueCommand()
@@ -57,24 +56,47 @@ namespace QueueRegisteringClient.ViewModels
             return true;
         }
 
+        // Pharmacist queue enter command
         private DelegateCommand _enterPharmacyQueue;
-
         public DelegateCommand EnterPharmacyQueueCommand =>
             _enterPharmacyQueue ?? (_enterPharmacyQueue = new DelegateCommand(ExecuteEnterPharmacyQueueCommandAsync, CanExecuteEnterPharmacyQueueCommand));
 
-        async void ExecuteEnterPharmacyQueueCommandAsync()
+        private void ExecuteEnterPharmacyQueueCommandAsync()
         {
-            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = ServiceType.Pharmacist, UserID = Model.CustomerID };
-            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
-            ViewsDialog.ShowWindowDialog();
-            _ea.GetEvent<SendPatientEvent>().Publish(Model);
-            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
+            EnterToQueueActions(ServiceType.Pharmacist);
         }
 
         bool CanExecuteEnterPharmacyQueueCommand()
         {
             return true;
         }
+        #endregion
+
+        #region Methods
+
+        /*
+         * Catch model sent from another view-model
+         */
+        private void LoadModel(Patient obj)
+        {
+            Model = obj;
+            _ea.GetEvent<SendPatientEvent>().Unsubscribe(LoadModel); // stop listening to the event
+        }
+
+        /*
+         * Enter the client to the appropriate queue
+         */
+        private async void EnterToQueueActions(ServiceType service)
+        {
+            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = service, UserID = Model.CustomerID };
+            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
+            Model.QueueType = service;
+
+            ViewsDialog.ShowWindowDialog();                             // open information window for the user
+            _ea.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
+            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);  // switch the current view to welcome
+        }
+
         #endregion
     }
 }

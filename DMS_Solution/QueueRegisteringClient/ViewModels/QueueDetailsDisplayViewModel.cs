@@ -11,27 +11,14 @@ namespace QueueRegisteringClient.ViewModels
 {
     public class QueueDetailsDisplayViewModel : BindableBase
     {
+        #region Properties
         private Patient model;
         public Patient Model
         {
             get { return model; }
             set { SetProperty(ref model, value); }
         }
-
-        private string _lineNumbertxt;
-        public string LineNumberText
-        {
-            get { return _lineNumbertxt; }
-            set { SetProperty(ref _lineNumbertxt, value); }
-        }
-
-        private string _lineTypeTxt;
-        public string LineTypeText
-        {
-            get { return _lineTypeTxt; }
-            set { SetProperty(ref _lineTypeTxt, value); }
-        }
-
+        #endregion
 
         public QueueDetailsDisplayViewModel(IEventAggregator ea)
         {
