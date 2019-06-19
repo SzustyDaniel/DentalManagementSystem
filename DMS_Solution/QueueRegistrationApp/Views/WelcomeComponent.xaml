@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="QueueRegistrationApp.Views.WelcomeComponent"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
-             prism:ViewModelLocator.AutoWireViewModel="True">
-    <StackPanel>
-        <TextBlock Text="{Binding Message}" TextWrapping="Wrap" FontSize="40" Padding="15" Margin="10,15"/>
-    </StackPanel>
-</UserControl>
