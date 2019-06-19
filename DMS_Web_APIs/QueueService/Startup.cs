@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QueueService.AzureStorage;
 using QueueService.AzureStorage.StorageManagement;
+using QueueService.SignalR;
 
 namespace QueueService
 {
@@ -32,10 +33,8 @@ namespace QueueService
         public void Configure(IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMvc();
         }
-        //, IHostingEnvironment env
     }
 }

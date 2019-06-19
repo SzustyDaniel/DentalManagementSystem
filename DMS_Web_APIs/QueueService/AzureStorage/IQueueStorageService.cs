@@ -8,6 +8,8 @@ namespace QueueService.AzureStorage
 {
     public interface IQueueStorageService
     {
-        Task<EnqueuePositionResult> AddToQueue(EnqueuePosition newItem);
+        Task<EnqueuePositionResult> AddToQueue(EnqueuePosition item);
+
+        Task<DequeuePositionResult> RemoveFromQueue(DequeuePosition item);
     }
 }

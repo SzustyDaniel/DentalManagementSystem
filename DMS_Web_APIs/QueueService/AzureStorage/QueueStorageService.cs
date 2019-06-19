@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace QueueService.AzureStorage
 {
-    public class QueueStorageService  : IQueueStorageService
+    public class QueueStorageService : IQueueStorageService
     {
-        private readonly AzureStorageSettings _storageSettings;
-
         private readonly CloudTableClient _tableClient;
         private readonly CloudQueueClient _queueClient;
+
+        private readonly AzureStorageSettings _storageSettings;
 
         public QueueStorageService(IOptions<AzureStorageSettings> settings)
         {
@@ -30,6 +30,7 @@ namespace QueueService.AzureStorage
             _queueClient = storageAccount.CreateCloudQueueClient();
         }
 
+        #region add to queue
         public async Task<EnqueuePositionResult> AddToQueue(EnqueuePosition newItem)
         {
             string serivceType = newItem.ServiceType.ToString().ToLower();
@@ -48,11 +49,11 @@ namespace QueueService.AzureStorage
             var table = _tableClient.GetTableReference(_storageSettings.NextTable);
 
             TableResult result = await table.ExecuteAsync(TableOperation.Retrieve<NextQueueNumber>(serviceType, serviceType));
-            if(result is null)
+            if (result is null)
             {
 
             }
-            if(result.HttpStatusCode == (int)HttpStatusCode.NotFound)
+            if (result.HttpStatusCode == (int)HttpStatusCode.NotFound)
             {
 
             }
@@ -65,6 +66,29 @@ namespace QueueService.AzureStorage
 
             return current.NextNumber;
         }
+        #endregion
 
+        #region remove from queue
+        public async Task<DequeuePositionResult> RemoveFromQueue(DequeuePosition item)
+        {
+            string serivceType = item.ServiceType.ToString().ToLower();
+
+            var queue = _queueClient.GetQueueReference(serivceType);
+
+            CloudQueueMessage queueItem = await queue.GetMessageAsync();
+            QueueItem resultAsObject = JObject.Parse(queueItem.AsString).ToObject<QueueItem>();
+            DequeuePositionResult result = new DequeuePositionResult
+            {
+                UserID = resultAsObject.UserID,
+                UserNumber = resultAsObject.UserNumber
+            };
+
+            if(result != null)
+            {
+                await queue.DeleteMessageAsync(queueItem);
+            }
+            return result;
+        }
+        #endregion
     }
 }

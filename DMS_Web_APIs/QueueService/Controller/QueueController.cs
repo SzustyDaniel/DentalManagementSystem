@@ -2,7 +2,9 @@
 using Common;
 using Common.QueueModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using QueueService.AzureStorage;
+using QueueService.SignalR;
 
 namespace QueueService.Controller
 {
@@ -20,14 +22,14 @@ namespace QueueService.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToTable([FromBody]EnqueuePosition newItem)
+        public async Task<IActionResult> AddToTable([FromBody] EnqueuePosition item)
         {
-            if(newItem is null || newItem.ServiceType == ServiceType.none)
+            if(item is null || item.ServiceType == ServiceType.none)
             {
                 return new BadRequestResult();
             }
 
-            EnqueuePositionResult result = await _queueService.AddToQueue(newItem);
+            EnqueuePositionResult result = await _queueService.AddToQueue(item);
 
             if(result is null)
             {
@@ -35,5 +37,22 @@ namespace QueueService.Controller
             }
             return new JsonResult(result);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveFromQueue([FromBody] DequeuePosition item)
+        {
+            if (item is null || item.ServiceType == ServiceType.none)
+            {
+                return new BadRequestResult();
+            }
+
+            DequeuePositionResult result = await _queueService.RemoveFromQueue(item);
+
+            if(result is null) { }
+
+            return new OkObjectResult(result);
+        }
+
+
     }
 }
