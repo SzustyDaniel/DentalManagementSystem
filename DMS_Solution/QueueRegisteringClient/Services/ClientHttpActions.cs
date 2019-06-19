@@ -50,8 +50,10 @@ namespace QueueRegisteringClient.Services
 
             EnqueuePositionResult positionResult = null;
 
-            client.BaseAddress = new Uri(queueServerURI);
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue", requestPosition);
+            if(client.BaseAddress == null || client.BaseAddress.ToString() != queueServerURI)
+                client.BaseAddress = new Uri(queueServerURI);
+
+            HttpResponseMessage response = await client.PostAsJsonAsync("Queue", requestPosition);
             response.EnsureSuccessStatusCode();
 
             if (response.IsSuccessStatusCode)
@@ -70,7 +72,8 @@ namespace QueueRegisteringClient.Services
         {
             CustomerIdentification respone = new CustomerIdentification();
 
-            client.BaseAddress = new Uri(usersServerURI);
+            if (client.BaseAddress == null || client.BaseAddress.ToString() != usersServerURI)
+                client.BaseAddress = new Uri(usersServerURI);
 
             // current suggested code for the get request
             /*
