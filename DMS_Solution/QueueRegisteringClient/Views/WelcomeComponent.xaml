@@ -1,9 +1,13 @@
 ﻿<UserControl x:Class="QueueRegisteringClient.Views.WelcomeComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/" Padding="25"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
         <TextBlock Text="{Binding Message}" TextWrapping="Wrap" FontSize="40" Padding="15" Margin="10,15"/>
+        <StackPanel Orientation="Horizontal" Margin="7,3">
+            <Button Content="Confirm" FontSize="20" Padding="5" Margin="7,3" FontFamily="Ariel" Command="{Binding SendValidateCommand}"/>
+            <ComboBox ItemsSource="{Binding MockUsers}" SelectedItem="{Binding SelectedUser}" Width="100" Padding="5" Margin="7,3" FontSize="20" FontFamily="Ariel"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>
