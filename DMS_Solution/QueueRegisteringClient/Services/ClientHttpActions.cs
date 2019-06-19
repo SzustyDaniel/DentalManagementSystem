@@ -66,14 +66,15 @@ namespace QueueRegisteringClient.Services
         /*
          * Call the users api for the validation of the client card
          */
-        public async Task<CustomerRespone> ValidateCustomer(CardInfo cardInfo)
+        public async Task<CustomerIdentification> ValidateCustomer(CardInfo cardInfo)
         {
-            CustomerRespone respone = null;
+            CustomerIdentification respone = new CustomerIdentification();
 
             client.BaseAddress = new Uri(usersServerURI);
-            
-            /* current suggested code for the get request
-            HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string> { { "a", cardInfo.CardNumber.ToString() } });
+
+            // current suggested code for the get request
+            /*
+            HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string> { { "cardNumber", cardInfo.CardNumber.ToString() } });
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "Users/customers/authentication/")
             {
                 Content = content
@@ -82,11 +83,12 @@ namespace QueueRegisteringClient.Services
 
 
             HttpResponseMessage httpResponse = await client.GetAsync($"Users/customers/authentication/{cardInfo.CardNumber.ToString()}");
+            // HttpResponseMessage httpResponse = await client.SendAsync(message);
             httpResponse.EnsureSuccessStatusCode();
             
             if (httpResponse.IsSuccessStatusCode)
             {
-                respone = await httpResponse.Content.ReadAsAsync<CustomerRespone>();
+                respone = await httpResponse.Content.ReadAsAsync<CustomerIdentification>();
             }
 
             return respone;

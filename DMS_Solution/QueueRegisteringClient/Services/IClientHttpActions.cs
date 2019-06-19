@@ -11,6 +11,6 @@ namespace QueueRegisteringClient.Services
     public interface IClientHttpActions
     {
         Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition requestPosition);
-        Task<CustomerRespone> ValidateCustomer(CardInfo cardInfo);
+        Task<CustomerIdentification> ValidateCustomer(CardInfo cardInfo);
     }
 }

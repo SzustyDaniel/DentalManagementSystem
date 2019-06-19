@@ -64,6 +64,8 @@
     <Compile Include="Services\ClientHttpActions.cs" />
     <Compile Include="Services\IClientHttpActions.cs" />
     <Compile Include="Services\ViewsDialog.cs" />
+    <Compile Include="Utility\ChangeViewEvent.cs" />
+    <Compile Include="Utility\SendPatientEvent.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\QueueDetailsDisplayViewModel.cs" />
     <Compile Include="ViewModels\SelectQueueComponentViewModel.cs" />

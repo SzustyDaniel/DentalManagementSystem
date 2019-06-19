@@ -19,8 +19,8 @@ namespace QueueRegisteringClient.Models
             set { SetProperty(ref clientCard, value); }
         }
 
-        private ulong customerID;
-        public ulong CustomerID
+        private int customerID;
+        public int CustomerID
         {
             get { return customerID; }
             set { SetProperty(ref customerID, value); }

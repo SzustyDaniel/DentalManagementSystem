@@ -6,6 +6,9 @@ using System.Linq;
 using QueueRegisteringClient.Services;
 using Common;
 using Common.UserModels;
+using QueueRegisteringClient.Models;
+using Prism.Events;
+using QueueRegisteringClient.Utility;
 
 namespace QueueRegisteringClient.ViewModels
 {
@@ -14,13 +17,17 @@ namespace QueueRegisteringClient.ViewModels
         public string Message { get; set; }
         public List<ulong> MockUsers { get; set; }
         public ulong SelectedUser { get; set; }
+
+        private IEventAggregator _ea; // event aggregation publisher
         private ClientHttpActions httpActions;
+        public Patient Customer { get; set; } // The user model for the system
 
 
-
-        public WelcomeComponentViewModel()
+        public WelcomeComponentViewModel(IEventAggregator ea)
         {
+            _ea = ea;
             httpActions = ClientHttpActions.Instance;
+            Customer = new Patient();
 
             Message = @"Welcome to the clinic.
 Please swipe your card to continue...";
@@ -35,10 +42,20 @@ Please swipe your card to continue...";
         public DelegateCommand SendValidateCommand =>
             _sendValidateCommand ?? (_sendValidateCommand = new DelegateCommand(ExecuteSendValidateCommandAsync));
 
-        async void ExecuteSendValidateCommandAsync()
+        /*
+         * Simulate card swiping and connecting to the user api to check on the guid of the customer
+         */
+        private void ExecuteSendValidateCommandAsync()
         {
-            CardInfo cardInfo = new CardInfo() { CardNumber = SelectedUser };
-            CustomerRespone customer = await httpActions.ValidateCustomer(cardInfo);
+            Customer.ClientCard = new CardInfo() { CardNumber = SelectedUser };
+            // CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
+
+            //Customer.CustomerID = customer.CustomerId;
+
+            Customer.CustomerID = 2; // temp mockup
+
+            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
+            _ea.GetEvent<SendPatientEvent>().Publish(Customer);
         }
     }
 }
