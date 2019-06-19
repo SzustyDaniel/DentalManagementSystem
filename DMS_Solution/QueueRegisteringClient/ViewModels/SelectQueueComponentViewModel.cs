@@ -60,11 +60,15 @@ namespace QueueRegisteringClient.ViewModels
         private DelegateCommand _enterPharmacyQueue;
 
         public DelegateCommand EnterPharmacyQueueCommand =>
-            _enterPharmacyQueue ?? (_enterPharmacyQueue = new DelegateCommand(ExecuteEnterPharmacyQueueCommand, CanExecuteEnterPharmacyQueueCommand));
+            _enterPharmacyQueue ?? (_enterPharmacyQueue = new DelegateCommand(ExecuteEnterPharmacyQueueCommandAsync, CanExecuteEnterPharmacyQueueCommand));
 
-        void ExecuteEnterPharmacyQueueCommand()
+        async void ExecuteEnterPharmacyQueueCommandAsync()
         {
-            throw new NotImplementedException();
+            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = ServiceType.Pharmacist, UserID = Model.CustomerID };
+            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
+            ViewsDialog.ShowWindowDialog();
+            _ea.GetEvent<SendPatientEvent>().Publish(Model);
+            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
         }
 
         bool CanExecuteEnterPharmacyQueueCommand()
