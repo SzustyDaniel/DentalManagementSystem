@@ -1,9 +1,8 @@
-﻿<Window x:Class="QueueRegistrationApp.Views.AppMainWindow"
+﻿<Window x:Class="QueueRegisteringClient.Views.AppMainWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
-             xmlns:local="clr-namespace:QueueRegistrationApp.Views"
-             prism:ViewModelLocator.AutoWireViewModel="True" Title="Queue Register Application">
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <ContentControl Content="{Binding CurrentView}"/>
     </StackPanel>

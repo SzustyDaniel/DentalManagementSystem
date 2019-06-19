@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Common.QueueModels;
+using Common.UserModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Common.QueueModels;
-using Common.UserModels;
 
-namespace QueueRegistrationApp.Services
+namespace QueueRegisteringClient.Services
 {
-    public class ClientHttpActions: IClientHttpActions
+    public class ClientHttpActions : IClientHttpActions
     {
 
         private readonly HttpClient client;
@@ -47,14 +47,14 @@ namespace QueueRegistrationApp.Services
          */
         public async Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition requestPosition)
         {
-            
+
             EnqueuePositionResult positionResult = null;
 
             client.BaseAddress = new Uri(queueServerURI);
-            HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue",requestPosition);
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/Queue", requestPosition);
             response.EnsureSuccessStatusCode();
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 positionResult = await response.Content.ReadAsAsync<EnqueuePositionResult>();
             }

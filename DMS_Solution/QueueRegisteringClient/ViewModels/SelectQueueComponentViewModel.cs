@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QueueRegistrationApp.ViewModels
+namespace QueueRegisteringClient.ViewModels
 {
     public class SelectQueueComponentViewModel : BindableBase
     {

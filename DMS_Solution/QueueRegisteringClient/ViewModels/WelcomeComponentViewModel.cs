@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QueueRegistrationApp.ViewModels
+namespace QueueRegisteringClient.ViewModels
 {
     public class WelcomeComponentViewModel : BindableBase
     {
@@ -14,9 +14,7 @@ namespace QueueRegistrationApp.ViewModels
         {
             Message = @"Welcome to the clinic.
 Please swipe your card to continue...";
-            
+
         }
-
-
     }
 }

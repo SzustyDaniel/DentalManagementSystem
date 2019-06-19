@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace QueueRegistrationApp.Views
+namespace QueueRegisteringClient.Views
 {
     /// <summary>
     /// Interaction logic for WelcomeComponent

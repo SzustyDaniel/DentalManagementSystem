@@ -1,11 +1,12 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using QueueRegisteringClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using QueueRegistrationApp.Models;
 
-namespace QueueRegistrationApp.ViewModels
+namespace QueueRegisteringClient.ViewModels
 {
     public class QueueDetailsDisplayViewModel : BindableBase
     {
@@ -19,7 +20,7 @@ namespace QueueRegistrationApp.ViewModels
         public string LineNumberText { get; set; }
         public string LineTypeText { get; set; }
 
-        public QueueDetailsDisplayViewModel()
+        public QueueDetailsDisplayViewModel(IEventAggregator ea)
         {
 
         }

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="QueueRegistrationApp.Views.SelectQueueComponent"
+﻿<UserControl x:Class="QueueRegisteringClient.Views.SelectQueueComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
@@ -17,7 +17,7 @@
                    FontSize="30" FontFamily="Ariel"/>
         <Button Grid.Row="1" Grid.Column="0" FontSize="20" Padding="10,15" Content="Pharmacy" Margin="10,15" Command="{Binding EnterNurseQueueCommand}"/>
         <Button Grid.Row="1" Grid.Column="1" FontSize="20" Padding="10,15" Content="Nurse treatment" Margin="10,15" Command="{Binding EnterPharmacyQueueCommand}"/>
-        
-        
+
+
     </Grid>
 </UserControl>

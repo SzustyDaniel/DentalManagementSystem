@@ -1,13 +1,13 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using QueueRegisteringClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using QueueRegistrationApp.Views;
-using Prism.Events;
 
-namespace QueueRegistrationApp.ViewModels
+namespace QueueRegisteringClient.ViewModels
 {
     public class AppMainWindowViewModel : BindableBase
     {
@@ -18,7 +18,7 @@ namespace QueueRegistrationApp.ViewModels
             set { SetProperty(ref currentView, value); }
         }
 
-        public AppMainWindowViewModel()
+        public AppMainWindowViewModel(IEventAggregator ea)
         {
             CurrentView = new WelcomeComponent();
         }

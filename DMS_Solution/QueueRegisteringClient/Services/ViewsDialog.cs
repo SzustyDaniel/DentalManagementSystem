@@ -1,13 +1,13 @@
-﻿using System;
+﻿using QueueRegisteringClient.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using QueueRegistrationApp.Views;
 
-namespace QueueRegistrationApp.Services
+namespace QueueRegisteringClient.Services
 {
     public class ViewsDialog
     {
@@ -38,10 +38,9 @@ namespace QueueRegistrationApp.Services
 
         public void CloseWindowDialog()
         {
-            if(window != null)
+            if (window != null)
                 window.Close();
         }
-
 
     }
 }

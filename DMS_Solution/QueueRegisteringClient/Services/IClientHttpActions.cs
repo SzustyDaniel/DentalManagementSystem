@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Common.QueueModels;
+using Common.UserModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.QueueModels;
-using Common.UserModels;
 
-namespace QueueRegistrationApp.Services
+namespace QueueRegisteringClient.Services
 {
     public interface IClientHttpActions
     {

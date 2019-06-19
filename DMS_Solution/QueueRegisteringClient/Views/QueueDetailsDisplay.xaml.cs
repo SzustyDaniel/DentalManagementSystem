@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace QueueRegistrationApp.Views
+namespace QueueRegisteringClient.Views
 {
     /// <summary>
     /// Interaction logic for QueueDetailsDisplay.xaml
