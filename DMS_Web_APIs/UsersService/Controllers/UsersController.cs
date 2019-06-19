@@ -53,8 +53,16 @@ namespace UsersService.Controllers
         {
             if (customerId != customerTreatment.CustomerId)
                 return BadRequest("Customer IDs do not match.");
-            // TODO : Delegate to IUsersService, it'll update the DB with customerTreatment.
-            throw new NotImplementedException();
+
+            try
+            {
+                await _usersService.SaveCustomerTreatment(customerTreatment);
+                return CreatedAtAction(nameof(GetDailyReports), customerTreatment);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e); // Not best practice to return any exception data, but we don't have and don't need loggers.
+            }
         }
 
         [HttpGet("reports")]
@@ -65,7 +73,7 @@ namespace UsersService.Controllers
                 if (fromDate > toDate)
                     return BadRequest("fromDate is larger than toDate");
 
-                Dictionary<DateTime, List<DailyEmployeeReport>> dailyReports = 
+                Dictionary<DateTime, List<DailyEmployeeReport>> dailyReports =
                      await _usersService.GetDailyEmployeeReports(fromDate, toDate);
 
                 if (dailyReports == null)

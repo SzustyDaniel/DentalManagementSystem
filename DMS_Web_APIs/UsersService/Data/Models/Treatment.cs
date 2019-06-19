@@ -4,8 +4,6 @@ namespace UsersService.Data.Models
 {
     public class Treatment
     {
-        public int TreatmentId { get; set; }
-
         public DateTime TreatmentDate { get; set; }
 
         public int EmployeeId { get; set; }

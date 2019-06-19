@@ -31,5 +31,17 @@ namespace UsersService.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task SaveCustomerTreatment(CustomerTreatment customerTreatment)
+        {
+            Treatment treatment = new Treatment
+            {
+                CustomerId = customerTreatment.CustomerId,
+                EmployeeId = customerTreatment.TreatingEmployeeId,
+                TreatmentDate = customerTreatment.DateOfTreatment.Date
+            };
+            _usersContext.Treatments.Add(treatment);
+            await _usersContext.SaveChangesAsync();
+        }
     }
 }

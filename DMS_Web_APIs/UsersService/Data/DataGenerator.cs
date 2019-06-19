@@ -60,15 +60,15 @@ namespace UsersService.Data
                     );
 
                 context.Treatments.AddRange(
-                    new Treatment { TreatmentId = 1, TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 1 },
-                    new Treatment { TreatmentId = 2, TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 2 },
-                    new Treatment { TreatmentId = 3, TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 3 },
-                    new Treatment { TreatmentId = 4, TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 4 },
-                    new Treatment { TreatmentId = 5, TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 5 },
-                    new Treatment { TreatmentId = 6, TreatmentDate = yesterday, EmployeeId = 3, CustomerId = 6 },
-                    new Treatment { TreatmentId = 7, TreatmentDate = yesterday, EmployeeId = 3, CustomerId = 7 },
-                    new Treatment { TreatmentId = 8, TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 7 },
-                    new Treatment { TreatmentId = 9, TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 6 }
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 1 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 2 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 3 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 4 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 5 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 3, CustomerId = 6 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 3, CustomerId = 7 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 7 },
+                    new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 6 }
                     );
 
                 context.SaveChanges();
