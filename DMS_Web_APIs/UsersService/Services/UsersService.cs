@@ -27,9 +27,23 @@ namespace UsersService.Services
             return customerIdentification;
         }
 
-        public async Task<Dictionary<DateTime, List<DailyEmployeeReport>>> GetDailyEmployeeReports(DateTime fromDate, DateTime toDate)
+        public async Task<List<DailyEmployeeReport>> GetDailyEmployeeReports(DateTime date)
         {
-            throw new NotImplementedException();
+            List<DailyEmployeeReport> reports = new List<DailyEmployeeReport>();
+            List<Employee> employees = await _usersContext.Employees.Include(e => e.Treatments).ToListAsync();
+            foreach (Employee employee in employees)
+            {
+                employee.Treatments = employee.Treatments.Where(t => t.TreatmentDate == date.Date).ToArray();
+                DailyEmployeeReport report = new DailyEmployeeReport
+                {
+                    Date = date,
+                    FirstName = employee.Firstname,
+                    LastName = employee.Lastname,
+                    NumberOfPatientsTreated = employee.Treatments.Count
+                };
+                reports.Add(report);
+            }
+            return reports;
         }
 
         public async Task SaveCustomerTreatment(CustomerTreatment customerTreatment)

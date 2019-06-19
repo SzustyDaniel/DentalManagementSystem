@@ -66,15 +66,11 @@ namespace UsersService.Controllers
         }
 
         [HttpGet("reports")]
-        public async Task<IActionResult> GetDailyReports([FromQuery(Name = "fromDate")] DateTime fromDate, [FromQuery(Name = "toDate")] DateTime toDate)
+        public async Task<IActionResult> GetDailyReports([FromQuery(Name = "date")] DateTime date)
         {
             try
             {
-                if (fromDate > toDate)
-                    return BadRequest("fromDate is larger than toDate");
-
-                Dictionary<DateTime, List<DailyEmployeeReport>> dailyReports =
-                     await _usersService.GetDailyEmployeeReports(fromDate, toDate);
+                List<DailyEmployeeReport> dailyReports = await _usersService.GetDailyEmployeeReports(date);
 
                 if (dailyReports == null)
                     return NoContent();

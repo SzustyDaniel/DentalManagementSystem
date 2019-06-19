@@ -10,6 +10,6 @@ namespace UsersService.Services
     {
         Task<CustomerIdentification> GetCustomerIdentification(ulong cardId);
         Task SaveCustomerTreatment(CustomerTreatment customerTreatment);
-        Task<Dictionary<DateTime, List<DailyEmployeeReport>>> GetDailyEmployeeReports(DateTime fromDate, DateTime toDate);
+        Task<List<DailyEmployeeReport>> GetDailyEmployeeReports(DateTime date);
     }
 }
