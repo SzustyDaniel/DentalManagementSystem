@@ -79,8 +79,8 @@ namespace QueueService.AzureStorage
             QueueItem resultAsObject = JObject.Parse(queueItem.AsString).ToObject<QueueItem>();
             DequeuePositionResult result = new DequeuePositionResult
             {
-                UserID = resultAsObject.UserID,
-                UserNumber = resultAsObject.UserNumber
+                CustomerID = resultAsObject.UserID,
+                CustomerNumberInQueue = resultAsObject.UserNumber
             };
 
             if(result != null)

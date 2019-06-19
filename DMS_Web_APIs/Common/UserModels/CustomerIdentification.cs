@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Common.UserModels
 {
-    public class CustomerRespone
+    public struct CustomerIdentification
     {
         public int CustomerId { get; set; }
     }

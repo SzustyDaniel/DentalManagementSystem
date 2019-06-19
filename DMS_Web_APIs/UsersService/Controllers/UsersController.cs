@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.UserModels;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,17 @@ namespace UsersService.Controllers
         [HttpGet("/customers/authentication/{cardNumber}")]
         public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
         {
-            // TODO : Delegate to IUsersService, it'll check if cardNumber exists and return class CustomerRespone
-            throw new NotImplementedException();
+            try
+            {
+                CustomerIdentification customer = await _usersService.GetCustomerIdentification(cardNumber);
+                if (customer.CustomerId == default)
+                    return NotFound();
+                return Ok(customer);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("/staff/authentication")]
@@ -36,7 +46,7 @@ namespace UsersService.Controllers
         public async Task<IActionResult> PostCustomerTreatment(int customerId, [FromBody] CustomerTreatment customerTreatment)
         {
             if (customerId != customerTreatment.CustomerId)
-                return Conflict("Customer IDs do not match.");
+                return BadRequest("Customer IDs do not match.");
             // TODO : Delegate to IUsersService, it'll update the DB with customerTreatment.
             throw new NotImplementedException();
         }
@@ -44,8 +54,23 @@ namespace UsersService.Controllers
         [HttpGet("/reports")]
         public async Task<IActionResult> GetDailyReports([FromQuery(Name = "fromDate")] DateTime fromDate, [FromQuery(Name = "toDate")] DateTime toDate)
         {
-            // TODO : Delegate to IUsersService, it'll return Dictionary< Key = Date, Value = List<DailyEmployeeReport> >
-            throw new NotImplementedException();
+            try
+            {
+                if (fromDate > toDate)
+                    return BadRequest("fromDate is larger than toDate");
+
+                Dictionary<DateTime, List<DailyEmployeeReport>> dailyReports = 
+                     await _usersService.GetDailyEmployeeReports(fromDate, toDate);
+
+                if (dailyReports == null)
+                    return NoContent();
+
+                return Ok(dailyReports);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
