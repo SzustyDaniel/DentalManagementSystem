@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StaffClientApplication.Properties
+namespace StaffStationClient.Properties
 {
 
 

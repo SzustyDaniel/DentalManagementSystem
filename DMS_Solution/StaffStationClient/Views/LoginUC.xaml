@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="StaffClientApplication.Views.LoginUC"
+﻿<UserControl x:Class="StaffStationClient.Views.LoginUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             

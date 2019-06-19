@@ -1,12 +1,12 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using StaffClientApplication.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using StaffStationClient.Views;
 
-namespace StaffClientApplication.ViewModels
+namespace StaffStationClient.ViewModels
 {
     public class AppMainWindowViewModel : BindableBase
     {

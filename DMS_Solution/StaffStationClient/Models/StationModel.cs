@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StaffClientApplication.Models
+namespace StaffStationClient.Models
 {
-    public class StationModel: BindableBase
+    public class StationModel : BindableBase
     {
 
         private string _userName;

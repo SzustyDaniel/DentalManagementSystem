@@ -1,11 +1,11 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using StaffClientApplication.Models;
+using StaffStationClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StaffClientApplication.ViewModels
+namespace StaffStationClient.ViewModels
 {
     public class StaffControlUCViewModel : BindableBase
     {

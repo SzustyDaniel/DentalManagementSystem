@@ -1,8 +1,7 @@
-﻿<UserControl x:Class="StaffClientApplication.Views.StaffControlUC"
+﻿<UserControl x:Class="StaffStationClient.Views.StaffControlUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
-             
+             xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style x:Key="textStyle" TargetType="TextBlock">

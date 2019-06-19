@@ -14,8 +14,8 @@ namespace QueueRegisteringClient.Services
     {
 
         private readonly HttpClient client;
-        private readonly string queueServerURI = "http://localhost:55034/";
-        private readonly string usersServerURI = "http://localhost:/";
+        private readonly string queueServerURI = "https://localhost:44305/";
+        private readonly string usersServerURI = "http://localhost:53512/";
 
         #region Singleton
 
@@ -63,9 +63,33 @@ namespace QueueRegisteringClient.Services
 
         }
 
-        public Task<CustomerRespone> ValidateCustomer(CardInfo cardInfo)
+        /*
+         * Call the users api for the validation of the client card
+         */
+        public async Task<CustomerRespone> ValidateCustomer(CardInfo cardInfo)
         {
-            throw new NotImplementedException();
+            CustomerRespone respone = null;
+
+            client.BaseAddress = new Uri(usersServerURI);
+            
+            /* current suggested code for the get request
+            HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string> { { "a", cardInfo.CardNumber.ToString() } });
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "Users/customers/authentication/")
+            {
+                Content = content
+            };
+            */
+
+
+            HttpResponseMessage httpResponse = await client.GetAsync($"Users/customers/authentication/{cardInfo.CardNumber.ToString()}");
+            httpResponse.EnsureSuccessStatusCode();
+            
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                respone = await httpResponse.Content.ReadAsAsync<CustomerRespone>();
+            }
+
+            return respone;
         }
     }
 }

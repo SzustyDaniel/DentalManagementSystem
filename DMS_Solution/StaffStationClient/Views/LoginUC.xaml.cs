@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace StaffClientApplication.Views
+namespace StaffStationClient.Views
 {
     /// <summary>
     /// Interaction logic for LoginUC

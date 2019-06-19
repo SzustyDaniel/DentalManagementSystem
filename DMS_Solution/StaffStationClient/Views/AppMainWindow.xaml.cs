@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace StaffClientApplication.Views
+namespace StaffStationClient.Views
 {
     /// <summary>
     /// Interaction logic for AppMainWindow.xaml
