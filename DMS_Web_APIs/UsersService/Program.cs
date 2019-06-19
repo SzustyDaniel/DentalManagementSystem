@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using UsersService.Data;
 
 namespace UsersService
@@ -15,7 +16,16 @@ namespace UsersService
             using (IServiceScope scope = webHost.Services.CreateScope())
             {
                 IServiceProvider serviceProvider = scope.ServiceProvider;
-                DataGenerator.Initialize(serviceProvider.GetRequiredService<DbContextOptions<UsersContext>>());
+                try
+                {
+                    var dbContextOptions = serviceProvider.GetRequiredService<DbContextOptions<UsersContext>>();
+                    DataGenerator.Initialize(dbContextOptions);
+                }
+                catch (Exception e)
+                {
+                    var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogCritical(e, "Could not initialize in memory database.");
+                }
             }
             webHost.Run();
         }

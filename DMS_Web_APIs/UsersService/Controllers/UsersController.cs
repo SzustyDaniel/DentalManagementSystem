@@ -18,6 +18,12 @@ namespace UsersService.Controllers
             _usersService = usersService;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Initial GET request succeded. The server is listening.");
+        }
+
         [HttpGet("/customers/authentication/{cardNumber}")]
         public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
         {
@@ -28,9 +34,9 @@ namespace UsersService.Controllers
                     return NotFound();
                 return Ok(customer);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e); // Not best practice to return any exception data, but we don't have and don't need loggers.
             }
         }
 
@@ -67,9 +73,9 @@ namespace UsersService.Controllers
 
                 return Ok(dailyReports);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e); // Not best practice to return any exception data, but we don't have and don't need loggers.
             }
         }
     }
