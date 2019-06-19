@@ -21,10 +21,10 @@ namespace UsersService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Initial GET request succeded. The server is listening.");
+            return Ok("Initial GET request succeeded. The server is listening.");
         }
 
-        [HttpGet("/customers/authentication/{cardNumber}")]
+        [HttpGet("customers/authentication/{cardNumber}")]
         public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
         {
             try
@@ -40,7 +40,7 @@ namespace UsersService.Controllers
             }
         }
 
-        [HttpPut("/staff/authentication")]
+        [HttpPut("staff/authentication")]
         public async Task<IActionResult> PutEmployeeLogAction([FromBody] EmployeeLogAction employeeLogAction)
         {
             // TODO : Delegate to IUsersService, it'll check if action is log in or log out. If log in, then check if already online. 
@@ -48,7 +48,7 @@ namespace UsersService.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost("/customers/{customerId}/history")]
+        [HttpPost("customers/{customerId}/history")]
         public async Task<IActionResult> PostCustomerTreatment(int customerId, [FromBody] CustomerTreatment customerTreatment)
         {
             if (customerId != customerTreatment.CustomerId)
@@ -57,7 +57,7 @@ namespace UsersService.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("/reports")]
+        [HttpGet("reports")]
         public async Task<IActionResult> GetDailyReports([FromQuery(Name = "fromDate")] DateTime fromDate, [FromQuery(Name = "toDate")] DateTime toDate)
         {
             try
