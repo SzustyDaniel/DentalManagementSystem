@@ -68,14 +68,10 @@
     <Compile Include="Utility\SendPatientEvent.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\QueueDetailsDisplayComponentViewModel.cs" />
-    <Compile Include="ViewModels\QueueDetailsDisplayViewModel.cs" />
     <Compile Include="ViewModels\SelectQueueComponentViewModel.cs" />
     <Compile Include="ViewModels\WelcomeComponentViewModel.cs" />
     <Compile Include="Views\AppMainWindow.xaml.cs">
       <DependentUpon>AppMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\QueueDetailsDisplay.xaml.cs">
-      <DependentUpon>QueueDetailsDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QueueDetailsDisplayComponent.xaml.cs">
       <DependentUpon>QueueDetailsDisplayComponent.xaml</DependentUpon>
@@ -129,10 +125,6 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Views\AppMainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\QueueDetailsDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

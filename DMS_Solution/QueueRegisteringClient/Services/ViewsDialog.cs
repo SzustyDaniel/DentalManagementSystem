@@ -11,7 +11,6 @@ namespace QueueRegisteringClient.Services
 {
     public class ViewsDialog
     {
-        private Window window = null;
         private static ViewsDialog _instance;
 
         public static ViewsDialog Instance
@@ -49,18 +48,6 @@ namespace QueueRegisteringClient.Services
                 default:
                     throw new ArgumentException("Not a valid type");
             }
-        }
-
-        public void ShowWindowDialog()
-        {
-            window = new QueueDetailsDisplay();
-            window.Show();
-        }
-
-        public void CloseWindowDialog()
-        {
-            if (window != null)
-                window.Close();
         }
 
     }

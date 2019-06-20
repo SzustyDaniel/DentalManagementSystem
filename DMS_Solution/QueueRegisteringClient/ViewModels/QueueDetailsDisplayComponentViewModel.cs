@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace QueueRegisteringClient.ViewModels
 {
@@ -17,6 +18,7 @@ namespace QueueRegisteringClient.ViewModels
     {
           #region Properties
         private IEventAggregator eventAggregator;
+        private DispatcherTimer dispatcherTimer;
 
         private Patient model;
         public Patient Model
@@ -29,19 +31,26 @@ namespace QueueRegisteringClient.ViewModels
         public QueueDetailsDisplayComponentViewModel(IEventAggregator ea)
         {
             eventAggregator = ea;
+
+            // For timed switch of the views in the application main window
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(3);
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+
             ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
-        
 
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
+            dispatcherTimer.Stop();
+        }
+
+        // loads the received model from the event aggregator
         private void LoadModel(Patient obj)
         {
             Model = obj;
-        }
-
-        private void SetForSwitch()
-        {
-            Thread.Sleep(3000);
-            eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);
+            dispatcherTimer.Start();
         }
     }
 }
