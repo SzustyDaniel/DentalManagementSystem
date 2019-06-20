@@ -18,12 +18,6 @@ namespace UsersService.Controllers
             _usersService = usersService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("Initial GET request succeeded. The server is listening.");
-        }
-
         [HttpGet("customers/authentication/{cardNumber}")]
         public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
         {
