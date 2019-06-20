@@ -45,14 +45,11 @@ Please swipe your card to continue...";
         /*
          * Simulate card swiping and connecting to the user api to check on the guid of the customer
          */
-        private void ExecuteSendValidateCommandAsync()
+        private async void ExecuteSendValidateCommandAsync()
         {
             Customer.ClientCard = new CardInfo() { CardNumber = SelectedUser };
-            // CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
-
-            //Customer.CustomerID = customer.CustomerId;
-
-            Customer.CustomerID = 2; // temp mockup
+            CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
+            Customer.CustomerID = customer.CustomerId;
 
             _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
             _ea.GetEvent<SendPatientEvent>().Publish(Customer);

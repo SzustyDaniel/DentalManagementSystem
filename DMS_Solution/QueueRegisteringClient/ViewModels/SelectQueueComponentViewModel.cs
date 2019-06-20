@@ -16,7 +16,7 @@ namespace QueueRegisteringClient.ViewModels
     {
 
         #region Properties
-
+        private ViewsDialog views;
         private IEventAggregator _ea;
         private ClientHttpActions clientHttp;
 
@@ -35,6 +35,7 @@ namespace QueueRegisteringClient.ViewModels
         {
             clientHttp = ClientHttpActions.Instance;
             _ea = ea;
+            views = ViewsDialog.Instance;
             _ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
 
@@ -92,7 +93,7 @@ namespace QueueRegisteringClient.ViewModels
             Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
             Model.QueueType = service;
 
-            ViewsDialog.ShowWindowDialog();                             // open information window for the user
+            views.ShowWindowDialog();                             // open information window for the user
             _ea.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
             _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);  // switch the current view to welcome
         }

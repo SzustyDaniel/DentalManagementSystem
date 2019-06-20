@@ -9,14 +9,33 @@ using System.Windows.Controls;
 
 namespace QueueRegisteringClient.Services
 {
-    public static class ViewsDialog
+    public class ViewsDialog
     {
-        private static Window window = null;
+        private Window window = null;
+        private static ViewsDialog _instance;
+
+        public static ViewsDialog Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ViewsDialog();
+
+                return _instance;
+            }
+        }
+
+
+        private ViewsDialog()
+        {
+
+        }
+
 
         /*
          * Return the user control to navigate to
          */
-        public static UserControl ChangeCurrentView(ViewType view)
+        public UserControl ChangeCurrentView(ViewType view)
         {
             UserControl currentUserControl;
             switch (view)
@@ -30,13 +49,13 @@ namespace QueueRegisteringClient.Services
             }
         }
 
-        public static void ShowWindowDialog()
+        public void ShowWindowDialog()
         {
             window = new QueueDetailsDisplay();
             window.Show();
         }
 
-        public static void CloseWindowDialog()
+        public void CloseWindowDialog()
         {
             if (window != null)
                 window.Close();

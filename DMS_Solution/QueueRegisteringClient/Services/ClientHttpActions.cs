@@ -50,10 +50,7 @@ namespace QueueRegisteringClient.Services
 
             EnqueuePositionResult positionResult = null;
 
-            if(client.BaseAddress == null || client.BaseAddress.ToString() != ConstantURI.queueServerURI)
-                client.BaseAddress = new Uri(ConstantURI.queueServerURI);
-
-            HttpResponseMessage response = await client.PostAsJsonAsync("Queue", requestPosition);
+            HttpResponseMessage response = await client.PostAsJsonAsync($"{ConstantURI.queueServerURI}Queue", requestPosition);
             response.EnsureSuccessStatusCode();
 
             if (response.IsSuccessStatusCode)
@@ -71,22 +68,8 @@ namespace QueueRegisteringClient.Services
         public async Task<CustomerIdentification> ValidateCustomer(CardInfo cardInfo)
         {
             CustomerIdentification respone = new CustomerIdentification();
-
-            if (client.BaseAddress == null || client.BaseAddress.ToString() != ConstantURI.usersServerURI)
-                client.BaseAddress = new Uri(ConstantURI.usersServerURI);
-
-            // current suggested code for the get request
-            /*
-            HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string> { { "cardNumber", cardInfo.CardNumber.ToString() } });
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "Users/customers/authentication/")
-            {
-                Content = content
-            };
-            */
-
-
-            HttpResponseMessage httpResponse = await client.GetAsync($"Users/customers/authentication/{cardInfo.CardNumber.ToString()}");
-            // HttpResponseMessage httpResponse = await client.SendAsync(message);
+            
+            HttpResponseMessage httpResponse = await client.GetAsync($"{ConstantURI.usersServerURI}Users/customers/authentication/{cardInfo.CardNumber.ToString()}");
             httpResponse.EnsureSuccessStatusCode();
             
             if (httpResponse.IsSuccessStatusCode)
