@@ -61,7 +61,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\StationModel.cs" />
-    <Compile Include="Services\LoginService.cs" />
+    <Compile Include="Services\HttpActionsService.cs" />
+    <Compile Include="Services\IHttpActions.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginUCViewModel.cs" />
     <Compile Include="ViewModels\StaffControlUCViewModel.cs" />

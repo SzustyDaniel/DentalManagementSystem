@@ -50,5 +50,10 @@ namespace QueueRegisteringClient.Services
             }
         }
 
+
+        public static void ShowErrorDialog(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

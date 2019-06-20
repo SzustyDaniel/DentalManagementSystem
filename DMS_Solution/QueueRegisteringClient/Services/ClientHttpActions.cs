@@ -53,13 +53,8 @@ namespace QueueRegisteringClient.Services
             HttpResponseMessage response = await client.PostAsJsonAsync($"{ConstantURI.queueServerURI}Queue", requestPosition);
             response.EnsureSuccessStatusCode();
 
-            if (response.IsSuccessStatusCode)
-            {
-                positionResult = await response.Content.ReadAsAsync<EnqueuePositionResult>();
-            }
-
+            positionResult = await response.Content.ReadAsAsync<EnqueuePositionResult>();
             return positionResult;
-
         }
 
         /*
@@ -72,11 +67,7 @@ namespace QueueRegisteringClient.Services
             HttpResponseMessage httpResponse = await client.GetAsync($"{ConstantURI.usersServerURI}Users/customers/authentication/{cardInfo.CardNumber.ToString()}");
             httpResponse.EnsureSuccessStatusCode();
             
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                respone = await httpResponse.Content.ReadAsAsync<CustomerIdentification>();
-            }
-
+            respone = await httpResponse.Content.ReadAsAsync<CustomerIdentification>();
             return respone;
         }
     }

@@ -9,6 +9,7 @@ using System.Linq;
 using Common;
 using Common.QueueModels;
 using QueueRegisteringClient.Services;
+using System.Net.Http;
 
 namespace QueueRegisteringClient.ViewModels
 {
@@ -89,12 +90,21 @@ namespace QueueRegisteringClient.ViewModels
          */
         private async void EnterToQueueActions(ServiceType service)
         {
-            EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = service, UserID = Model.CustomerID };
-            Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
-            Model.QueueType = service;
+            try
+            {
+                EnqueuePosition enqueuePosition = new EnqueuePosition() { ServiceType = service, UserID = Model.CustomerID };
+                Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
+                Model.QueueType = service;
 
-            eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.display);  // switch the current view to display
-            eventAggregator.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
+                eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.display);  // switch the current view to display
+                eventAggregator.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
+            }
+            catch (HttpRequestException e)
+            {
+                ViewsDialog.ShowErrorDialog(e.Message);
+                eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);  // switch the current view to display
+            }
+            
             
         }
 

@@ -9,6 +9,7 @@ using Common.UserModels;
 using QueueRegisteringClient.Models;
 using Prism.Events;
 using QueueRegisteringClient.Utility;
+using System.Net.Http;
 
 namespace QueueRegisteringClient.ViewModels
 {
@@ -48,11 +49,21 @@ Please swipe your card to continue...";
         private async void ExecuteSendValidateCommandAsync()
         {
             Customer.ClientCard = new CardInfo() { CardNumber = SelectedUser };
-            CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
-            Customer.CustomerID = customer.CustomerId;
+            try
+            {
+                CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
+                Customer.CustomerID = customer.CustomerId;
+                _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
+                _ea.GetEvent<SendPatientEvent>().Publish(Customer);
+            }
+            catch(HttpRequestException e)
+            {
+                ViewsDialog.ShowErrorDialog(e.Message);
+            }
 
-            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
-            _ea.GetEvent<SendPatientEvent>().Publish(Customer);
+
+
+
         }
     }
 }
