@@ -9,6 +9,7 @@ namespace QueueRegisteringClient
     public enum ViewType
     {
         welcome,
-        select
+        select,
+        display
     }
 }

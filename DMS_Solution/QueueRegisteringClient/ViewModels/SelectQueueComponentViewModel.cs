@@ -17,7 +17,7 @@ namespace QueueRegisteringClient.ViewModels
 
         #region Properties
         private ViewsDialog views;
-        private IEventAggregator _ea;
+        private IEventAggregator eventAggregator;
         private ClientHttpActions clientHttp;
 
         private Patient _model;
@@ -34,9 +34,9 @@ namespace QueueRegisteringClient.ViewModels
         public SelectQueueComponentViewModel(IEventAggregator ea)
         {
             clientHttp = ClientHttpActions.Instance;
-            _ea = ea;
+            eventAggregator = ea;
             views = ViewsDialog.Instance;
-            _ea.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
+            eventAggregator.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
 
         #endregion     
@@ -81,7 +81,7 @@ namespace QueueRegisteringClient.ViewModels
         private void LoadModel(Patient obj)
         {
             Model = obj;
-            _ea.GetEvent<SendPatientEvent>().Unsubscribe(LoadModel); // stop listening to the event
+            eventAggregator.GetEvent<SendPatientEvent>().Unsubscribe(LoadModel); // stop listening to the event
         }
 
         /*
@@ -93,9 +93,9 @@ namespace QueueRegisteringClient.ViewModels
             Model.LineNumber = await clientHttp.RegisterToQueueAsync(enqueuePosition);
             Model.QueueType = service;
 
-            views.ShowWindowDialog();                             // open information window for the user
-            _ea.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
-            _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);  // switch the current view to welcome
+            eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.display);  // switch the current view to display
+            eventAggregator.GetEvent<SendPatientEvent>().Publish(Model);            // send it the current model
+            
         }
 
         #endregion

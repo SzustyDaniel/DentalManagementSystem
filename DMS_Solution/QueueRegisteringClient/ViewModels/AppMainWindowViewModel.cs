@@ -40,6 +40,9 @@ namespace QueueRegisteringClient.ViewModels
                 case ViewType.select:
                     CurrentView = views.ChangeCurrentView(obj);
                     break;
+                case ViewType.display:
+                    CurrentView = views.ChangeCurrentView(obj);
+                    break;
                 default:
                     throw new ApplicationException("Didn't receive a valid type");
             }

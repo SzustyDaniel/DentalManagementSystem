@@ -44,6 +44,8 @@ namespace QueueRegisteringClient.Services
                     return currentUserControl = new WelcomeComponent();
                 case ViewType.select:
                     return currentUserControl = new SelectQueueComponent();
+                case ViewType.display:
+                    return currentUserControl = new QueueDetailsDisplayComponent();
                 default:
                     throw new ArgumentException("Not a valid type");
             }
