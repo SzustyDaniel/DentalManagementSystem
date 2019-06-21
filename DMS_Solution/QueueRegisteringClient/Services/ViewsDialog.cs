@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace QueueRegisteringClient.Services
 {
-    public class ViewsDialog
+    public class ViewsDialog : IViewsDialog
     {
         private static ViewsDialog _instance;
 
@@ -53,7 +53,7 @@ namespace QueueRegisteringClient.Services
         }
 
 
-        public static void ShowErrorDialog(string message)
+        public void ShowErrorDialog(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }

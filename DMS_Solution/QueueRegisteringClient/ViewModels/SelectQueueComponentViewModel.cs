@@ -101,7 +101,7 @@ namespace QueueRegisteringClient.ViewModels
             }
             catch (HttpRequestException e)
             {
-                ViewsDialog.ShowErrorDialog(e.Message);
+                views.ShowErrorDialog(e.Message);
                 eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.welcome);  // switch the current view to display
             }
             

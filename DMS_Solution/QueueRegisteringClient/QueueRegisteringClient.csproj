@@ -63,6 +63,7 @@
     <Compile Include="Models\Patient.cs" />
     <Compile Include="Services\ClientHttpActions.cs" />
     <Compile Include="Services\IClientHttpActions.cs" />
+    <Compile Include="Services\IViewsDialog.cs" />
     <Compile Include="Services\ViewsDialog.cs" />
     <Compile Include="Utility\ChangeViewEvent.cs" />
     <Compile Include="Utility\SendPatientEvent.cs" />
