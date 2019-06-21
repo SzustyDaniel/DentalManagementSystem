@@ -17,9 +17,9 @@ namespace QueueRegisteringClient.ViewModels
     {
 
         #region Properties
-        private ViewsDialog views;
+        private IViewsDialog views;
         private IEventAggregator eventAggregator;
-        private ClientHttpActions clientHttp;
+        private IClientHttpActions clientHttp;
 
         private Patient _model;
         public Patient Model
@@ -32,11 +32,11 @@ namespace QueueRegisteringClient.ViewModels
 
         #region Constructor
 
-        public SelectQueueComponentViewModel(IEventAggregator ea)
+        public SelectQueueComponentViewModel(IEventAggregator ea,IClientHttpActions clientHttpActions, IViewsDialog viewsDialog)
         {
-            clientHttp = ClientHttpActions.Instance;
+            clientHttp = clientHttpActions;
             eventAggregator = ea;
-            views = ViewsDialog.Instance;
+            views = viewsDialog;
             eventAggregator.GetEvent<SendPatientEvent>().Subscribe(LoadModel);
         }
 

@@ -13,7 +13,7 @@ namespace QueueRegisteringClient.ViewModels
 {
     public class AppMainWindowViewModel : BindableBase
     {
-        private ViewsDialog views;
+        private IViewsDialog views;
 
         private UserControl currentView;
         public UserControl CurrentView
@@ -22,18 +22,11 @@ namespace QueueRegisteringClient.ViewModels
             set { SetProperty(ref currentView, value); }
         }
 
-
-        public AppMainWindowViewModel(IEventAggregator ea)
+        public AppMainWindowViewModel(IEventAggregator ea, IViewsDialog viewsDialog)
         {
-            views = ViewsDialog.Instance;
+            views = viewsDialog;
             CurrentView = views.ChangeCurrentView(ViewType.welcome);
             ea.GetEvent<ChangeViewEvent>().Subscribe(ChangeCurrentView);
-        }
-
-        // Constructor for tests
-        public AppMainWindowViewModel()
-        {
-
         }
 
         /*

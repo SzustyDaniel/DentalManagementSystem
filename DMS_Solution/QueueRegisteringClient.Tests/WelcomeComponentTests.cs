@@ -28,7 +28,7 @@ namespace QueueRegisteringClient.Tests
         public void ExecuteSendValidateCommandAsync_GetUserID_SetsModelUserID(int expected,int tested)
         {
             //Arrange
-            WelcomeComponentViewModel viewModel = new WelcomeComponentViewModel(httpService, dialogService);
+            WelcomeComponentViewModel viewModel = new WelcomeComponentViewModel(null,httpService, dialogService);
             Patient patient = viewModel.Customer;
             viewModel.SelectedUser = (ulong)tested;
 

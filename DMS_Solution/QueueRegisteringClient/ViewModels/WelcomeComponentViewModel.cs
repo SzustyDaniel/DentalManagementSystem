@@ -15,6 +15,7 @@ namespace QueueRegisteringClient.ViewModels
 {
     public class WelcomeComponentViewModel : BindableBase
     {
+        #region Properties
         public string Message { get; set; }
         public List<ulong> MockUsers { get; set; }
         public ulong SelectedUser { get; set; }
@@ -23,34 +24,27 @@ namespace QueueRegisteringClient.ViewModels
         private IEventAggregator _ea; // event aggregation publisher
         private IClientHttpActions httpActions;
         public Patient Customer { get; set; } // The user model for the system
+        #endregion
 
-        
-        public WelcomeComponentViewModel(IEventAggregator ea)
+        #region Constructor
+
+        public WelcomeComponentViewModel(IEventAggregator ea,IClientHttpActions clientHttpActions, IViewsDialog viewsDialog)
         {
             _ea = ea;
-            httpActions = ClientHttpActions.Instance;
-            Customer = new Patient();
+            httpActions = clientHttpActions;
+            views = viewsDialog;
 
+            Customer = new Patient();
             Message = @"Welcome to the clinic.
 Please swipe your card to continue...";
 
             //Mock Data for the application
-            MockUsers = new List<ulong>(){  200,300,400,500,600,700,800,900,1000}; // simulates card swipe information
+            MockUsers = new List<ulong>() { 200, 300, 400, 500, 600, 700, 800, 900, 1000 }; // simulates card swipe information
             SelectedUser = 0;
-            views = ViewsDialog.Instance;
         }
+        #endregion
 
-        // for unit testing
-        public WelcomeComponentViewModel(IClientHttpActions clientHttpActions, IViewsDialog viewsDialog)
-        {
-            httpActions = clientHttpActions;
-            views = viewsDialog;
-            Customer = new Patient();
-        }
-
-     
-
-
+        #region Commands
         private DelegateCommand _sendValidateCommand;
         public DelegateCommand SendValidateCommand =>
             _sendValidateCommand ?? (_sendValidateCommand = new DelegateCommand(ExecuteSendValidateCommandAsync));
@@ -74,8 +68,9 @@ Please swipe your card to continue...";
             }
 
 
-
+            
 
         }
+        #endregion
     }
 }

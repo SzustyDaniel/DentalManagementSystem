@@ -61,6 +61,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Patient.cs" />
+    <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\ClientHttpActions.cs" />
     <Compile Include="Services\IClientHttpActions.cs" />
     <Compile Include="Services\IViewsDialog.cs" />
