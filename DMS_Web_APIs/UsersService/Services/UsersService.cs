@@ -46,6 +46,13 @@ namespace UsersService.Services
             return reports;
         }
 
+        public async Task LogoutEmployee(string userName)
+        {
+            Employee employee = await _usersContext.Employees.Where(e => e.Username == userName).SingleAsync();
+            employee.Online = false;
+            await _usersContext.SaveChangesAsync();
+        }
+
         public async Task SaveCustomerTreatment(CustomerTreatment customerTreatment)
         {
             Treatment treatment = new Treatment
@@ -56,6 +63,11 @@ namespace UsersService.Services
             };
             _usersContext.Treatments.Add(treatment);
             await _usersContext.SaveChangesAsync();
+        }
+
+        public Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin)
+        {
+            throw new NotImplementedException();
         }
     }
 }
