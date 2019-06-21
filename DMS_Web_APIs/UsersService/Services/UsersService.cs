@@ -9,18 +9,13 @@ using UsersService.Data.Models;
 
 namespace UsersService.Services
 {
-    public class UsersService : IUsersService, IDisposable
+    public class UsersService : IUsersService
     {
         private readonly UsersContext _usersContext;
 
         public UsersService(UsersContext usersContext)
         {
             _usersContext = usersContext;
-        }
-
-        public void Dispose()
-        {
-            _usersContext.Dispose();
         }
 
         public async Task<CustomerIdentification> GetCustomerIdentification(ulong cardId)

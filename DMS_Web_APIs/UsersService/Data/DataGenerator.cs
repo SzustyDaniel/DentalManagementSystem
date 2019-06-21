@@ -1,20 +1,18 @@
 ﻿using Common;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using UsersService.Data.Models;
 
 namespace UsersService.Data
 {
-    public class DataGenerator
+    public static class DataGenerator
     {
-        public static void Initialize(DbContextOptions<UsersContext> contextOptions)
+        private static List<Customer> GetMockCustomers()
         {
-            using (var context = new UsersContext(contextOptions))
+            return new List<Customer>
             {
-                DateTime yesterday = DateTime.Today.AddDays(-1);
-
-                context.Customers.AddRange(
-                    new Customer { CustomerId = 1, CardNumber = 100 },
+                new Customer { CustomerId = 1, CardNumber = 100 },
                     new Customer { CustomerId = 2, CardNumber = 200 },
                     new Customer { CustomerId = 3, CardNumber = 300 },
                     new Customer { CustomerId = 4, CardNumber = 400 },
@@ -24,10 +22,14 @@ namespace UsersService.Data
                     new Customer { CustomerId = 8, CardNumber = 800 },
                     new Customer { CustomerId = 9, CardNumber = 900 },
                     new Customer { CustomerId = 10, CardNumber = 1000 }
-                    );
+            };
+        }
 
-                context.Employees.AddRange(
-                    new Employee
+        private static List<Employee> GetMockEmployees()
+        {
+            return new List<Employee>
+            {
+                new Employee
                     {
                         EmployeeId = 1,
                         Role = ServiceType.Nurse,
@@ -57,10 +59,15 @@ namespace UsersService.Data
                         Lastname = "Fineboym",
                         Email = "rickandmorty@gmail.com"
                     }
-                    );
+            };
+        }
 
-                context.Treatments.AddRange(
-                    new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 1 },
+        private static List<Treatment> GetMockTreatmentsForYesterday()
+        {
+            DateTime yesterday = DateTime.Today.AddDays(-1);
+            return new List<Treatment>
+            {
+                new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 1 },
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 2 },
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 3 },
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 2, CustomerId = 4 },
@@ -69,7 +76,16 @@ namespace UsersService.Data
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 3, CustomerId = 7 },
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 7 },
                     new Treatment { TreatmentDate = yesterday, EmployeeId = 1, CustomerId = 6 }
-                    );
+            };
+        }
+
+        public static void Initialize(DbContextOptions<UsersContext> contextOptions)
+        {
+            using (var context = new UsersContext(contextOptions))
+            {
+                context.Customers.AddRange(GetMockCustomers());
+                context.Employees.AddRange(GetMockEmployees());
+                context.Treatments.AddRange(GetMockTreatmentsForYesterday());
 
                 context.SaveChanges();
             }
