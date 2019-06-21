@@ -30,6 +30,12 @@ namespace QueueRegisteringClient.ViewModels
             ea.GetEvent<ChangeViewEvent>().Subscribe(ChangeCurrentView);
         }
 
+        // Constructor for tests
+        public AppMainWindowViewModel()
+        {
+
+        }
+
         /*
          * Change the view based on passed type of view
          */

@@ -1,6 +1,5 @@
 ﻿using QueueRegisteringClient.Views;
 using Prism.Ioc;
-using Prism.Modularity;
 using System.Windows;
 
 namespace QueueRegisteringClient
@@ -19,5 +18,6 @@ namespace QueueRegisteringClient
         {
 
         }
+
     }
 }

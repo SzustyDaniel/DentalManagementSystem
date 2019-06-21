@@ -1,15 +1,8 @@
-﻿using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using Prism.Mvvm;
 using QueueRegisteringClient.Models;
-using QueueRegisteringClient.Services;
 using QueueRegisteringClient.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Threading;
 
 namespace QueueRegisteringClient.ViewModels

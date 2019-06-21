@@ -24,7 +24,7 @@ namespace QueueRegisteringClient.ViewModels
         private IClientHttpActions httpActions;
         public Patient Customer { get; set; } // The user model for the system
 
-
+        
         public WelcomeComponentViewModel(IEventAggregator ea)
         {
             _ea = ea;
@@ -45,9 +45,11 @@ Please swipe your card to continue...";
         {
             httpActions = clientHttpActions;
             views = viewsDialog;
-            MockUsers = new List<ulong>() { 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
             Customer = new Patient();
         }
+
+     
+
 
         private DelegateCommand _sendValidateCommand;
         public DelegateCommand SendValidateCommand =>

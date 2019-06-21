@@ -18,16 +18,19 @@ namespace QueueRegisteringClient.Tests
         public void Init()
         {
             httpService = new ClientHttpActionsMockup();
-            dialogService = null;
+            dialogService = new ViewDialogMockup();
         }
 
-        [TestMethod]
-        public void ExecuteSendValidateCommandAsync_GetUserID_SetsModelUserID()
+        [DataTestMethod]
+        [DataRow(1,200)]
+        [DataRow(2,300)]
+        [DataRow(0,1100)]
+        public void ExecuteSendValidateCommandAsync_GetUserID_SetsModelUserID(int expected,int tested)
         {
             //Arrange
             WelcomeComponentViewModel viewModel = new WelcomeComponentViewModel(httpService, dialogService);
             Patient patient = viewModel.Customer;
-            viewModel.SelectedUser = 200;
+            viewModel.SelectedUser = (ulong)tested;
 
 
             //Act
@@ -35,8 +38,7 @@ namespace QueueRegisteringClient.Tests
             command.Execute();
 
             // assert
-            Assert.AreEqual(1,viewModel.Customer.CustomerID);
-
+            Assert.AreEqual(expected,viewModel.Customer.CustomerID);
         }
 
 
