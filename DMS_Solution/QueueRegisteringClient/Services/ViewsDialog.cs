@@ -45,6 +45,8 @@ namespace QueueRegisteringClient.Services
                     return currentUserControl = new SelectQueueComponent();
                 case ViewType.display:
                     return currentUserControl = new QueueDetailsDisplayComponent();
+                case ViewType.none:
+                    throw new ArgumentException("Type not configured");
                 default:
                     throw new ArgumentException("Not a valid type");
             }

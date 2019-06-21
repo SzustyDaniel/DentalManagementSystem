@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QueueRegisteringClient
+namespace StaffStationClient
 {
     public enum ViewType
     {
-        none,
-        welcome,
-        select,
-        display
+        None,Login,Control
     }
 }

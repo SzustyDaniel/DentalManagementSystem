@@ -21,5 +21,19 @@ namespace StaffStationClient.ViewModels
         {
 
         }
+
+        private DelegateCommand _loginCommand;
+        public DelegateCommand LoginCommand =>
+            _loginCommand ?? (_loginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand));
+
+        void ExecuteLoginCommand()
+        {
+
+        }
+
+        bool CanExecuteLoginCommand()
+        {
+            return true;
+        }
     }
 }

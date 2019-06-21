@@ -35,7 +35,7 @@
         <TextBox Style="{StaticResource textBox}" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Model.UserName}"/>
 
         <TextBlock Style="{StaticResource textStyle}" Text="Enter Password" Grid.Row="1" Grid.Column="0"/>
-        <PasswordBox FontSize="18" FontFamily="Ariel" Grid.Row="1" Grid.Column="1" Margin="7,3" Padding="5" MaxWidth="200" Width="200"/>
+        <TextBox Style="{StaticResource textBox}" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Model.Password}"/>
 
         <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Sign-in" Margin="3,7" Padding="3"/>
     </Grid>
