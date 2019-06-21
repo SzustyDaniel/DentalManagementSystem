@@ -13,6 +13,7 @@ namespace UsersService.Data.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public bool Online { get; set; }
+        public int StationId { get; set; }
 
         public ICollection<Treatment> Treatments { get; set; }
     }

@@ -9,13 +9,18 @@ using UsersService.Data.Models;
 
 namespace UsersService.Services
 {
-    public class UsersService : IUsersService
+    public class UsersService : IUsersService, IDisposable
     {
         private readonly UsersContext _usersContext;
 
         public UsersService(UsersContext usersContext)
         {
             _usersContext = usersContext;
+        }
+
+        public void Dispose()
+        {
+            _usersContext.Dispose();
         }
 
         public async Task<CustomerIdentification> GetCustomerIdentification(ulong cardId)
@@ -46,6 +51,13 @@ namespace UsersService.Services
             return reports;
         }
 
+        public async Task LogoutEmployee(string userName)
+        {
+            Employee employee = await _usersContext.Employees.Where(e => e.Username == userName).SingleAsync();
+            employee.Online = false;
+            await _usersContext.SaveChangesAsync();
+        }
+
         public async Task SaveCustomerTreatment(CustomerTreatment customerTreatment)
         {
             Treatment treatment = new Treatment
@@ -56,6 +68,23 @@ namespace UsersService.Services
             };
             _usersContext.Treatments.Add(treatment);
             await _usersContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin)
+        {
+            Employee employee = await _usersContext.Employees.Where(e => e.Username == employeeLogin.Username).SingleAsync();
+
+            if (employee.Role != employeeLogin.ServiceType)
+                throw new InvalidOperationException("Received employee service type does not match his service type in DB.");
+
+            if (employee.Password != employeeLogin.Password || employee.Online)
+                return false;
+
+            employee.Online = true;
+            employee.StationId = employeeLogin.StationNumber;
+            await _usersContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

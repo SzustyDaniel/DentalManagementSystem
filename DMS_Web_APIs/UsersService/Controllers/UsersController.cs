@@ -34,12 +34,35 @@ namespace UsersService.Controllers
             }
         }
 
-        [HttpPut("staff/authentication")]
-        public async Task<IActionResult> PutEmployeeLogAction([FromBody] EmployeeLogAction employeeLogAction)
+        [HttpPatch("staff/authentication/login")]
+        public async Task<IActionResult> PatchEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
         {
-            // TODO : Delegate to IUsersService, it'll check if action is log in or log out. If log in, then check if already online. 
-            // On either action update Queue API.
-            throw new NotImplementedException();
+            try
+            {
+                bool isLoginSuccessful = await _usersService.TryLoginEmployee(employeeLogin);
+                if (!isLoginSuccessful)
+                    return Unauthorized();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e); // Not best practice to return any exception data, but we don't have and don't need loggers.
+            }
+        }
+
+        [HttpPatch("staff/authentication/{userName}/logout")]
+        public async Task<IActionResult> PatchEmployeeLogout(string userName)
+        {
+            try
+            {
+                await _usersService.LogoutEmployee(userName);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e); // Not best practice to return any exception data, but we don't have and don't need loggers.
+            }
         }
 
         [HttpPost("customers/{customerId}/history")]
