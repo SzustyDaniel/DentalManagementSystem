@@ -24,7 +24,7 @@ namespace StaffStationClient.Services
             throw new NotImplementedException();
         }
 
-        public Task<LoginStatus> SendCredentials(EmployeeLogAction logAction)
+        public Task<LoginStatus> SendCredentials(EmployeeLogin logAction)
         {
             throw new NotImplementedException();
         }
