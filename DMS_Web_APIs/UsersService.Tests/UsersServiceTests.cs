@@ -29,12 +29,41 @@ namespace UsersService.Tests
                 int expectedCustomerId = 1;
                 context.Customers.Add(new Customer { CardNumber = cardId, CustomerId = expectedCustomerId });
                 context.SaveChanges();
-                Services.UsersService usersService = new Services.UsersService(context);
 
+                Services.UsersService usersService = new Services.UsersService(context);
                 CustomerIdentification customerIdentification = await usersService.GetCustomerIdentification(cardId);
                 int actualCustomerId = customerIdentification.CustomerId;
 
                 Assert.AreEqual(expectedCustomerId, actualCustomerId);
+            }
+        }
+
+        [Test]
+        public async Task GetDailyEmployeeReports_RequestReport_ReturnsReports()
+        {
+            using (UsersContext context = GetUsersContext(nameof(GetDailyEmployeeReports_RequestReport_ReturnsReports)))
+            {
+                DateTime today = DateTime.Today;
+                int employeeId = 10;
+                string employeeFirstName = "First";
+                string employeeLastName = "Last";
+                context.Customers.AddRange(
+                    new Customer { CustomerId = 1, CardNumber = 2 },
+                    new Customer { CustomerId = 2, CardNumber = 3 });
+                context.Employees.Add(new Employee { EmployeeId = employeeId, Firstname = employeeFirstName, Lastname = employeeLastName });
+                context.Treatments.AddRange(
+                    new Treatment { EmployeeId = employeeId, CustomerId = 1, TreatmentDate = today },
+                    new Treatment { EmployeeId = employeeId, CustomerId = 2, TreatmentDate = today });
+                context.SaveChanges();
+                List<DailyEmployeeReport> expectedReports = new List<DailyEmployeeReport>
+                {
+                    new DailyEmployeeReport {Date = today, FirstName = employeeFirstName, LastName = employeeLastName, NumberOfPatientsTreated = 2 }
+                };
+
+                Services.UsersService usersService = new Services.UsersService(context);
+                List<DailyEmployeeReport> actualReports = await usersService.GetDailyEmployeeReports(today);
+
+                Assert.AreEqual(expectedReports, actualReports);
             }
         }
     }
