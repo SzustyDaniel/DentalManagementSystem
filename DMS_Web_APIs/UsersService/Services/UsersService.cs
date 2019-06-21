@@ -9,13 +9,18 @@ using UsersService.Data.Models;
 
 namespace UsersService.Services
 {
-    public class UsersService : IUsersService
+    public class UsersService : IUsersService, IDisposable
     {
         private readonly UsersContext _usersContext;
 
         public UsersService(UsersContext usersContext)
         {
             _usersContext = usersContext;
+        }
+
+        public void Dispose()
+        {
+            _usersContext.Dispose();
         }
 
         public async Task<CustomerIdentification> GetCustomerIdentification(ulong cardId)
@@ -65,9 +70,21 @@ namespace UsersService.Services
             await _usersContext.SaveChangesAsync();
         }
 
-        public Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin)
+        public async Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin)
         {
-            throw new NotImplementedException();
+            Employee employee = await _usersContext.Employees.Where(e => e.Username == employeeLogin.Username).SingleAsync();
+
+            if (employee.Role != employeeLogin.ServiceType)
+                throw new InvalidOperationException("Received employee service type does not match his service type in DB.");
+
+            if (employee.Password != employeeLogin.Password || employee.Online)
+                return false;
+
+            employee.Online = true;
+            employee.StationId = employeeLogin.StationNumber;
+            await _usersContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }
