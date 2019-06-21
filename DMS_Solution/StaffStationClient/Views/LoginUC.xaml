@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="StaffStationClient.Views.LoginUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"    Padding="25"         
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style x:Key="textStyle" TargetType="TextBlock">
@@ -22,9 +22,11 @@
     </UserControl.Resources>
     <Grid Margin="10,5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="35*"/>
-            <RowDefinition Height="35*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30*"/>
@@ -37,6 +39,12 @@
         <TextBlock Style="{StaticResource textStyle}" Text="Enter Password" Grid.Row="1" Grid.Column="0"/>
         <TextBox Style="{StaticResource textBox}" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Model.Password}"/>
 
-        <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Sign-in" Margin="3,7" Padding="3" Command="{Binding LoginCommand}"/>
+        <TextBlock Text="Select Service Type" Grid.Row="2" Style="{StaticResource textStyle}"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="7,3" Padding="5" ItemsSource="{Binding ServiceTypes}" SelectedItem="{Binding Model.StationServiceType}"/>
+
+        <TextBlock Text="Service Number" Grid.Row="3" Style="{StaticResource textStyle}"/>
+        <TextBox Text="{Binding Model.StationNumber}" Grid.Row="3" Grid.Column="1" Style="{StaticResource textBox}"/>
+
+        <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Sign-in" Margin="7,3" Padding="5" Command="{Binding LoginCommand}"/>
     </Grid>
 </UserControl>

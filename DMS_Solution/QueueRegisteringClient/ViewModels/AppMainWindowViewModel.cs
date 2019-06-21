@@ -30,6 +30,9 @@ namespace QueueRegisteringClient.ViewModels
             ea.GetEvent<ChangeViewEvent>().Subscribe(ChangeCurrentView);
         }
 
+        /*
+         * Change the view based on passed type of view
+         */
         private void ChangeCurrentView(ViewType obj)
         {
             switch (obj)

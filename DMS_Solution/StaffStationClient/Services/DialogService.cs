@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace StaffStationClient.Services
@@ -43,6 +44,11 @@ namespace StaffStationClient.Services
                 default:
                     throw new ArgumentException("No valid argument was passed");
             }
+        }
+
+        public void ShowMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace StaffStationClient.Services
 {
     public interface IHttpActions
     {
-        Task<LoginStatus> SendCredentials(EmployeeLogin logAction);
+        Task SendCredentialsAsync(EmployeeLogin logAction);
         Task LogOut(EmployeeConnectionUpdate update);
         Task<DequeuePositionResult> CallNextInQueue(DequeuePosition request);
     }

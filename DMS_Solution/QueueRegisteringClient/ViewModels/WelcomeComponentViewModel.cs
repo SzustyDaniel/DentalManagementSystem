@@ -19,8 +19,9 @@ namespace QueueRegisteringClient.ViewModels
         public List<ulong> MockUsers { get; set; }
         public ulong SelectedUser { get; set; }
 
+        private IViewsDialog views;
         private IEventAggregator _ea; // event aggregation publisher
-        private ClientHttpActions httpActions;
+        private IClientHttpActions httpActions;
         public Patient Customer { get; set; } // The user model for the system
 
 
@@ -34,9 +35,18 @@ namespace QueueRegisteringClient.ViewModels
 Please swipe your card to continue...";
 
             //Mock Data for the application
-            MockUsers = new List<ulong>(){  200,300,400,500,600,700,800,900,1000};
+            MockUsers = new List<ulong>(){  200,300,400,500,600,700,800,900,1000}; // simulates card swipe information
             SelectedUser = 0;
+            views = ViewsDialog.Instance;
+        }
 
+        // for unit testing
+        public WelcomeComponentViewModel(IClientHttpActions clientHttpActions, IViewsDialog viewsDialog)
+        {
+            httpActions = clientHttpActions;
+            views = viewsDialog;
+            MockUsers = new List<ulong>() { 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+            Customer = new Patient();
         }
 
         private DelegateCommand _sendValidateCommand;
@@ -58,7 +68,7 @@ Please swipe your card to continue...";
             }
             catch(HttpRequestException e)
             {
-                ViewsDialog.ShowErrorDialog(e.Message);
+                views.ShowErrorDialog(e.Message);
             }
 
 
