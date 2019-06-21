@@ -61,10 +61,10 @@ Please swipe your card to continue...";
             Customer.ClientCard = new CardInfo() { CardNumber = SelectedUser };
             try
             {
-                CustomerIdentification customer = await httpActions.ValidateCustomer(Customer.ClientCard);
+                CustomerIdentification customer = await httpActions.ValidateCustomerAsync(Customer.ClientCard);
                 Customer.CustomerID = customer.CustomerId;
-                _ea.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
-                _ea.GetEvent<SendPatientEvent>().Publish(Customer);
+                _ea?.GetEvent<ChangeViewEvent>().Publish(ViewType.select);
+                _ea?.GetEvent<SendPatientEvent>().Publish(Customer);
             }
             catch(HttpRequestException e)
             {

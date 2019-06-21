@@ -60,7 +60,7 @@ namespace QueueRegisteringClient.Services
         /*
          * Call the users api for the validation of the client card
          */
-        public async Task<CustomerIdentification> ValidateCustomer(CardInfo cardInfo)
+        public async Task<CustomerIdentification> ValidateCustomerAsync(CardInfo cardInfo)
         {
             CustomerIdentification respone = new CustomerIdentification();
             
