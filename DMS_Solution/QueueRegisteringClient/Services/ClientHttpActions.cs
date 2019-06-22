@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Common.ManagementModels;
 
 namespace QueueRegisteringClient.Services
 {
@@ -69,6 +70,23 @@ namespace QueueRegisteringClient.Services
             
             respone = await httpResponse.Content.ReadAsAsync<CustomerIdentification>();
             return respone;
+        }
+
+
+        /*
+         * Call the management api and get the schedule for the day
+         */
+        public async Task<List<ScheduleModel>> GetSchedulesAsync(DayOfWeek day)
+        {
+            List<ScheduleModel> schedules;
+
+            HttpResponseMessage httpResponse = await client.GetAsync($"{ConstantURI.managementServerURI}Management/Schedules/{day}");
+            httpResponse.EnsureSuccessStatusCode();
+
+            schedules = await httpResponse.Content.ReadAsAsync<List<ScheduleModel>>();
+
+            return schedules;
+
         }
     }
 }

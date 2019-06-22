@@ -21,11 +21,16 @@ namespace UsersService.Controllers
         [HttpGet("customers/authentication/{cardNumber}")]
         public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 CustomerIdentification customer = await _usersService.GetCustomerIdentification(cardNumber);
                 if (customer.CustomerId == default)
-                    return NotFound();
+                    return NotFound(cardNumber);
                 return Ok(customer);
             }
             catch (Exception e)
@@ -37,6 +42,11 @@ namespace UsersService.Controllers
         [HttpPatch("staff/authentication/login")]
         public async Task<IActionResult> PatchEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 bool isLoginSuccessful = await _usersService.TryLoginEmployee(employeeLogin);
@@ -65,16 +75,17 @@ namespace UsersService.Controllers
             }
         }
 
-        [HttpPost("customers/{customerId}/history")]
-        public async Task<IActionResult> PostCustomerTreatment(int customerId, [FromBody] CustomerTreatment customerTreatment)
+        [HttpPost("customers/history")]
+        public async Task<IActionResult> PostCustomerTreatment([FromBody] CustomerTreatment customerTreatment)
         {
-            if (customerId != customerTreatment.CustomerId)
-                return BadRequest("Customer IDs do not match.");
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 await _usersService.SaveCustomerTreatment(customerTreatment);
-                return CreatedAtAction(nameof(GetDailyReports), customerTreatment);
+                return CreatedAtAction(nameof(PostCustomerTreatment), customerTreatment);
             }
             catch (Exception e)
             {
@@ -85,6 +96,11 @@ namespace UsersService.Controllers
         [HttpGet("reports")]
         public async Task<IActionResult> GetDailyReports([FromQuery(Name = "date")] DateTime date)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 List<DailyEmployeeReport> dailyReports = await _usersService.GetDailyEmployeeReports(date);

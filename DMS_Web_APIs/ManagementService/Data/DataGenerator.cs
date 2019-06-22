@@ -16,7 +16,7 @@ namespace ManagementService.Data
             {
                 context.Schedules.AddRange
                     (
-                    new Schedule() { Day = DayOfWeek.Sunday, Service = ServiceType.Pharmacist, Start = TimeSpan.FromHours(8), End = TimeSpan.FromHours(18) },
+                    new Schedule() { Day = DayOfWeek.Sunday, Service = ServiceType.Pharmacist, Start = TimeSpan.FromHours(8), End = TimeSpan.FromHours(18)},
                     new Schedule() { Day = DayOfWeek.Monday, Service = ServiceType.Pharmacist, Start = TimeSpan.FromHours(8), End = TimeSpan.FromHours(18) },
                     new Schedule() { Day = DayOfWeek.Tuesday, Service = ServiceType.Pharmacist, Start = TimeSpan.FromHours(8), End = TimeSpan.FromHours(18) },
                     new Schedule() { Day = DayOfWeek.Wednesday, Service = ServiceType.Pharmacist, Start = TimeSpan.FromHours(8), End = TimeSpan.FromHours(18) },

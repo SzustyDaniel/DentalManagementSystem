@@ -1,4 +1,5 @@
-﻿using Common.QueueModels;
+﻿using Common.ManagementModels;
+using Common.QueueModels;
 using Common.UserModels;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace QueueRegisteringClient.Services
     {
         Task<EnqueuePositionResult> RegisterToQueueAsync(EnqueuePosition requestPosition);
         Task<CustomerIdentification> ValidateCustomerAsync(CardInfo cardInfo);
+        Task<List<ScheduleModel>> GetSchedulesAsync(DayOfWeek day);
     }
 }

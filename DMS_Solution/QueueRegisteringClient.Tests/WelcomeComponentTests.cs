@@ -41,6 +41,5 @@ namespace QueueRegisteringClient.Tests
             Assert.AreEqual(expected,viewModel.Customer.CustomerID);
         }
 
-
     }
 }
