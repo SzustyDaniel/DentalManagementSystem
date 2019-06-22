@@ -19,7 +19,7 @@ namespace UsersService.Controllers
         }
 
         [HttpGet("customers/authentication/{cardNumber}")]
-        public async Task<IActionResult> GetCustomerNumber(ulong cardNumber)
+        public async Task<ActionResult<CustomerIdentification>> GetCustomerId(ulong cardNumber)
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +31,7 @@ namespace UsersService.Controllers
                 CustomerIdentification customer = await _usersService.GetCustomerIdentification(cardNumber);
                 if (customer.CustomerId == default)
                     return NotFound(cardNumber);
-                return Ok(customer);
+                return customer;
             }
             catch (Exception e)
             {
@@ -106,7 +106,7 @@ namespace UsersService.Controllers
                 List<DailyEmployeeReport> dailyReports = await _usersService.GetDailyEmployeeReports(date);
 
                 if (dailyReports == null)
-                    return NoContent();
+                    return NotFound(date);
 
                 return Ok(dailyReports);
             }
