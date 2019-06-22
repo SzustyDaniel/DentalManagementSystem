@@ -75,13 +75,17 @@ namespace QueueService.AzureStorage
 
             var queue = _queueClient.GetQueueReference(serivceType);
 
-            CloudQueueMessage queueItem = await queue.GetMessageAsync();
-            QueueItem resultAsObject = JObject.Parse(queueItem.AsString).ToObject<QueueItem>();
-            DequeuePositionResult result = new DequeuePositionResult
+            DequeuePositionResult result = null;
+            var queueItem = await queue.GetMessageAsync();
+            if (queueItem != null)
             {
-                CustomerID = resultAsObject.UserID,
-                CustomerNumberInQueue = resultAsObject.UserNumber
-            };
+                QueueItem resultAsObject = JObject.Parse(queueItem.AsString).ToObject<QueueItem>();
+                result = new DequeuePositionResult
+                {
+                    CustomerID = resultAsObject.UserID,
+                    CustomerNumberInQueue = resultAsObject.UserNumber
+                };
+            }
 
             if(result != null)
             {

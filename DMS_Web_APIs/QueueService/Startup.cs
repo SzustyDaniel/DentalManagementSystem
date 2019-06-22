@@ -26,14 +26,19 @@ namespace QueueService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AzureStorageSettings>(_configuration.GetSection("Data:Azure"));
-            services.AddTransient<IQueueStorageService, QueueStorageService>();
+            services.AddScoped<IQueueStorageService, QueueStorageService>();
             services.AddMvc();
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<QueueNotificationsHub>("/QueueNotificationsHub");
+            });
             app.UseMvc();
         }
     }

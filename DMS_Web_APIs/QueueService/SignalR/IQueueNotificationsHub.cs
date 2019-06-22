@@ -9,6 +9,6 @@ namespace QueueService.SignalR
 {
     public interface IQueueNotificationsHub
     {
-        Task SendQueueNotificationToGroup(ServiceType serviceType, QueueNotification notification);
+        Task SendQueueNotificationToGroup(QueueNotification notification);
     }
 }
