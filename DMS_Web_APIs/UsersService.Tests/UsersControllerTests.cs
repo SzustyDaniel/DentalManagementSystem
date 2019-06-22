@@ -36,5 +36,37 @@ namespace UsersService.Tests
                 Assert.AreEqual(expectedCustomerId, result.Value.CustomerId);
             }
         }
+
+        [Test]
+        public async Task GetCustomerId_GivenInvalidModel_ReturnsBadRequest()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                controller.ModelState.AddModelError("error", "some error");
+
+                ActionResult<CustomerIdentification> result = await controller.GetCustomerId(0);
+
+                Assert.IsInstanceOf<ActionResult<CustomerIdentification>>(result);
+                Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
+            }
+        }
+
+        [Test]
+        public async Task GetCustomerId_GivenNonExistentCard_ReturnsNotFoundObjectResult()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                ulong nonExistentCard = 999;
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+
+                ActionResult<CustomerIdentification> result = await controller.GetCustomerId(nonExistentCard);
+
+                Assert.IsInstanceOf<ActionResult<CustomerIdentification>>(result);
+                Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
+            }
+        }
     }
 }
