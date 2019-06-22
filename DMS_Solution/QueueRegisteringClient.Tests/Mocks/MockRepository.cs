@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common.UserModels;
 using Common.QueueModels;
+using Common.ManagementModels;
+using Common;
 
 namespace QueueRegisteringClient.Tests.Mocks
 {
     public class MockRepository
     {
         private Dictionary<CardInfo, CustomerIdentification> customerMockup;
+        private List<ScheduleModel> schedules;
         private EnqueuePositionResult positionResult;
 
         public MockRepository()
@@ -26,7 +29,18 @@ namespace QueueRegisteringClient.Tests.Mocks
                 { new CardInfo() { CardNumber = 1000}, new CustomerIdentification() { CustomerId = 9} }
             };
 
+            schedules = new List<ScheduleModel>()
+            {
+                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Nurse, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(8), EndTime = TimeSpan.FromHours(10) } },
+                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Pharmacist, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(8), EndTime = TimeSpan.FromHours(18) } }
+            };
+
             positionResult = new EnqueuePositionResult() { UserNumber = 1 };
+        }
+
+        internal async Task<List<ScheduleModel>> GetSchedules(DayOfWeek day)
+        {
+            return await Task.FromResult(schedules);
         }
 
         internal async Task<CustomerIdentification> GetClientId(CardInfo cardInfo)
@@ -36,7 +50,7 @@ namespace QueueRegisteringClient.Tests.Mocks
 
         internal async Task<EnqueuePositionResult> GetEnqueuePositionResult(EnqueuePosition requestPosition)
         {
-            var task = await Task.FromResult(positionResult);
+            var task = await Task.FromResult(new EnqueuePositionResult() { UserNumber = positionResult.UserNumber });
             positionResult.UserNumber++;
 
             return task;
