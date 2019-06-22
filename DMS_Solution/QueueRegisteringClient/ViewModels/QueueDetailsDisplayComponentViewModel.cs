@@ -24,7 +24,7 @@ namespace QueueRegisteringClient.ViewModels
         public QueueDetailsDisplayComponentViewModel(IEventAggregator ea)
         {
             eventAggregator = ea;
-
+            
             // For timed switch of the views in the application main window
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(3);
