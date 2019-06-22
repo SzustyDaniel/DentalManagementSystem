@@ -25,7 +25,7 @@ namespace UsersService
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<UsersContext>(options => options.UseInMemoryDatabase("UsersDB"));
             services.AddScoped<IUsersService, Services.UsersService>();
-
+            services.AddHttpClient<QueueApiService>();
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {

@@ -12,10 +12,12 @@ namespace UsersService.Services
     public class UsersService : IUsersService
     {
         private readonly UsersContext _usersContext;
+        private readonly QueueApiService _queueApiService;
 
-        public UsersService(UsersContext usersContext)
+        public UsersService(UsersContext usersContext, QueueApiService queueApiService)
         {
             _usersContext = usersContext;
+            _queueApiService = queueApiService;
         }
 
         public async Task<CustomerIdentification> GetCustomerIdentification(ulong cardId)
@@ -50,7 +52,15 @@ namespace UsersService.Services
         {
             Employee employee = await _usersContext.Employees.Where(e => e.Username == userName).SingleAsync();
             employee.Online = false;
-            await _usersContext.SaveChangesAsync();
+            Task<int> saveChangesTask = _usersContext.SaveChangesAsync();
+            EmployeeConnectionUpdate update = new EmployeeConnectionUpdate
+            {
+                LoginStatus = LoginStatus.LogOut,
+                ServiceType = employee.Role,
+                StationNumber = employee.StationId
+            };
+            Task updateQueueApiTask = _queueApiService.PostUpdateOnUserLogin(update);
+            await Task.WhenAll(saveChangesTask, updateQueueApiTask);
         }
 
         public async Task SaveCustomerTreatment(CustomerTreatment customerTreatment)
@@ -77,7 +87,15 @@ namespace UsersService.Services
 
             employee.Online = true;
             employee.StationId = employeeLogin.StationNumber;
-            await _usersContext.SaveChangesAsync();
+            Task<int> saveChangesTask = _usersContext.SaveChangesAsync();
+            EmployeeConnectionUpdate update = new EmployeeConnectionUpdate
+            {
+                LoginStatus = LoginStatus.LogIn,
+                StationNumber = employee.StationId,
+                ServiceType = employee.Role
+            };
+            Task updateQueueApiTask = _queueApiService.PostUpdateOnUserLogin(update);
+            await Task.WhenAll(saveChangesTask, updateQueueApiTask);
 
             return true;
         }

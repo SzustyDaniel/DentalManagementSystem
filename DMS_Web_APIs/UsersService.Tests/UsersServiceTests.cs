@@ -18,6 +18,11 @@ namespace UsersService.Tests
             return new UsersContext(options);
         }
 
+        private static QueueApiServiceMock GetQueueApiServiceMock()
+        {
+            return new QueueApiServiceMock();
+        }
+
         [Test]
         public async Task GetCustomerIdentification_PassCardNumber_ReturnsCustomerId()
         {
@@ -28,7 +33,7 @@ namespace UsersService.Tests
                 context.Customers.Add(new Customer { CardNumber = cardId, CustomerId = expectedCustomerId });
                 context.SaveChanges();
 
-                Services.UsersService usersService = new Services.UsersService(context);
+                Services.UsersService usersService = new Services.UsersService(context, GetQueueApiServiceMock());
                 CustomerIdentification customerIdentification = await usersService.GetCustomerIdentification(cardId);
                 int actualCustomerId = customerIdentification.CustomerId;
 
@@ -58,7 +63,7 @@ namespace UsersService.Tests
                     new DailyEmployeeReport {Date = today, FirstName = employeeFirstName, LastName = employeeLastName, NumberOfPatientsTreated = 2 }
                 };
 
-                Services.UsersService usersService = new Services.UsersService(context);
+                Services.UsersService usersService = new Services.UsersService(context, GetQueueApiServiceMock());
                 List<DailyEmployeeReport> actualReports = await usersService.GetDailyEmployeeReports(today);
 
                 Assert.AreEqual(expectedReports, actualReports);
@@ -93,7 +98,7 @@ namespace UsersService.Tests
                     Employee = employee
                 };
 
-                Services.UsersService usersService = new Services.UsersService(context);
+                Services.UsersService usersService = new Services.UsersService(context, GetQueueApiServiceMock());
                 await usersService.SaveCustomerTreatment(customerTreatment);
 
                 Treatment actualTreatment = context.Treatments.Find(today, customerId, employeeId);
