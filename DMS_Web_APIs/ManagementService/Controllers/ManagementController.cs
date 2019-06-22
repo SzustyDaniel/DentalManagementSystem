@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagementService.Data;
+using ManagementService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Common;
 
 namespace ManagementService.Controllers
 {
@@ -12,18 +14,25 @@ namespace ManagementService.Controllers
     public class ManagementController : ControllerBase
     {
         private readonly ManagementContext contextInstance;
+        private readonly IManagementService managementService;
 
-        public ManagementController(ManagementContext context)
+        public ManagementController(ManagementContext context, IManagementService service)
         {
             contextInstance = context;
+            managementService = service;
         }
 
-        [HttpGet("Schedules")]
-        public IActionResult GetSchedules()
+        [HttpGet("Schedules/{day}")]
+        public async Task<IActionResult> GetSchedules(DayOfWeek day)
         {
-            var result = contextInstance.Schedules.ToList();
+            if (DayOfWeek.Saturday == day)
+                return NoContent();
 
-            return Ok(result);
+            var result = await managementService.GetScheduleAsync(day);
+            if(result != null)
+                return Ok(result);
+
+            return NotFound();
         }
     
     }
