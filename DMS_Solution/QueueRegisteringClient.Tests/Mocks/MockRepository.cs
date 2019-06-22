@@ -36,7 +36,7 @@ namespace QueueRegisteringClient.Tests.Mocks
 
         internal async Task<EnqueuePositionResult> GetEnqueuePositionResult(EnqueuePosition requestPosition)
         {
-            var task = await Task.FromResult(positionResult);
+            var task = await Task.FromResult(new EnqueuePositionResult() { UserNumber = positionResult.UserNumber });
             positionResult.UserNumber++;
 
             return task;

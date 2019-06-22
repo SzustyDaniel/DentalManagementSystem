@@ -50,7 +50,7 @@ namespace QueueRegisteringClient.ViewModels
 
         private void ExecuteEnterNurseQueueCommandAsync()
         {
-            EnterToQueueActions(ServiceType.Nurse);
+            EnterToQueueActionsAsync(ServiceType.Nurse);
         }
 
         bool CanExecuteEnterNurseQueueCommand()
@@ -65,7 +65,7 @@ namespace QueueRegisteringClient.ViewModels
 
         private void ExecuteEnterPharmacyQueueCommandAsync()
         {
-            EnterToQueueActions(ServiceType.Pharmacist);
+            EnterToQueueActionsAsync(ServiceType.Pharmacist);
         }
 
         bool CanExecuteEnterPharmacyQueueCommand()
@@ -88,7 +88,7 @@ namespace QueueRegisteringClient.ViewModels
         /*
          * Enter the client to the appropriate queue
          */
-        private async void EnterToQueueActions(ServiceType service)
+        private async void EnterToQueueActionsAsync(ServiceType service)
         {
             try
             {
