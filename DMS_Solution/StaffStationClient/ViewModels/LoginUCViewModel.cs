@@ -15,19 +15,25 @@ namespace StaffStationClient.ViewModels
 {
     public class LoginUCViewModel : BindableBase
     {
+        #region Properties and fields
+        // Class injections
         private IEventAggregator eventAggregator;
         private IHttpActions httpActions;
         private IDialogService dialogService;
 
+        // Mockup 
         public List<ServiceType> ServiceTypes { get; } = new List<ServiceType>() { ServiceType.Nurse, ServiceType.Pharmacist };
 
+        // Model
         private StationModel model;
         public StationModel Model
         {
             get { return model;  }
             set { SetProperty(ref model, value); }
         }
+        #endregion
 
+        #region Constructor
 
         public LoginUCViewModel(IEventAggregator ea,IHttpActions httpActions, IDialogService dialogService)
         {
@@ -36,6 +42,10 @@ namespace StaffStationClient.ViewModels
             this.httpActions = httpActions;
             this.dialogService = dialogService;
         }
+
+        #endregion
+
+        #region Commands
 
         private DelegateCommand _loginCommand;
         public DelegateCommand LoginCommand =>
@@ -74,5 +84,7 @@ namespace StaffStationClient.ViewModels
             }
 
         }
+
+        #endregion
     }
 }

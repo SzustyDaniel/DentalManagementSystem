@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace StaffStationClient.Services
 {
@@ -42,21 +44,47 @@ namespace StaffStationClient.Services
 
         #endregion
 
-        public Task<DequeuePositionResult> CallNextInQueue(DequeuePosition request)
+        /*
+         * Call for the next client to the station
+         */
+        public async Task<DequeuePositionResult> CallNextInQueueAsync(DequeuePosition request)
         {
-            throw new NotImplementedException();
+            DequeuePositionResult positionResult = null;
+
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Delete, $"{ConstantURI.queueServerURI}Queue");
+            var json = JsonConvert.SerializeObject(request);
+            using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+            {
+                requestMessage.Content = stringContent;
+
+                using (var response = await client
+                    .SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
+                {
+                    response.EnsureSuccessStatusCode();
+                    positionResult = await response.Content.ReadAsAsync<DequeuePositionResult>();
+                }
+            }
+
+            return positionResult;
         }
 
+        /*
+         * Log-out the employee from the station
+         */
         public async Task LogOutAsync(string userName)
         {
-            // TODO Need to fix the call for the api currently cannot find patch async method
-            HttpResponseMessage httpResponse = await client.GetAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/{userName}/logout");
+
+            HttpResponseMessage httpResponse = await client.PostAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/{userName}/logout", null);
             httpResponse.EnsureSuccessStatusCode();
         }
 
+        /*
+         * Log-In the employee to the station and validate the credentials
+         */
         public async Task SendCredentialsAsync(EmployeeLogin logAction)
         {
-            // TODO Need to fix the call for the api currently cannot find patch async method
+
             HttpResponseMessage httpResponse = await client.PostAsJsonAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/login", logAction);
             httpResponse.EnsureSuccessStatusCode();
         }
