@@ -36,6 +36,9 @@ namespace UsersService.Services
             foreach (Employee employee in employees)
             {
                 employee.Treatments = employee.Treatments.Where(t => t.TreatmentDate == date.Date).ToArray();
+
+                if (!employee.Treatments.Any()) continue;
+
                 DailyEmployeeReport report = new DailyEmployeeReport
                 {
                     Date = date,
