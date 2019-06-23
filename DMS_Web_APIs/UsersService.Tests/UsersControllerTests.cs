@@ -78,5 +78,77 @@ namespace UsersService.Tests
                 Assert.IsTrue(isOnline);
             }
         }
+
+        [Test]
+        public async Task PostEmployeeLogin_LoginWhileAlreadyOnline_ReturnsUnauthorized()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                EmployeeLogin login = new EmployeeLogin
+                {
+                    Username = "david_f",
+                    Password = "password",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+                ActionResult<EmployeeInfo> firstLoginResult = await controller.PostEmployeeLogin(login);
+
+                ActionResult<EmployeeInfo> result = await controller.PostEmployeeLogin(login);
+
+                Assert.IsInstanceOf<ActionResult<EmployeeInfo>>(result);
+                Assert.IsInstanceOf<UnauthorizedObjectResult>(result.Result);
+            }
+        }
+
+        [Test]
+        public async Task PostEmployeeLogin_LoginWithWrongPassword_ReturnsUnauthorizedAndEmployeeIsOffline()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                EmployeeLogin login = new EmployeeLogin
+                {
+                    Username = "david_f",
+                    Password = "wrongPassword",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+
+                ActionResult<EmployeeInfo> result = await controller.PostEmployeeLogin(login);
+
+                Assert.IsInstanceOf<ActionResult<EmployeeInfo>>(result);
+                Assert.IsInstanceOf<UnauthorizedObjectResult>(result.Result);
+                bool isOnline = context.Employees.Where(e => e.Username == login.Username).Single().Online;
+                Assert.IsFalse(isOnline);
+            }
+        }
+
+        [Test]
+        public async Task PostEmployeeLogout_OnlineEmployeeLogsOut_EmployeeIsOffline()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                EmployeeLogin login = new EmployeeLogin
+                {
+                    Username = "david_f",
+                    Password = "password",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+                ActionResult<EmployeeInfo> loginResult = await controller.PostEmployeeLogin(login);
+
+                IActionResult result = await controller.PostEmployeeLogout(login.Username);
+
+                Assert.IsInstanceOf<IActionResult>(result);
+                Assert.IsInstanceOf<OkResult>(result);
+                bool isOnline = context.Employees.Where(e => e.Username == login.Username).Single().Online;
+                Assert.IsFalse(isOnline);
+            }
+        }
     }
 }
