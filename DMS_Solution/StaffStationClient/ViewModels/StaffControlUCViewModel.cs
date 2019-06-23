@@ -61,11 +61,18 @@ namespace StaffStationClient.ViewModels
 
         async void ExecuteCallNextCommandAsync()
         {
-            DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
+            try
+            {
+                DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
 
-            DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
-            DequeueModel.CustomerId = result.CustomerID;
-            DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
+                DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
+                DequeueModel.CustomerId = result.CustomerID;
+                DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
+            }
+            catch (Exception e)
+            {
+                dialog.ShowMessage(e.Message);
+            }
         }
 
         bool CanExecuteCallNextCommand()

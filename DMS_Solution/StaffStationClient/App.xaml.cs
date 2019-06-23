@@ -27,7 +27,7 @@ namespace StaffStationClient
         {
             base.ConfigureViewModelLocator();
 
-            ViewModelLocationProvider.Register(typeof(AppMainWindow).ToString(),() => new AppMainWindowViewModel(ApplicationService.Instance.EventAggregator,DialogService.Instance));
+            ViewModelLocationProvider.Register(typeof(AppMainWindow).ToString(),() => new AppMainWindowViewModel(ApplicationService.Instance.EventAggregator,HttpActionsService.Instance,DialogService.Instance));
             ViewModelLocationProvider.Register(typeof(LoginUC).ToString(), () => new LoginUCViewModel(ApplicationService.Instance.EventAggregator, HttpActionsService.Instance, DialogService.Instance));
             ViewModelLocationProvider.Register(typeof(StaffControlUC).ToString(), () => new StaffControlUCViewModel(ApplicationService.Instance.EventAggregator, HttpActionsService.Instance, DialogService.Instance));
 

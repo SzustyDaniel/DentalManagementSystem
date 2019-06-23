@@ -39,5 +39,25 @@ namespace StaffStationClient.Models
             set { SetProperty(ref stationNumber, value); }
         }
 
+        private string employeeFirstName;
+        public string EmployeeFirstName
+        {
+            get { return employeeFirstName; }
+            set { SetProperty(ref employeeFirstName, value); }
+        }
+
+        private string employeeLastName;
+        public string EmployeeLastName
+        {
+            get { return employeeLastName; }
+            set { SetProperty(ref employeeLastName, value); }
+        }
+
+        private int employeeId;
+        public int EmployeeId
+        {
+            get { return employeeId; }
+            set { SetProperty(ref employeeId, value); }
+        }
     }
 }

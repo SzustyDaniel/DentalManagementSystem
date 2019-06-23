@@ -58,7 +58,12 @@ namespace StaffStationClient.ViewModels
             {
                 EmployeeLogin employeeLogin = new EmployeeLogin()
                 { Username = Model.UserName, Password = Model.Password, ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
-                await httpActions.SendCredentialsAsync(employeeLogin);
+                var respons = await httpActions.SendCredentialsAsync(employeeLogin);
+
+                Model.EmployeeId = respons.EmployeeId;
+                Model.EmployeeFirstName = respons.Firstname;
+                Model.EmployeeLastName = respons.Lastname;
+
                 eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Control);
                 eventAggregator.GetEvent<SendModelEvent>().Publish(Model);
             }

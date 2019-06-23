@@ -49,24 +49,14 @@ namespace StaffStationClient.Services
          */
         public async Task<DequeuePositionResult> CallNextInQueueAsync(DequeuePosition request)
         {
-            DequeuePositionResult positionResult = null;
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Delete, $"{ConstantURI.queueServerURI}Queue");
+            httpRequest.Content = new StringContent(JsonConvert.SerializeObject(request),Encoding.UTF8,"application/json");
+            var response = await client.SendAsync(httpRequest);
+            response.EnsureSuccessStatusCode();
 
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Delete, $"{ConstantURI.queueServerURI}Queue");
-            var json = JsonConvert.SerializeObject(request);
-            using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
-            {
-                requestMessage.Content = stringContent;
+            var result = await response.Content.ReadAsAsync<DequeuePositionResult>();
 
-                using (var response = await client
-                    .SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
-                    positionResult = await response.Content.ReadAsAsync<DequeuePositionResult>();
-                }
-            }
-
-            return positionResult;
+            return result;
         }
 
         /*
@@ -82,11 +72,15 @@ namespace StaffStationClient.Services
         /*
          * Log-In the employee to the station and validate the credentials
          */
-        public async Task SendCredentialsAsync(EmployeeLogin logAction)
+        public async Task<EmployeeInfo> SendCredentialsAsync(EmployeeLogin logAction)
         {
 
             HttpResponseMessage httpResponse = await client.PostAsJsonAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/login", logAction);
             httpResponse.EnsureSuccessStatusCode();
+
+            var employee = await httpResponse.Content.ReadAsAsync<EmployeeInfo>();
+            return employee;
+
         }
     }
 }
