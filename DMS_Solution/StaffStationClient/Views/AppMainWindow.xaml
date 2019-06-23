@@ -1,9 +1,9 @@
 ﻿<Window x:Class="StaffStationClient.Views.AppMainWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/" Title="Staff Client"     
+             xmlns:prism="http://prismlibrary.com/" Title="Staff Client" SizeToContent="WidthAndHeight"  
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <DockPanel Margin="15,10">
-        <ContentControl DockPanel.Dock="Top" Content="{Binding CurrentView}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </DockPanel>
+    <StackPanel Margin="15,10">
+        <ContentControl Content="{Binding CurrentView}"/>
+    </StackPanel>
 </Window>

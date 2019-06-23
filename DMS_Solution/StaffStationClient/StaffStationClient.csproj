@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,7 +61,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\DequeueModel.cs" />
     <Compile Include="Models\StationModel.cs" />
+    <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\HttpActionsService.cs" />
     <Compile Include="Services\IDialogService.cs" />
@@ -111,6 +114,9 @@
     <PackageReference Include="Prism.DryIoc" Version="7.1.0.431" />
     <PackageReference Include="Prism.Wpf">
       <Version>7.1.0.431</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
