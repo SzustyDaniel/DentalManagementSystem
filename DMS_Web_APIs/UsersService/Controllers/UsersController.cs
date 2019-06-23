@@ -35,7 +35,7 @@ namespace UsersService.Controllers
         }
 
         [HttpPost("staff/authentication/login")]
-        public async Task<ActionResult<EmployeeInfo>> PatchEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
+        public async Task<ActionResult<EmployeeInfo>> PostEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace UsersService.Controllers
         }
 
         [HttpPost("staff/authentication/{userName}/logout")]
-        public async Task<IActionResult> PatchEmployeeLogout(string userName)
+        public async Task<IActionResult> PostEmployeeLogout(string userName)
         {
             try
             {
@@ -80,16 +80,16 @@ namespace UsersService.Controllers
         }
 
         [HttpGet("reports")]
-        public async Task<IActionResult> GetDailyReports([FromQuery(Name = "date")] DateTime date)
+        public async Task<ActionResult<List<DailyEmployeeReport>>> GetDailyReports([FromQuery(Name = "date")] DateTime date)
         {
             try
             {
                 List<DailyEmployeeReport> dailyReports = await _usersService.GetDailyEmployeeReports(date);
 
-                if (dailyReports == null)
+                if (dailyReports == null || dailyReports.Count == 0)
                     return NotFound(date);
 
-                return Ok(dailyReports);
+                return dailyReports;
             }
             catch (Exception e)
             {

@@ -1,7 +1,9 @@
-﻿using Common.UserModels;
+﻿using Common;
+using Common.UserModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UsersService.Controllers;
@@ -50,6 +52,30 @@ namespace UsersService.Tests
 
                 Assert.IsInstanceOf<ActionResult<CustomerIdentification>>(result);
                 Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
+            }
+        }
+
+        [Test]
+        public async Task PostEmployeeLogin_FirstValidLogin_LoginSuccessful()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                EmployeeLogin login = new EmployeeLogin
+                {
+                    Username = "david_f",
+                    Password = "password",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+
+                ActionResult<EmployeeInfo> result = await controller.PostEmployeeLogin(login);
+
+                Assert.IsInstanceOf<ActionResult<EmployeeInfo>>(result);
+                Assert.IsInstanceOf<EmployeeInfo>(result.Value);
+                bool isOnline = context.Employees.Where(e => e.Username == login.Username).Single().Online;
+                Assert.IsTrue(isOnline);
             }
         }
     }

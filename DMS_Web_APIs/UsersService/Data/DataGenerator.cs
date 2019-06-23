@@ -54,7 +54,7 @@ namespace UsersService.Data
                         EmployeeId = 3,
                         Role = ServiceType.Pharmacist,
                         Username = "david_f",
-                        Password = "unabomber",
+                        Password = "password",
                         Firstname = "David",
                         Lastname = "Fineboym",
                         Email = "rickandmorty@gmail.com"
