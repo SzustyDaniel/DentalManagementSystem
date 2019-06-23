@@ -21,11 +21,6 @@ namespace UsersService.Controllers
         [HttpGet("customers/authentication/{cardNumber}")]
         public async Task<ActionResult<CustomerIdentification>> GetCustomerId(ulong cardNumber)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 CustomerIdentification customer = await _usersService.GetCustomerIdentification(cardNumber);
@@ -39,21 +34,16 @@ namespace UsersService.Controllers
             }
         }
 
-        [HttpPatch("staff/authentication/login")]
-        public async Task<IActionResult> PatchEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
+        [HttpPost("staff/authentication/login")]
+        public async Task<ActionResult<EmployeeInfo>> PatchEmployeeLogin([FromBody] EmployeeLogin employeeLogin)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                bool isLoginSuccessful = await _usersService.TryLoginEmployee(employeeLogin);
+                (bool isLoginSuccessful, EmployeeInfo employeeInfo) = await _usersService.TryLoginEmployee(employeeLogin);
                 if (!isLoginSuccessful)
-                    return Unauthorized();
+                    return Unauthorized(employeeLogin);
 
-                return Ok();
+                return employeeInfo;
             }
             catch (Exception e)
             {
@@ -61,7 +51,7 @@ namespace UsersService.Controllers
             }
         }
 
-        [HttpPatch("staff/authentication/{userName}/logout")]
+        [HttpPost("staff/authentication/{userName}/logout")]
         public async Task<IActionResult> PatchEmployeeLogout(string userName)
         {
             try
@@ -78,10 +68,6 @@ namespace UsersService.Controllers
         [HttpPost("customers/history")]
         public async Task<IActionResult> PostCustomerTreatment([FromBody] CustomerTreatment customerTreatment)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
                 await _usersService.SaveCustomerTreatment(customerTreatment);
@@ -96,11 +82,6 @@ namespace UsersService.Controllers
         [HttpGet("reports")]
         public async Task<IActionResult> GetDailyReports([FromQuery(Name = "date")] DateTime date)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 List<DailyEmployeeReport> dailyReports = await _usersService.GetDailyEmployeeReports(date);

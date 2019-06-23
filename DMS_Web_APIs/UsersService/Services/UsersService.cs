@@ -75,15 +75,15 @@ namespace UsersService.Services
             await _usersContext.SaveChangesAsync();
         }
 
-        public async Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin)
+        public async Task<(bool isLoginSuccessful, EmployeeInfo employeeInfo)> TryLoginEmployee(EmployeeLogin employeeLogin)
         {
             Employee employee = await _usersContext.Employees.Where(e => e.Username == employeeLogin.Username).SingleAsync();
-
+            EmployeeInfo employeeInfo = null;
             if (employee.Role != employeeLogin.ServiceType)
                 throw new InvalidOperationException("Received employee service type does not match his service type in DB.");
 
             if (employee.Password != employeeLogin.Password || employee.Online)
-                return false;
+                return (false, employeeInfo);
 
             employee.Online = true;
             employee.StationId = employeeLogin.StationNumber;
@@ -95,9 +95,15 @@ namespace UsersService.Services
                 ServiceType = employee.Role
             };
             Task updateQueueApiTask = _queueApiService.PostUpdateOnUserLogin(update);
+            employeeInfo = new EmployeeInfo
+            {
+                EmployeeId = employee.EmployeeId,
+                Firstname = employee.Firstname,
+                Lastname = employee.Lastname
+            };
             await Task.WhenAll(saveChangesTask, updateQueueApiTask);
 
-            return true;
+            return (true, employeeInfo);
         }
     }
 }
