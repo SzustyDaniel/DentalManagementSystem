@@ -10,7 +10,7 @@ namespace UsersService.Services
         Task<CustomerIdentification> GetCustomerIdentification(ulong cardId);
         Task SaveCustomerTreatment(CustomerTreatment customerTreatment);
         Task<List<DailyEmployeeReport>> GetDailyEmployeeReports(DateTime date);
-        Task<bool> TryLoginEmployee(EmployeeLogin employeeLogin);
+        Task<(bool isLoginSuccessful, EmployeeInfo employeeInfo)> TryLoginEmployee(EmployeeLogin employeeLogin);
         Task LogoutEmployee(string userName);
     }
 }
