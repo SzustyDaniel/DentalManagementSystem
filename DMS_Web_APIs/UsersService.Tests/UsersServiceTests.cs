@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UsersService.Data;
 using UsersService.Data.Models;
@@ -12,7 +13,7 @@ namespace UsersService.Tests
     [TestFixture]
     public class UsersServiceTests
     {
-        private static UsersContext GetUsersContext(string dbName)
+        private static UsersContext GetUsersContext([CallerMemberName] string dbName = "testDB")
         {
             var options = new DbContextOptionsBuilder<UsersContext>().UseInMemoryDatabase(databaseName: dbName).Options;
             return new UsersContext(options);
@@ -26,7 +27,7 @@ namespace UsersService.Tests
         [Test]
         public async Task GetCustomerIdentification_PassCardNumber_ReturnsCustomerId()
         {
-            using (UsersContext context = GetUsersContext(nameof(GetCustomerIdentification_PassCardNumber_ReturnsCustomerId)))
+            using (UsersContext context = GetUsersContext())
             {
                 ulong cardId = 2;
                 int expectedCustomerId = 1;
@@ -44,7 +45,7 @@ namespace UsersService.Tests
         [Test]
         public async Task GetDailyEmployeeReports_RequestReport_ReturnsReports()
         {
-            using (UsersContext context = GetUsersContext(nameof(GetDailyEmployeeReports_RequestReport_ReturnsReports)))
+            using (UsersContext context = GetUsersContext())
             {
                 DateTime today = DateTime.Today;
                 int employeeId = 10;
@@ -73,7 +74,7 @@ namespace UsersService.Tests
         [Test]
         public async Task SaveCustomerTreatment_SaveOneTreatment_TreatmentInDb()
         {
-            using (UsersContext context = GetUsersContext(nameof(SaveCustomerTreatment_SaveOneTreatment_TreatmentInDb)))
+            using (UsersContext context = GetUsersContext())
             {
                 int employeeId = 11;
                 int customerId = 1;
