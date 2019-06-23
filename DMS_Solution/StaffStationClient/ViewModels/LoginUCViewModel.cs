@@ -15,19 +15,25 @@ namespace StaffStationClient.ViewModels
 {
     public class LoginUCViewModel : BindableBase
     {
+        #region Properties and fields
+        // Class injections
         private IEventAggregator eventAggregator;
         private IHttpActions httpActions;
         private IDialogService dialogService;
 
+        // Mockup 
         public List<ServiceType> ServiceTypes { get; } = new List<ServiceType>() { ServiceType.Nurse, ServiceType.Pharmacist };
 
+        // Model
         private StationModel model;
         public StationModel Model
         {
             get { return model;  }
             set { SetProperty(ref model, value); }
         }
+        #endregion
 
+        #region Constructor
 
         public LoginUCViewModel(IEventAggregator ea,IHttpActions httpActions, IDialogService dialogService)
         {
@@ -36,6 +42,10 @@ namespace StaffStationClient.ViewModels
             this.httpActions = httpActions;
             this.dialogService = dialogService;
         }
+
+        #endregion
+
+        #region Commands
 
         private DelegateCommand _loginCommand;
         public DelegateCommand LoginCommand =>
@@ -48,7 +58,12 @@ namespace StaffStationClient.ViewModels
             {
                 EmployeeLogin employeeLogin = new EmployeeLogin()
                 { Username = Model.UserName, Password = Model.Password, ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
-                await httpActions.SendCredentialsAsync(employeeLogin);
+                var respons = await httpActions.SendCredentialsAsync(employeeLogin);
+
+                Model.EmployeeId = respons.EmployeeId;
+                Model.EmployeeFirstName = respons.Firstname;
+                Model.EmployeeLastName = respons.Lastname;
+
                 eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Control);
                 eventAggregator.GetEvent<SendModelEvent>().Publish(Model);
             }
@@ -74,5 +89,7 @@ namespace StaffStationClient.ViewModels
             }
 
         }
+
+        #endregion
     }
 }

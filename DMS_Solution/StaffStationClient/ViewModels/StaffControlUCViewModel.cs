@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StaffStationClient.Services;
 using StaffStationClient.Utility;
+using Common.QueueModels;
 
 namespace StaffStationClient.ViewModels
 {
@@ -56,11 +57,22 @@ namespace StaffStationClient.ViewModels
 
         private DelegateCommand _callNextCommand;
         public DelegateCommand CallNextCommand =>
-            _callNextCommand ?? (_callNextCommand = new DelegateCommand(ExecuteCallNextCommand, CanExecuteCallNextCommand));
+            _callNextCommand ?? (_callNextCommand = new DelegateCommand(ExecuteCallNextCommandAsync, CanExecuteCallNextCommand));
 
-        void ExecuteCallNextCommand()
+        async void ExecuteCallNextCommandAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
+
+                DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
+                DequeueModel.CustomerId = result.CustomerID;
+                DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
+            }
+            catch (Exception e)
+            {
+                dialog.ShowMessage(e.Message);
+            }
         }
 
         bool CanExecuteCallNextCommand()

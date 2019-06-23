@@ -69,6 +69,7 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IHttpActions.cs" />
     <Compile Include="Utility\ChangeViewEvent.cs" />
+    <Compile Include="Utility\LogUserForceEvent.cs" />
     <Compile Include="Utility\SendModelEvent.cs" />
     <Compile Include="ViewModels\AppMainWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginUCViewModel.cs" />
