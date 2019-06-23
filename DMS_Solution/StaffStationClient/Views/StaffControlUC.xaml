@@ -24,13 +24,24 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="55*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{Binding SationTypeText}" Style="{StaticResource textStyle}"/>
-        <TextBlock Grid.Row="1" Style="{StaticResource textStyle}" Text="{Binding StationNumber}"/>
+        <TextBlock Grid.Row="0" Text="{Binding Model.StationServiceType}" Style="{StaticResource textStyle}"/>
+        <TextBlock Grid.Row="1" Text="{Binding Model.StationNumber}" Style="{StaticResource textStyle}" />
+
+        <GroupBox Grid.Column="1" Grid.RowSpan="2" Padding="15" Margin="10">
+            <StackPanel>
+                <TextBlock Text="Patient Number" Style="{StaticResource textStyle}"/>
+                <TextBlock Text="{Binding DequeueModel.QueueuNumber}" Style="{StaticResource textStyle}"/>
+            </StackPanel>
+        </GroupBox>
+        
         <Button Grid.Row="2" Content="Next Patient" Style="{StaticResource buttonStyle}" Command="{Binding CallNextCommand}"/>
-        <Button Grid.Row="3" Content="Log-out" Style="{StaticResource buttonStyle}" Command="{Binding LogoutCommand}"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Log-out" Style="{StaticResource buttonStyle}" Command="{Binding LogoutCommand}"/>
 
 
     </Grid>

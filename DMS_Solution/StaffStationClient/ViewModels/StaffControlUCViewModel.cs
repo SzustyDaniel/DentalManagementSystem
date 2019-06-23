@@ -1,15 +1,22 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using StaffStationClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using StaffStationClient.Services;
+using StaffStationClient.Utility;
 
 namespace StaffStationClient.ViewModels
 {
     public class StaffControlUCViewModel : BindableBase
     {
         #region Properties
+
+        private IHttpActions http;
+        private IDialogService dialog;
+        private IEventAggregator aggregator;
 
         private StationModel model;
         public StationModel Model
@@ -18,28 +25,31 @@ namespace StaffStationClient.ViewModels
             set { SetProperty(ref model, value); }
         }
 
-        private string stationType;
-        public string SationTypeText
+        private DequeueModel dequeueModel;
+        public DequeueModel DequeueModel
         {
-            get { return stationType; }
-            set { SetProperty(ref stationType, value); }
-        }
-
-        private string stationNumber;
-        public string StationNumber
-        {
-            get { return stationNumber; }
-            set { SetProperty(ref stationNumber, value); }
+            get { return dequeueModel; }
+            set { SetProperty(ref dequeueModel, value); }
         }
 
         #endregion
 
 
-        public StaffControlUCViewModel()
+        public StaffControlUCViewModel(IEventAggregator eventAggregator, IHttpActions httpActions, IDialogService dialogService)
         {
-            Model = new StationModel() { StationServiceType = Common.ServiceType.Pharmacist, StationNumber = 15 };
-            StationNumber = $"Station Number: {Model.StationNumber}";
-            SationTypeText = $"Station Type: {Model.StationServiceType}";
+            // assign injections
+            aggregator = eventAggregator;
+            http = httpActions;
+            dialog = dialogService;
+
+            // Assaign for properties
+            aggregator.GetEvent<SendModelEvent>().Subscribe(LoadModel);
+            DequeueModel = new DequeueModel();
+        }
+
+        private void LoadModel(StationModel obj)
+        {
+            Model = obj;
         }
 
         #region Commands
@@ -60,11 +70,12 @@ namespace StaffStationClient.ViewModels
 
         private DelegateCommand _logoutCommand;
         public DelegateCommand LogoutCommand =>
-            _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommand, CanExecuteLogoutCommand));
+            _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommandAsync, CanExecuteLogoutCommand));
 
-        void ExecuteLogoutCommand()
+        async void ExecuteLogoutCommandAsync()
         {
-            throw new NotImplementedException();
+            await http.LogOutAsync(Model.UserName);
+            aggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Login);
         }
 
         bool CanExecuteLogoutCommand()

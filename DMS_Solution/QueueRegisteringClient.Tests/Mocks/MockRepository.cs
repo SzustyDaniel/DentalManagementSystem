@@ -31,8 +31,11 @@ namespace QueueRegisteringClient.Tests.Mocks
 
             schedules = new List<ScheduleModel>()
             {
-                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Nurse, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(8), EndTime = TimeSpan.FromHours(10) } },
-                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Pharmacist, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(8), EndTime = TimeSpan.FromHours(18) } }
+                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Nurse, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(0), EndTime = TimeSpan.FromHours(24) } },
+                new ScheduleModel(){ Day = DayOfWeek.Sunday, Type = ServiceType.Pharmacist, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(0), EndTime = TimeSpan.FromHours(24) } },
+
+                new ScheduleModel(){ Day = DayOfWeek.Monday, Type = ServiceType.Pharmacist, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(0), EndTime = TimeSpan.FromHours(0) } },
+                new ScheduleModel(){ Day = DayOfWeek.Monday, Type = ServiceType.Nurse, WorkingHours = new WorkingWindow() { StartTime = TimeSpan.FromHours(0), EndTime = TimeSpan.FromHours(0) } }
             };
 
             positionResult = new EnqueuePositionResult() { UserNumber = 1 };

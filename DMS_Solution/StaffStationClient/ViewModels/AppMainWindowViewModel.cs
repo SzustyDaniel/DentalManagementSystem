@@ -22,9 +22,9 @@ namespace StaffStationClient.ViewModels
             set { SetProperty(ref _currentView, value); }
         }
 
-        public AppMainWindowViewModel(IEventAggregator ea)
+        public AppMainWindowViewModel(IEventAggregator ea, IDialogService dialogService)
         {
-            dialogService = DialogService.Instance;
+            this.dialogService = dialogService;
             CurrentView = dialogService.GetUserControl(ViewType.Login);
             ea.GetEvent<ChangeViewEvent>().Subscribe(SwitchView);
         }

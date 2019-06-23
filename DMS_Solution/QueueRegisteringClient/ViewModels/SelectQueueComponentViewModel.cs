@@ -98,6 +98,9 @@ namespace QueueRegisteringClient.ViewModels
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMinutes(1);
             timer.Tick += CheckSchedules;
+
+            NurseQueueValid = CheckTime(NurseScheduleModel);
+            PharmacyQueueValid = CheckTime(PharmacyScheduleModel);
         }
 
         #endregion

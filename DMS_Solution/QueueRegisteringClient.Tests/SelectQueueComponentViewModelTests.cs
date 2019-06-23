@@ -8,6 +8,7 @@ using QueueRegisteringClient.Models;
 using Common.QueueModels;
 using Common.UserModels;
 using Common;
+using System.Threading;
 
 namespace QueueRegisteringClient.Tests
 {
@@ -84,5 +85,6 @@ namespace QueueRegisteringClient.Tests
             //Assert
             Assert.AreEqual(expected.UserNumber, viewModel.Model.LineNumber.UserNumber);
         }
+
     }
 }

@@ -29,12 +29,12 @@ namespace StaffStationClient.ViewModels
         }
 
 
-        public LoginUCViewModel(IEventAggregator ea)
+        public LoginUCViewModel(IEventAggregator ea,IHttpActions httpActions, IDialogService dialogService)
         {
             this.eventAggregator = ea;
             Model = new StationModel();
-            httpActions = HttpActionsService.Instance;
-            dialogService = DialogService.Instance;
+            this.httpActions = httpActions;
+            this.dialogService = dialogService;
         }
 
         private DelegateCommand _loginCommand;
@@ -50,6 +50,7 @@ namespace StaffStationClient.ViewModels
                 { Username = Model.UserName, Password = Model.Password, ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
                 await httpActions.SendCredentialsAsync(employeeLogin);
                 eventAggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Control);
+                eventAggregator.GetEvent<SendModelEvent>().Publish(Model);
             }
             catch (HttpRequestException e)
             {

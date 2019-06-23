@@ -47,13 +47,16 @@ namespace StaffStationClient.Services
             throw new NotImplementedException();
         }
 
-        public Task LogOut(EmployeeConnectionUpdate update)
+        public async Task LogOutAsync(string userName)
         {
-            throw new NotImplementedException();
+            // TODO Need to fix the call for the api currently cannot find patch async method
+            HttpResponseMessage httpResponse = await client.GetAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/{userName}/logout");
+            httpResponse.EnsureSuccessStatusCode();
         }
 
         public async Task SendCredentialsAsync(EmployeeLogin logAction)
         {
+            // TODO Need to fix the call for the api currently cannot find patch async method
             HttpResponseMessage httpResponse = await client.PostAsJsonAsync($"{ConstantURI.usersServerURI}Users/staff/authentication/login", logAction);
             httpResponse.EnsureSuccessStatusCode();
         }
