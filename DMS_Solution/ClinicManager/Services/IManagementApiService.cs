@@ -7,6 +7,6 @@ namespace ClinicManager.Services
 {
     public interface IManagementApiService
     {
-        Task<IEnumerable<DailyEmployeeReport>> GetDailyEmployeeReports(DateTime date);
+        Task<IList<DailyEmployeeReport>> GetDailyEmployeeReports(DateTime date);
     }
 }
