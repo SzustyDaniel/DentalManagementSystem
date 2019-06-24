@@ -22,7 +22,7 @@ namespace QueueDisplayTvClient.SignalRservice
                 await connection.StartAsync();
             };
 
-            connection.On<QueueNotification>("SendQueueNotificationToGroup", handlers.UpdateStation);
+            connection.On<QueueNotification>("SendQueueNotificationToGroup", handlers.UpdateStation) ;
             connection.On<int>("RemoveStation", handlers.RemoveStation);
             connection.On<int>("AddStation", handlers.AddStation);
 
@@ -44,5 +44,6 @@ namespace QueueDisplayTvClient.SignalRservice
 
             }
         }
+
     }
 }

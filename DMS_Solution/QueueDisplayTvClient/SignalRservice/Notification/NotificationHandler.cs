@@ -9,7 +9,7 @@ using QueueDisplayTvClient.Models;
 
 namespace QueueDisplayTvClient.SignalRservice.Notification
 {
-    class NotificationHandler : INotificationHandler
+    public class NotificationHandler : INotificationHandler
     {
         public ObservableCollection<Station> Stations { get; set; }
         public string QueueType { get; set; }
@@ -18,8 +18,8 @@ namespace QueueDisplayTvClient.SignalRservice.Notification
         {
             App.Current.Dispatcher.Invoke(() =>
             {
-                var find = Stations.FirstOrDefault(s => s.StationNumber == station);
-                if (find is null)
+                var newStation = Stations.FirstOrDefault(s => s.StationNumber == station);
+                if (newStation is null)
                 {
                     Stations.Add(new Station { StationNumber = station, PatientNumber = -1 });
                 }
@@ -43,13 +43,9 @@ namespace QueueDisplayTvClient.SignalRservice.Notification
             App.Current.Dispatcher.Invoke(() =>
             {
                 var station = Stations.Where(s => s.StationNumber == notification.StationNumber).FirstOrDefault();
-
                 if (station != null)
                 {
-                    Stations.Remove(station);
-                    station = new Station { StationNumber = notification.StationNumber, PatientNumber = notification.UserNumber };
-                    Stations.Add(station);
-                    Stations = new ObservableCollection<Station>(Stations.OrderBy(s => s.StationNumber));
+                    station.PatientNumber = notification.UserNumber;
                 }
             });
         }
