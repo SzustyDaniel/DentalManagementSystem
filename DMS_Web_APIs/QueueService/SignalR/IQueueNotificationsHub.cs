@@ -10,5 +10,9 @@ namespace QueueService.SignalR
     public interface IQueueNotificationsHub
     {
         Task SendQueueNotificationToGroup(QueueNotification notification);
+
+        Task AddStation(int stationNumber);
+
+        Task RemoveStation(int stationNumber);
     }
 }
