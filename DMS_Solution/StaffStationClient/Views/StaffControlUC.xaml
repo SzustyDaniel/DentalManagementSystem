@@ -30,10 +30,31 @@
             <ColumnDefinition Width="55*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{Binding Model.StationServiceType}" Style="{StaticResource textStyle}"/>
-        <TextBlock Grid.Row="1" Text="{Binding Model.StationNumber}" Style="{StaticResource textStyle}" />
+        <!-- Station Information group box -->
+        <GroupBox Grid.Column="0" Grid.RowSpan="2" Header="Station Information" Margin="10" Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="55*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        <GroupBox Grid.Column="1" Grid.RowSpan="2" Padding="15" Margin="10">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Service Type" Style="{StaticResource textStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Model.StationServiceType}" Style="{StaticResource textStyle}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Employee Name" Style="{StaticResource textStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EmployeeName}" TextWrapping="Wrap" Style="{StaticResource textStyle}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Station Number" Style="{StaticResource textStyle}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Model.StationNumber}" Style="{StaticResource textStyle}" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Grid.RowSpan="2" Padding="15" Margin="10" Header="Current Customer">
             <StackPanel>
                 <TextBlock Text="Patient Number" Style="{StaticResource textStyle}"/>
                 <TextBlock Text="{Binding DequeueModel.QueueuNumber}" Style="{StaticResource textStyle}"/>

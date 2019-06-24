@@ -10,5 +10,6 @@ namespace StaffStationClient.Services
         Task<EmployeeInfo> SendCredentialsAsync(EmployeeLogin logAction);
         Task LogOutAsync(string  userName);
         Task<DequeuePositionResult> CallNextInQueueAsync(DequeuePosition request);
+        Task SendTreatmentReportAsync(CustomerTreatment treatment);
     }
 }

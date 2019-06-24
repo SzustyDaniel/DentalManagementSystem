@@ -8,6 +8,7 @@ using System.Linq;
 using StaffStationClient.Services;
 using StaffStationClient.Utility;
 using Common.QueueModels;
+using Common.UserModels;
 
 namespace StaffStationClient.ViewModels
 {
@@ -33,6 +34,13 @@ namespace StaffStationClient.ViewModels
             set { SetProperty(ref dequeueModel, value); }
         }
 
+        private string _employeeName;
+        public string EmployeeName
+        {
+            get { return _employeeName; }
+            set { SetProperty(ref _employeeName, value); }
+        }
+
         #endregion
 
 
@@ -45,12 +53,13 @@ namespace StaffStationClient.ViewModels
 
             // Assaign for properties
             aggregator.GetEvent<SendModelEvent>().Subscribe(LoadModel);
-            DequeueModel = new DequeueModel();
+            DequeueModel = new DequeueModel() { CustomerId = -1 };
         }
 
         private void LoadModel(StationModel obj)
         {
             Model = obj;
+            EmployeeName = Model.EmployeeFirstName + " " + Model.EmployeeLastName;
         }
 
         #region Commands
@@ -66,8 +75,23 @@ namespace StaffStationClient.ViewModels
                 DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
 
                 DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
+
+                // Send last client as a treatment report
+                if(DequeueModel.CustomerId > 0)
+                {
+                    CustomerTreatment treatment = new CustomerTreatment()
+                    {
+                        CustomerId = DequeueModel.CustomerId,
+                        TreatingEmployeeId = Model.EmployeeId,
+                        DateOfTreatment = DateTime.Now
+                    };
+                    await http.SendTreatmentReportAsync(treatment);
+                }
+
                 DequeueModel.CustomerId = result.CustomerID;
                 DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
+
+
             }
             catch (Exception e)
             {

@@ -82,5 +82,13 @@ namespace StaffStationClient.Services
             return employee;
 
         }
+
+        public async Task SendTreatmentReportAsync(CustomerTreatment treatment)
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(treatment), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"{ConstantURI.usersServerURI}Users/customers/history",content);
+            response.EnsureSuccessStatusCode();
+
+        }
     }
 }
