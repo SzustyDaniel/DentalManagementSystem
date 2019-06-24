@@ -45,19 +45,39 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mocks\ApplicationServiceMockup.cs" />
     <Compile Include="Mocks\ClientHttpActionsMockup.cs" />
+    <Compile Include="Mocks\CustomerMock.cs" />
+    <Compile Include="Mocks\EmployeeMock.cs" />
+    <Compile Include="Mocks\EventFireMockup.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
+    <Compile Include="Mocks\SendModelEvent.cs" />
+    <Compile Include="Mocks\TreatmentMock.cs" />
     <Compile Include="Mocks\ViewDialogMockup.cs" />
     <Compile Include="LoginUCViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaffControlUCViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DMS_Web_APIs\Common\Common.csproj">
+      <Project>{1169cbf7-7550-44b0-b7e1-d84ef0391fc7}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StaffStationClient\StaffStationClient.csproj">
+      <Project>{13865982-424E-4888-9D80-64A628A2AD08}</Project>
+      <Name>StaffStationClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

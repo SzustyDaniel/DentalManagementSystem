@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.705
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueueService", "QueueService\QueueService.csproj", "{06EC9E6C-3E42-4940-B3EC-A8507DE72521}"
 EndProject
@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersService", "UsersServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementService", "ManagementService\ManagementService.csproj", "{2CB72AA7-C9EB-4AA2-BF90-B71B9FB76D70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersService.Tests", "UsersService.Tests\UsersService.Tests.csproj", "{99099256-276F-407D-9F01-764484FB3C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersService.Tests", "UsersService.Tests\UsersService.Tests.csproj", "{99099256-276F-407D-9F01-764484FB3C5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueService.Test", "QueueService.Test\QueueService.Test.csproj", "{7904AC80-8682-434D-983A-7370A7551692}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{99099256-276F-407D-9F01-764484FB3C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99099256-276F-407D-9F01-764484FB3C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99099256-276F-407D-9F01-764484FB3C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7904AC80-8682-434D-983A-7370A7551692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7904AC80-8682-434D-983A-7370A7551692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7904AC80-8682-434D-983A-7370A7551692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7904AC80-8682-434D-983A-7370A7551692}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
