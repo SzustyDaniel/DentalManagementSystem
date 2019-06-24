@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueDisplayTvClient", "Que
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaffStationClient.Tests", "StaffStationClient.Tests\StaffStationClient.Tests.csproj", "{02414537-B4E4-4B84-B89D-6FCC4E6DB8BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueRegisteringClient.Tests", "QueueRegisteringClient.Tests\QueueRegisteringClient.Tests.csproj", "{AFA5374B-B738-41F3-AFF9-E07451985AB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{02414537-B4E4-4B84-B89D-6FCC4E6DB8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02414537-B4E4-4B84-B89D-6FCC4E6DB8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02414537-B4E4-4B84-B89D-6FCC4E6DB8BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA5374B-B738-41F3-AFF9-E07451985AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA5374B-B738-41F3-AFF9-E07451985AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA5374B-B738-41F3-AFF9-E07451985AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA5374B-B738-41F3-AFF9-E07451985AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
