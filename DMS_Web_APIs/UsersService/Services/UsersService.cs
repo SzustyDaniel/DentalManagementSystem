@@ -54,15 +54,16 @@ namespace UsersService.Services
         public async Task LogoutEmployee(string userName)
         {
             Employee employee = await _usersContext.Employees.Where(e => e.Username == userName).SingleAsync();
-            employee.Online = false;
-            Task<int> saveChangesTask = _usersContext.SaveChangesAsync();
             EmployeeConnectionUpdate update = new EmployeeConnectionUpdate
             {
                 LoginStatus = LoginStatus.LogOut,
                 ServiceType = employee.Role,
-                StationNumber = employee.StationId
+                StationNumber = employee.StationId.Value
             };
             Task updateQueueApiTask = _queueApiService.UpdateOnUserLogin(update);
+            employee.Online = false;
+            employee.StationId = null;
+            Task<int> saveChangesTask = _usersContext.SaveChangesAsync();
             await Task.WhenAll(saveChangesTask, updateQueueApiTask);
         }
 
@@ -100,7 +101,7 @@ namespace UsersService.Services
             EmployeeConnectionUpdate update = new EmployeeConnectionUpdate
             {
                 LoginStatus = LoginStatus.LogIn,
-                StationNumber = employee.StationId,
+                StationNumber = employee.StationId.Value,
                 ServiceType = employee.Role
             };
             Task updateQueueApiTask = _queueApiService.UpdateOnUserLogin(update);
