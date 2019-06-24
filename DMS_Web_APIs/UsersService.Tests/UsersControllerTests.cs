@@ -161,7 +161,7 @@ namespace UsersService.Tests
         }
 
         [Test]
-        public async Task PostEmployeeLogout_OnlineEmployeeLogsOut_EmployeeIsOffline()
+        public async Task PostEmployeeLogout_OnlineEmployeeLogsOut_EmployeeIsOfflineAndStationIdIsNull()
         {
             using (var context = GetInitializedUsersContext())
             {
@@ -180,8 +180,9 @@ namespace UsersService.Tests
 
                 Assert.IsInstanceOf<IActionResult>(result);
                 Assert.IsInstanceOf<OkResult>(result);
-                bool isOnline = context.Employees.Where(e => e.Username == login.Username).Single().Online;
-                Assert.IsFalse(isOnline);
+                Employee employee = context.Employees.Where(e => e.Username == login.Username).Single();
+                Assert.IsFalse(employee.Online);
+                Assert.IsNull(employee.StationId);
             }
         }
 
