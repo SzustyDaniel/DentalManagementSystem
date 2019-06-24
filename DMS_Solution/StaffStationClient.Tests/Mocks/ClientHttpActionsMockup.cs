@@ -40,9 +40,9 @@ namespace StaffStationClient.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public Task<EmployeeInfo> SendCredentialsAsync(EmployeeLogin logAction)
+        public async Task<EmployeeInfo> SendCredentialsAsync(EmployeeLogin logAction)
         {
-            throw new NotImplementedException();
+            return await mockRepository.Login(logAction);
         }
 
         public async Task SendTreatmentReportAsync(CustomerTreatment treatment)

@@ -6,6 +6,7 @@ using ManagementService.Data;
 using ManagementService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Common;
+using Common.UserModels;
 
 namespace ManagementService.Controllers
 {
@@ -33,6 +34,13 @@ namespace ManagementService.Controllers
                 return Ok(result);
 
             return NotFound();
+        }
+        
+
+        [HttpGet("Reports/{date}")]
+        public async Task<IActionResult> GetTreatments(DateTime date)
+        {
+            throw new NotImplementedException();
         }
     
     }

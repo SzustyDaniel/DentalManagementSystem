@@ -53,7 +53,7 @@ namespace StaffStationClient.ViewModels
 
             // Assaign for properties
             aggregator.GetEvent<SendModelEvent>().Subscribe(LoadModel);
-            DequeueModel = new DequeueModel() { CustomerId = -1 };
+            DequeueModel = new DequeueModel() { CustomerId = 0 };
         }
 
         private void LoadModel(StationModel obj)

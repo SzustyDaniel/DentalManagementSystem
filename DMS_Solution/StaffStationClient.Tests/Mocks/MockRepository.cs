@@ -61,6 +61,14 @@ namespace StaffStationClient.Tests.Mocks
 
         }
 
+        internal Task<EmployeeInfo> Login(EmployeeLogin logAction)
+        {
+            EmployeeMock employee = employeesMocks.Find(l => l.Username == logAction.Username && l.Password == logAction.Password);
+
+            if (employee == null)
+                throw new Exception();
+
+        }
 
         public Task<DequeuePositionResult> GetDequeuePositionNurse(DequeuePosition position)
         {
