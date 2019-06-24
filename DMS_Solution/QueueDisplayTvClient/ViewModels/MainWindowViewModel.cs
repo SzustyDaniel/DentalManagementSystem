@@ -18,7 +18,6 @@ namespace QueueDisplayTvClient.ViewModels
     {
         #region priv
         private HubConnection connection;
-        private object _lock;
         #endregion
 
         #region pro
@@ -55,7 +54,6 @@ namespace QueueDisplayTvClient.ViewModels
         public MainWindowViewModel()
         {
             QueueType = ServiceType.Nurse.ToString();
-            _lock = new object();
             WindowLoaded.Execute();
         }
 
@@ -79,11 +77,34 @@ namespace QueueDisplayTvClient.ViewModels
                     if (station != null)
                     {
                         Items.Remove(station);
+                        station = new Station { StationNumber = notification.StationNumber, PatientNumber = notification.UserNumber };
+                        Items.Add(station);
+                        Items = new ObservableCollection<Station>(Items.OrderBy(s => s.StationNumber));
                     }
+                });
+            });
 
-                    station = new Station { StationNumber = notification.StationNumber, PatientNumber = notification.UserNumber };
-                    Items.Add(station);
-                    Items = new ObservableCollection<Station>(Items.OrderBy(s => s.StationNumber));
+            connection.On<int>("AddStation", (station) =>
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var find = Items.FirstOrDefault(s => s.StationNumber == station);
+                    if(find is null)
+                    {
+                        Items.Add(new Station { StationNumber = station, PatientNumber = -1 });
+                    }
+                });
+            });
+
+            connection.On<int>("RemoveStation", (station) => 
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    var StationToRemove = Items.Where(s => s.StationNumber == station).FirstOrDefault();
+                    if(StationToRemove != null)
+                    {
+                        Items.Remove(StationToRemove);
+                    }
                 });
             });
 

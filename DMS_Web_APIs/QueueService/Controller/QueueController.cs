@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Common;
 using Common.QueueModels;
+using Common.UserModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using QueueService.AzureStorage;
@@ -68,6 +69,46 @@ namespace QueueService.Controller
             }
 
             return new OkObjectResult(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateStationState([FromBody] EmployeeConnectionUpdate update)
+        {
+            if(update.ServiceType == ServiceType.none)
+            {
+                return new BadRequestObjectResult("ServiceType is none");
+            }
+
+            IQueueNotificationsHub group = _hubContext.Clients.Groups(update.ServiceType.ToString());
+
+            if(group == null)
+            {
+                return new BadRequestObjectResult($"group for {update.ServiceType.ToString()} not found");
+            }
+
+            if (update.LoginStatus == LoginStatus.None)
+            {
+                return new BadRequestObjectResult("LoginStatus is none");
+            }
+
+            try
+            {
+                switch (update.LoginStatus)
+                {
+                    case LoginStatus.LogIn:
+                        await group.AddStation(update.StationNumber);
+                        break;
+                    case LoginStatus.LogOut:
+                        await group.RemoveStation(update.StationNumber);
+                        break;
+                }
+            }
+            catch(Exception)
+            {
+                
+            }
+
+            return new OkResult();
         }
     }
 }
