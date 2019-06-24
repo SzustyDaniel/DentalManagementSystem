@@ -83,6 +83,37 @@ namespace UsersService.Tests
         }
 
         [Test]
+        public async Task PostEmployeeLogin_DifferentUsersLogInWithSameStationId_ReturnsUnathorizedToSecondUser()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                var usersService = new Services.UsersService(context, new QueueApiServiceMock());
+                UsersController controller = new UsersController(usersService);
+                EmployeeLogin login = new EmployeeLogin
+                {
+                    Username = "david_f",
+                    Password = "password",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+                ActionResult<EmployeeInfo> firstLogin = await controller.PostEmployeeLogin(login);
+                EmployeeLogin loginWithSameStationId = new EmployeeLogin
+                {
+                    Username = "daniel_s",
+                    Password = "1234",
+                    ServiceType = ServiceType.Pharmacist,
+                    StationNumber = 1
+                };
+
+                ActionResult<EmployeeInfo> result = await controller.PostEmployeeLogin(loginWithSameStationId);
+
+                Assert.IsInstanceOf<ActionResult<EmployeeInfo>>(result);
+                Assert.IsInstanceOf<UnauthorizedObjectResult>(result.Result);
+                Assert.IsNull(result.Value);
+            }
+        }
+
+        [Test]
         public async Task PostEmployeeLogin_LoginWhileAlreadyOnline_ReturnsUnauthorized()
         {
             using (var context = GetInitializedUsersContext())

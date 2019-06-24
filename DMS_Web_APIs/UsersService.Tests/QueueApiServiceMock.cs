@@ -6,7 +6,7 @@ namespace UsersService.Tests
 {
     public class QueueApiServiceMock : QueueApiService
     {
-        public override Task PostUpdateOnUserLogin(EmployeeConnectionUpdate employeeConnectionUpdate)
+        public override Task UpdateOnUserLogin(EmployeeConnectionUpdate employeeConnectionUpdate)
         {
             return Task.CompletedTask;
         }

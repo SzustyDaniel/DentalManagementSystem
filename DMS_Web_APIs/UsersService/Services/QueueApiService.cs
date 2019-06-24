@@ -1,8 +1,6 @@
 ﻿using Common;
 using Common.UserModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -11,6 +9,7 @@ namespace UsersService.Services
     public class QueueApiService
     {
         protected readonly HttpClient HttpClient;
+        private static readonly string QueueControllerName = "queue";
 
         public QueueApiService()
         {
@@ -22,10 +21,10 @@ namespace UsersService.Services
             HttpClient = client;
         }
 
-        // TODO : After Shay defines endpoint for posting, implement the following method.
-        public virtual async Task PostUpdateOnUserLogin(EmployeeConnectionUpdate employeeConnectionUpdate)
+        public virtual async Task UpdateOnUserLogin(EmployeeConnectionUpdate employeeConnectionUpdate)
         {
-
+            HttpResponseMessage result = await HttpClient.PutAsJsonAsync(QueueControllerName, employeeConnectionUpdate);
+            result.EnsureSuccessStatusCode();
         }
     }
 }

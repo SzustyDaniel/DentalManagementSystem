@@ -62,7 +62,7 @@ namespace UsersService.Services
                 ServiceType = employee.Role,
                 StationNumber = employee.StationId
             };
-            Task updateQueueApiTask = _queueApiService.PostUpdateOnUserLogin(update);
+            Task updateQueueApiTask = _queueApiService.UpdateOnUserLogin(update);
             await Task.WhenAll(saveChangesTask, updateQueueApiTask);
         }
 
@@ -88,6 +88,12 @@ namespace UsersService.Services
             if (employee.Password != employeeLogin.Password || employee.Online)
                 return (false, employeeInfo);
 
+            Employee employeeInRequestedStation =
+                await _usersContext.Employees.Where(e => e.StationId == employeeLogin.StationNumber).SingleOrDefaultAsync();
+
+            if (employeeInRequestedStation != null)
+                return (false, employeeInfo);
+
             employee.Online = true;
             employee.StationId = employeeLogin.StationNumber;
             Task<int> saveChangesTask = _usersContext.SaveChangesAsync();
@@ -97,7 +103,7 @@ namespace UsersService.Services
                 StationNumber = employee.StationId,
                 ServiceType = employee.Role
             };
-            Task updateQueueApiTask = _queueApiService.PostUpdateOnUserLogin(update);
+            Task updateQueueApiTask = _queueApiService.UpdateOnUserLogin(update);
             employeeInfo = new EmployeeInfo
             {
                 EmployeeId = employee.EmployeeId,
