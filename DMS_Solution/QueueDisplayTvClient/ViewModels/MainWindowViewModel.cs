@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Prism.Commands;
 using Prism.Mvvm;
 using QueueDisplayTvClient.Models;
+using QueueDisplayTvClient.SignalRservice;
+using QueueDisplayTvClient.SignalRservice.Notification;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,10 +18,6 @@ namespace QueueDisplayTvClient.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        #region priv
-        private HubConnection connection;
-        #endregion
-
         #region pro
         private string _title = "Queue display";
         public string Title
@@ -34,10 +32,8 @@ namespace QueueDisplayTvClient.ViewModels
             get { return _queueType; }
             set { SetProperty(ref _queueType, value); }
         }
-        #endregion
 
-        #region status
-        private ObservableCollection<Station> _items = new ObservableCollection<Station>();
+        private ObservableCollection<Station> _items;
         public ObservableCollection<Station> Items
         {
             get { return _items; }
@@ -45,87 +41,15 @@ namespace QueueDisplayTvClient.ViewModels
         }
         #endregion
 
-        #region command
-        private DelegateCommand _windowLoaded;
-        public DelegateCommand WindowLoaded => _windowLoaded ?? (_windowLoaded = new DelegateCommand(WindowLoadedCommand));
-
-        #endregion
-
         public MainWindowViewModel()
         {
-            QueueType = ServiceType.Nurse.ToString();
-            WindowLoaded.Execute();
+            Items = new ObservableCollection<Station>();
+            NotificationServiceBuilder.Builder(
+                new NotificationHandler()
+                {
+                    Stations = Items,
+                    QueueType = ServiceType.Nurse.ToString()
+                }).ConfigureAwait(false);
         }
-
-        
-        private async void WindowLoadedCommand()
-        {
-            connection = new HubConnectionBuilder().WithUrl("https://localhost:44305/QueueNotificationsHub").Build();
-
-            connection.Closed += async (error) =>
-            {
-                await Task.Delay(1000);
-                await connection.StartAsync();
-            };
-
-            connection.On<QueueNotification>("SendQueueNotificationToGroup", (notification) =>
-            {
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var station = Items.Where(s => s.StationNumber == notification.StationNumber).FirstOrDefault();
-
-                    if (station != null)
-                    {
-                        Items.Remove(station);
-                        station = new Station { StationNumber = notification.StationNumber, PatientNumber = notification.UserNumber };
-                        Items.Add(station);
-                        Items = new ObservableCollection<Station>(Items.OrderBy(s => s.StationNumber));
-                    }
-                });
-            });
-
-            connection.On<int>("AddStation", (station) =>
-            {
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var find = Items.FirstOrDefault(s => s.StationNumber == station);
-                    if(find is null)
-                    {
-                        Items.Add(new Station { StationNumber = station, PatientNumber = -1 });
-                    }
-                });
-            });
-
-            connection.On<int>("RemoveStation", (station) => 
-            {
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    var StationToRemove = Items.Where(s => s.StationNumber == station).FirstOrDefault();
-                    if(StationToRemove != null)
-                    {
-                        Items.Remove(StationToRemove);
-                    }
-                });
-            });
-
-            try
-            {
-                await connection.StartAsync();
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            try
-            {
-                await connection.InvokeAsync("AddToGroup", QueueType);
-            }
-            catch (Exception e)
-            {
-
-            }
-        }
-
     }
 }
