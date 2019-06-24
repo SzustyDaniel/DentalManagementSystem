@@ -112,6 +112,7 @@ namespace StaffStationClient.ViewModels
         {
             await http.LogOutAsync(Model.UserName);
             aggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Login);
+            aggregator.GetEvent<SendModelEvent>().Unsubscribe(LoadModel);
         }
 
         bool CanExecuteLogoutCommand()

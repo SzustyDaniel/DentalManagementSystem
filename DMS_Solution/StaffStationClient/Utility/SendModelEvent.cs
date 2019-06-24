@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StaffStationClient.Utility
 {
-    class SendModelEvent: PubSubEvent<StationModel>
+    public class SendModelEvent: PubSubEvent<StationModel>
     {
     }
 }

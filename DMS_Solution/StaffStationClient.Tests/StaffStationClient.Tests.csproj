@@ -59,7 +59,6 @@
     <Compile Include="Mocks\EmployeeMock.cs" />
     <Compile Include="Mocks\EventFireMockup.cs" />
     <Compile Include="Mocks\MockRepository.cs" />
-    <Compile Include="Mocks\SendModelEvent.cs" />
     <Compile Include="Mocks\TreatmentMock.cs" />
     <Compile Include="Mocks\ViewDialogMockup.cs" />
     <Compile Include="LoginUCViewModelTests.cs" />

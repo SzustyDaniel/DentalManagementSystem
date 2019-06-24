@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Events;
 using StaffStationClient.Services;
 using StaffStationClient.Tests.Mocks;
+using StaffStationClient.ViewModels;
 
 namespace StaffStationClient.Tests
 {
@@ -22,9 +23,36 @@ namespace StaffStationClient.Tests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void CanExecuteLoginCommand_TestifStateChanges_StateChangedTrue()
         {
+            // Arrange
+            LoginUCViewModel viewModel = new LoginUCViewModel(eventAggregator,httpActions,dialogService);
+            viewModel.Model.StationNumber = 1;
+            viewModel.Model.StationServiceType = Common.ServiceType.Nurse;
+            viewModel.Model.Password = "1234";
+            viewModel.Model.UserName = "Daniel_s";
 
+            // Act
+            var test = viewModel.LoginCommand.CanExecute();
+
+            // Assert
+            Assert.IsTrue(test);
+        }
+
+        [TestMethod]
+        public void CanExecuteLoginCommand_TestifStateChanges_StateChangedFalse()
+        {
+            // Arrange
+            LoginUCViewModel viewModel = new LoginUCViewModel(eventAggregator, httpActions, dialogService);
+            viewModel.Model.StationNumber = 1;
+            viewModel.Model.StationServiceType = Common.ServiceType.Nurse;
+            viewModel.Model.UserName = "Daniel_s";
+
+            // Act
+            var test = viewModel.LoginCommand.CanExecute();
+
+            // Assert
+            Assert.IsFalse(test);
         }
     }
 }
