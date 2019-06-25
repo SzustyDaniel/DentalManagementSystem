@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Common;
+using Common.QueueModels;
+using NUnit.Framework;
+using QueueService.AzureStorage;
 using QueueService.AzureStorage.Repository;
 using QueueService.Test.Mock;
 using System;
@@ -19,7 +22,13 @@ namespace QueueService.Test
         [Test]
         public async Task QueueServiceTest_AddToQueue()
         {
-            
+            QueueStorageService serviceTest = new QueueStorageService(CreateQueueRepository());
+
+            Assert.ThrowsAsync<ArgumentNullException>( async () => { await serviceTest.AddToQueue(null); });
+
+            EnqueuePosition testItem = new EnqueuePosition { ServiceType = ServiceType.Nurse, UserID = 1313 };
+            await serviceTest.AddToQueue(testItem);
+
         }
 
         [Test]
