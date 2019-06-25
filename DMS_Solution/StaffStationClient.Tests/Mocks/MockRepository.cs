@@ -68,8 +68,14 @@ namespace StaffStationClient.Tests.Mocks
             if (employee == null)
                 throw new Exception();
 
+            EmployeeInfo info = new EmployeeInfo()
+            {
+                EmployeeId = employee.EmployeeId,
+                Firstname = employee.Firstname,
+                Lastname = employee.Lastname
+            };
 
-            throw new NotImplementedException();
+            return Task.FromResult(info);
         }
 
         public Task<DequeuePositionResult> GetDequeuePositionNurse(DequeuePosition position)

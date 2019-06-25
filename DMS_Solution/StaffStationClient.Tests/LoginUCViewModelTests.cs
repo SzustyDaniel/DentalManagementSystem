@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Events;
+using StaffStationClient.Models;
 using StaffStationClient.Services;
 using StaffStationClient.Tests.Mocks;
 using StaffStationClient.ViewModels;
@@ -53,6 +54,27 @@ namespace StaffStationClient.Tests
 
             // Assert
             Assert.IsFalse(test);
+        }
+
+        [TestMethod]
+        public void ExecuteLoginCommandAsync_TestIfRecivedPropertiesFromLogin_PropetiesChanged()
+        {
+            // Arrange
+            LoginUCViewModel viewModel = new LoginUCViewModel(eventAggregator, httpActions, dialogService);
+            viewModel.Model.Password = "1234";
+            viewModel.Model.UserName = "daniel_s";
+            viewModel.Model.StationNumber = 10;
+            viewModel.Model.StationServiceType = Common.ServiceType.Nurse;
+
+            var test = new StationModel() { EmployeeId = 1, EmployeeFirstName = "Daniel", EmployeeLastName = "Szuster" };
+
+            // Act
+            viewModel.LoginCommand.Execute();
+
+            // Assert
+            Assert.AreEqual(test.EmployeeId, viewModel.Model.EmployeeId);
+            Assert.AreEqual(test.EmployeeFirstName, viewModel.Model.EmployeeFirstName);
+            Assert.AreEqual(test.EmployeeLastName, viewModel.Model.EmployeeLastName);
         }
     }
 }
