@@ -15,10 +15,11 @@
 
         <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
             <DatePicker SelectedDate="{Binding PickedDate}"/>
-            <Button Content="Show daily report"/>
+            <Button Content="Show daily report" Command="{Binding ShowReportCommand}"/>
         </StackPanel>
 
-        <DataGrid Grid.Row="1" Margin="5">
+        <DataGrid Grid.Row="1" Margin="5" GridLinesVisibility="None" IsReadOnly="True" ItemsSource="{Binding DailyEmployeeReports}"
+                  AlternatingRowBackground="LightGray">
             
         </DataGrid>
         
