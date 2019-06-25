@@ -43,12 +43,16 @@ namespace QueueService.AzureStorage.Repository
         public async Task<QueueItem> GetNextItem(ServiceType serviceType)
         {
             string service = serviceType.ToString().ToLower();
-            CloudQueueMessage item = await _queueClient.GetQueueReference(service).GetMessageAsync();
-            if(item is null)
+            CloudQueue queue =  _queueClient.GetQueueReference(service);
+            CloudQueueMessage message = await queue.GetMessageAsync();
+            if (message is null)
             {
                 throw new NullReferenceException();
             }
-            return JObject.Parse(item.AsString).ToObject<QueueItem>();
+
+            await queue.DeleteMessageAsync(message);
+
+            return JObject.Parse(message.AsString).ToObject<QueueItem>();
         }
 
         public async Task<CurrentQueueNumber> GetCurrentNumber(ServiceType serviceType)

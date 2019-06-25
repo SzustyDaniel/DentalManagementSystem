@@ -53,7 +53,7 @@ namespace QueueService.AzureStorage
 
             }
 
-            await _repository.DeleteItem(item.ServiceType);
+            //await _repository.DeleteItem(item.ServiceType);
 
             return new DequeuePositionResult
             {
