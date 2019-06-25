@@ -68,6 +68,8 @@ namespace StaffStationClient.Tests.Mocks
             if (employee == null)
                 throw new Exception();
 
+
+            throw new NotImplementedException();
         }
 
         public Task<DequeuePositionResult> GetDequeuePositionNurse(DequeuePosition position)
