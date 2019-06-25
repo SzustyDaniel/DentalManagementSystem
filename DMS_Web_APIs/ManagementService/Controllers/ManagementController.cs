@@ -40,7 +40,16 @@ namespace ManagementService.Controllers
         [HttpGet("Reports/{date}")]
         public async Task<IActionResult> GetTreatments(DateTime date)
         {
-            throw new NotImplementedException();
+
+            if (date == null)
+                return BadRequest();
+
+            var treatments = await managementService.GetCustomerTreatmentsAsync(date);
+
+            if (treatments == null)
+                return NotFound();
+
+            return Ok(treatments);
         }
     
     }

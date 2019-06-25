@@ -31,7 +31,9 @@ namespace ManagementService
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ManagementContext>(options => options.UseInMemoryDatabase("ManagmentDB"));
-            services.AddScoped<IManagementService, Services.ManagementService>();
+            services.AddScoped<IManagementService, Services.ManagementService>(); // Register and inject the management service
+            services.AddHttpClient<UsersApiService>(); // register the Users API service and inject HTTP client to it
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
