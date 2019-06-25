@@ -10,12 +10,14 @@ namespace Tests
     {
         public override Task<List<DailyEmployeeReport>> GetUsersTtreatments(DateTime date)
         {
-            throw new NotImplementedException();
-
+            
             List<DailyEmployeeReport> reports = new List<DailyEmployeeReport>()
             {
-                new DailyEmployeeReport() { Date = DateTime.Parse("2019-06-24"), FirstName = "Daniel", LastName = "Szuster"}
+                new DailyEmployeeReport() { Date = DateTime.Parse("2019-06-24"), FirstName = "Daniel", LastName = "Szuster", NumberOfPatientsTreated = 3}
             };
+
+            throw new NotImplementedException();
+
         }
     }
 }
