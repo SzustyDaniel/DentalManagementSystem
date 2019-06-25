@@ -62,7 +62,7 @@ namespace QueueService.AzureStorage.Repository
             }
             catch(Exception e)
             {
-                throw new Exception("", e);
+                throw new Exception("Error in retrive operation", e);
             }
             return result.Result as CurrentQueueNumber;
         }
