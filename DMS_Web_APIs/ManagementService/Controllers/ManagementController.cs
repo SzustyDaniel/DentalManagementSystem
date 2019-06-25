@@ -7,6 +7,7 @@ using ManagementService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Common;
 using Common.UserModels;
+using Common.ManagementModels;
 
 namespace ManagementService.Controllers
 {
@@ -14,17 +15,15 @@ namespace ManagementService.Controllers
     [ApiController]
     public class ManagementController : ControllerBase
     {
-        private readonly ManagementContext contextInstance;
         private readonly IManagementService managementService;
 
-        public ManagementController(ManagementContext context, IManagementService service)
+        public ManagementController(IManagementService service)
         {
-            contextInstance = context;
             managementService = service;
         }
 
         [HttpGet("Schedules/{day}")]
-        public async Task<IActionResult> GetSchedules(DayOfWeek day)
+        public async Task<ActionResult<List<ScheduleModel>>> GetSchedules(DayOfWeek day)
         {
             if (DayOfWeek.Saturday == day)
                 return NoContent();
@@ -38,7 +37,7 @@ namespace ManagementService.Controllers
         
 
         [HttpGet("reports")]
-        public async Task<IActionResult> GetTreatments([FromQuery] DateTime date)
+        public async Task<ActionResult<List<DailyEmployeeReport>>> GetTreatments([FromQuery] DateTime date)
         {
 
             if (date == null)

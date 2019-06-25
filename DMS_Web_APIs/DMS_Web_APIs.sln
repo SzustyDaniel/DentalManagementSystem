@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersService.Tests", "Users
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueueService.Test", "QueueService.Test\QueueService.Test.csproj", "{7904AC80-8682-434D-983A-7370A7551692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagemenrService.Test", "ManagemenrService.Test\ManagemenrService.Test.csproj", "{24F96772-86D6-4AEC-AC78-9587026E48D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagementService.Test", "ManagemenrService.Test\ManagementService.Test.csproj", "{24F96772-86D6-4AEC-AC78-9587026E48D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
