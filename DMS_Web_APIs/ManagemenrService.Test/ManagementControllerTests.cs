@@ -70,8 +70,29 @@ namespace Tests
                 Assert.AreEqual(excpectedSchedules[1].WorkingHours.StartTime, result.Value[1].WorkingHours.StartTime);
                 Assert.AreEqual(excpectedSchedules[1].WorkingHours.EndTime, result.Value[1].WorkingHours.EndTime);
             }
-
-
         }
+
+        [Test]
+        public async System.Threading.Tasks.Task GetSchedules_TestIfAnErrorIsThrownIfDayIsNotSet_ContentIsNull()
+        {
+            using(var context = GetInitializedUsersContext())
+            {
+                // Arrange
+                var managementService = new ManagementService.Services.ManagementService(context, new UsersApiServiceMock());
+                ManagementController controller = new ManagementController(managementService);
+
+                // Act
+                ActionResult<List<ScheduleModel>> result = await controller.GetSchedules(DayOfWeek.Saturday);
+
+                // Assert
+                Assert.IsInstanceOf<ActionResult<List<ScheduleModel>>>(result);
+                Assert.IsNull(result.Value);
+            }
+        }
+
+
+        
+
     }
+
 }
