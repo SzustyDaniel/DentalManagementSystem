@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace QueueService.AzureStorage.Entities.TableStorageEntities
 {
-    public class NextQueueNumber : TableEntity
+    public class CurrentQueueNumber : TableEntity
     {
         public int NextNumber { get; set; }
 
-        public NextQueueNumber()
+        public CurrentQueueNumber()
         {
 
         }
 
-        public NextQueueNumber(string serviceType)
+        public CurrentQueueNumber(string serviceType)
         {
             PartitionKey = serviceType;
             RowKey = serviceType;
