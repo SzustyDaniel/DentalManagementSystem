@@ -1,4 +1,5 @@
-﻿using Common.QueueModels;
+﻿using Common;
+using Common.QueueModels;
 using Microsoft.AspNetCore.SignalR.Client;
 using QueueDisplayTvClient.Models;
 using QueueDisplayTvClient.SignalRservice.Notification;
@@ -15,7 +16,7 @@ namespace QueueDisplayTvClient.SignalRservice
     {
         public static async Task Builder(INotificationHandler handlers)
         {
-            HubConnection connection = new HubConnectionBuilder().WithUrl("https://localhost:44305/QueueNotificationsHub").Build();
+            HubConnection connection = new HubConnectionBuilder().WithUrl($"{ConstantURI.queueServerURI}/QueueNotificationsHub").Build();
             connection.Closed += async (error) =>
             {
                 await Task.Delay(1000);
