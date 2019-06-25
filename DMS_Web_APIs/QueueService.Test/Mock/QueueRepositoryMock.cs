@@ -11,11 +11,11 @@ namespace QueueService.Test.Mock
 {
     class QueueRepositoryMock : IQueueRepository
     {
-        private Queue<QueueItem> _queueNurse = new Queue<QueueItem>();
-        private Queue<QueueItem> _queuePharmacist = new Queue<QueueItem>();
+        public Queue<QueueItem> _queueNurse { get; set; } = new Queue<QueueItem>();
+        public Queue<QueueItem> _queuePharmacist { get; set; } = new Queue<QueueItem>();
 
-        private int nextNurseNumber = 0;
-        private int nextPharmacistNumber = 0;
+        public int nextNurseNumber { get; set; } = 0;
+        public int nextPharmacistNumber { get; set; } = 0;
 
         public QueueRepositoryMock()
         {
