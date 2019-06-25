@@ -1,9 +1,9 @@
 ﻿using Common;
 using System.Collections.Generic;
 
-namespace UsersService.Data.Models
+namespace StaffStationClient.Tests.Mocks
 {
-    public class Employee
+    public class EmployeeMock
     {
         public int EmployeeId { get; set; }
         public ServiceType Role { get; set; }
@@ -13,8 +13,8 @@ namespace UsersService.Data.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public bool Online { get; set; }
-        public int? StationId { get; set; }
+        public int StationId { get; set; }
 
-        public ICollection<Treatment> Treatments { get; set; }
+        public ICollection<TreatmentMock> Treatments { get; set; }
     }
 }

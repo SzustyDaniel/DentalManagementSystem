@@ -53,7 +53,7 @@ namespace StaffStationClient.ViewModels
 
             // Assaign for properties
             aggregator.GetEvent<SendModelEvent>().Subscribe(LoadModel);
-            DequeueModel = new DequeueModel() { CustomerId = -1 };
+            DequeueModel = new DequeueModel() { CustomerId = 0 };
         }
 
         private void LoadModel(StationModel obj)
@@ -112,6 +112,7 @@ namespace StaffStationClient.ViewModels
         {
             await http.LogOutAsync(Model.UserName);
             aggregator.GetEvent<ChangeViewEvent>().Publish(ViewType.Login);
+            aggregator.GetEvent<SendModelEvent>().Unsubscribe(LoadModel);
         }
 
         bool CanExecuteLogoutCommand()
