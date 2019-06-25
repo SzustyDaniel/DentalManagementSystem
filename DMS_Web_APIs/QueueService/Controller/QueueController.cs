@@ -22,21 +22,21 @@ namespace QueueService.Controller
             _hubContext = hubContext;
         }
 
-        [HttpPost]
+        [HttpPost(Name = nameof(Add))]
         public async Task<IActionResult> Add([FromBody] EnqueuePosition item)
         {
             if(item is null || item.ServiceType == ServiceType.none)
             {
-                return new BadRequestResult();
+                return BadRequest();
             }
 
             EnqueuePositionResult result = await _queueService.AddToQueue(item);
 
             if(result is null)
             {
-                return new StatusCodeResult(500);
+                return Conflict();
             }
-            return new JsonResult(result);
+            return CreatedAtAction(nameof(Add),result);
         }
 
         [HttpDelete]

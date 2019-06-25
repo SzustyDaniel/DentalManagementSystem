@@ -27,7 +27,7 @@ namespace QueueService.AzureStorage.StorageManagement
             {
                 foreach (var row in rows)
                 {
-                    TableOperation operation = TableOperation.Insert(new NextQueueNumber(row) { NextNumber = 0 });
+                    TableOperation operation = TableOperation.Insert(new CurrentQueueNumber(row) { NextNumber = 0 });
                     await table.ExecuteAsync(operation);
                 };
             }

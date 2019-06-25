@@ -1,98 +1,70 @@
-﻿using Common;
-using Common.QueueModels;
-using Microsoft.Extensions.Options;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Queue;
-using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json.Linq;
+﻿using Common.QueueModels;
 using QueueService.AzureStorage.Entities.QueueStorageEntities;
 using QueueService.AzureStorage.Entities.TableStorageEntities;
-using QueueService.AzureStorage.StorageManagement;
+using QueueService.AzureStorage.Repository;
 using System;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace QueueService.AzureStorage
 {
     public class QueueStorageService : IQueueStorageService
     {
-        private readonly CloudTableClient _tableClient;
-        private readonly CloudQueueClient _queueClient;
+        private readonly IQueueRepository _repository;
 
-        private readonly AzureStorageSettings _storageSettings;
-
-        public QueueStorageService(IOptions<AzureStorageSettings> settings)
+        public QueueStorageService(IQueueRepository repository)
         {
-            _storageSettings = settings.Value;
-            var storageAccount = CloudStorageAccount.Parse(_storageSettings.ConnectionString);
-            _tableClient = storageAccount.CreateCloudTableClient();
-            _queueClient = storageAccount.CreateCloudQueueClient();
+            _repository = repository;
         }
 
-        #region add to queue
-        public async Task<EnqueuePositionResult> AddToQueue(EnqueuePosition newItem)
+        public async Task<EnqueuePositionResult> AddToQueue(EnqueuePosition item)
         {
-            string serivceType = newItem.ServiceType.ToString().ToLower();
-
-            int nextNumber = await GetAndUpdateNextQueueNumber(serivceType);
-
-            JObject result = JObject.FromObject(new QueueItem { UserID = newItem.UserID, UserNumber = nextNumber });
-            CloudQueueMessage queueMessage = new CloudQueueMessage(result.ToString());
-            await _queueClient.GetQueueReference(serivceType).AddMessageAsync(queueMessage);
-
-            return new EnqueuePositionResult { UserNumber = nextNumber };
-        }
-
-        private async Task<int> GetAndUpdateNextQueueNumber(string serviceType)
-        {
-            var table = _tableClient.GetTableReference(_storageSettings.NextTable);
-
-            TableResult result = await table.ExecuteAsync(TableOperation.Retrieve<NextQueueNumber>(serviceType, serviceType));
-            if (result is null)
+            if(item is null)
             {
-
-            }
-            if (result.HttpStatusCode == (int)HttpStatusCode.NotFound)
-            {
-
+                throw new ArgumentNullException(nameof(item));
             }
 
-            NextQueueNumber current = result.Result as NextQueueNumber;
-            current.NextNumber++;
+            CurrentQueueNumber currentNumber = await _repository.GetCurrentNumber(item.ServiceType);
+            
+            if(currentNumber is null)
+            {
+                throw new Exception(); //TODO;
+            }
 
-            TableOperation operation = TableOperation.InsertOrReplace(current);
-            await table.ExecuteAsync(operation);
+            currentNumber.NextNumber++;
+            await _repository.UpadteNextNumber(currentNumber, item.ServiceType);
 
-            return current.NextNumber;
+            QueueItem newItem = new QueueItem()
+            {
+                UserID = item.UserID,
+                UserNumber = currentNumber.NextNumber
+            };
+
+            await _repository.AddItem(item.ServiceType, newItem);
+
+            return new EnqueuePositionResult { UserNumber = newItem.UserNumber };
         }
-        #endregion
 
-        #region remove from queue
         public async Task<DequeuePositionResult> RemoveFromQueue(DequeuePosition item)
         {
-            string serivceType = item.ServiceType.ToString().ToLower();
-
-            var queue = _queueClient.GetQueueReference(serivceType);
-
-            DequeuePositionResult result = null;
-            var queueItem = await queue.GetMessageAsync();
-            if (queueItem != null)
+            if(item is null)
             {
-                QueueItem resultAsObject = JObject.Parse(queueItem.AsString).ToObject<QueueItem>();
-                result = new DequeuePositionResult
-                {
-                    CustomerID = resultAsObject.UserID,
-                    CustomerNumberInQueue = resultAsObject.UserNumber
-                };
+                throw new ArgumentNullException(nameof(item));
             }
 
-            if(result != null)
+            QueueItem nextItem = await _repository.GetNextItem(item.ServiceType);
+
+            if(nextItem is null)
             {
-                await queue.DeleteMessageAsync(queueItem);
+
             }
-            return result;
+
+            await _repository.DeleteItem(item.ServiceType);
+
+            return new DequeuePositionResult
+            {
+                CustomerID = nextItem.UserID,
+                CustomerNumberInQueue = nextItem.UserNumber
+            };
         }
-        #endregion
     }
 }
