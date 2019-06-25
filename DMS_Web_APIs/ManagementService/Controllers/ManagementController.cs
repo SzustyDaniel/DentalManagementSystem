@@ -30,7 +30,7 @@ namespace ManagementService.Controllers
 
             var result = await managementService.GetScheduleAsync(day);
             if(result != null)
-                return Ok(result);
+                return result;
 
             return NotFound();
         }
@@ -48,7 +48,7 @@ namespace ManagementService.Controllers
             if (treatments == null)
                 return NotFound();
 
-            return Ok(treatments);
+            return treatments;
         }
     
     }

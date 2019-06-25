@@ -60,7 +60,7 @@ namespace Tests
 
                 // Assert
                 Assert.IsInstanceOf<ActionResult<List<ScheduleModel>>>(result);
-                Assert.IsInstanceOf<List<ScheduleModel>>(result.Value);/*
+                Assert.IsInstanceOf<List<ScheduleModel>>(result.Value);
                 Assert.AreEqual(excpectedSchedules[0].Day, result.Value[0].Day);
                 Assert.AreEqual(excpectedSchedules[0].Type, result.Value[0].Type);
                 Assert.AreEqual(excpectedSchedules[0].WorkingHours.StartTime, result.Value[0].WorkingHours.StartTime);
@@ -68,7 +68,7 @@ namespace Tests
                 Assert.AreEqual(excpectedSchedules[1].Day, result.Value[1].Day);
                 Assert.AreEqual(excpectedSchedules[1].Type, result.Value[1].Type);
                 Assert.AreEqual(excpectedSchedules[1].WorkingHours.StartTime, result.Value[1].WorkingHours.StartTime);
-                Assert.AreEqual(excpectedSchedules[1].WorkingHours.EndTime, result.Value[1].WorkingHours.EndTime);*/
+                Assert.AreEqual(excpectedSchedules[1].WorkingHours.EndTime, result.Value[1].WorkingHours.EndTime);
             }
 
 
