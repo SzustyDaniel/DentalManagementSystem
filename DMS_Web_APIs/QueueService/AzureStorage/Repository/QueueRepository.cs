@@ -36,12 +36,13 @@ namespace QueueService.AzureStorage.Repository
 
         public async Task DeleteItem(ServiceType serviceType)
         {
-            await _queueClient.GetQueueReference(serviceType.ToString()).DeleteAsync();
+            CloudQueue queue = _queueClient.GetQueueReference(serviceType.ToString().ToLower());
+            await queue.DeleteMessageAsync(await queue.GetMessageAsync());
         }
 
         public async Task<QueueItem> GetNextItem(ServiceType serviceType)
         {
-            string service = serviceType.ToString();
+            string service = serviceType.ToString().ToLower();
             CloudQueueMessage item = await _queueClient.GetQueueReference(service).GetMessageAsync();
             if(item is null)
             {

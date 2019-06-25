@@ -2,10 +2,12 @@
 using Common.QueueModels;
 using NUnit.Framework;
 using QueueService.AzureStorage;
+using QueueService.AzureStorage.Entities.QueueStorageEntities;
 using QueueService.AzureStorage.Repository;
 using QueueService.Test.Mock;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace QueueService.Test
     [TestFixture]
     class QueueStorageServiceTests
     {
-        public static IQueueRepository CreateQueueRepository()
+        public static QueueRepositoryMock CreateQueueRepository()
         {
             return new QueueRepositoryMock();
         }
@@ -22,13 +24,15 @@ namespace QueueService.Test
         [Test]
         public async Task QueueServiceTest_AddToQueue()
         {
-            QueueStorageService serviceTest = new QueueStorageService(CreateQueueRepository());
+            QueueRepositoryMock repository = CreateQueueRepository();
+            IQueueStorageService serviceTest = new QueueStorageService(repository);
 
             Assert.ThrowsAsync<ArgumentNullException>( async () => { await serviceTest.AddToQueue(null); });
 
             EnqueuePosition testItem = new EnqueuePosition { ServiceType = ServiceType.Nurse, UserID = 1313 };
-            await serviceTest.AddToQueue(testItem);
-
+            var result = await serviceTest.AddToQueue(testItem);
+            var queueItem = repository._queueNurse.FirstOrDefault(i => i.UserID == 1313);
+            Assert.AreEqual(queueItem.UserNumber, result.UserNumber);
         }
 
         [Test]

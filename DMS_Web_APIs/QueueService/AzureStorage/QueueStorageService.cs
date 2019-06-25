@@ -23,15 +23,7 @@ namespace QueueService.AzureStorage
                 throw new ArgumentNullException(nameof(item));
             }
 
-            CurrentQueueNumber currentNumber = null;
-            try
-            {
-                currentNumber = await _repository.GetCurrentNumber(item.ServiceType);
-            }
-            catch
-            {
-                throw;
-            }
+            CurrentQueueNumber currentNumber = await _repository.GetCurrentNumber(item.ServiceType);
 
             currentNumber.NextNumber++;
             await _repository.UpadteNextNumber(currentNumber, item.ServiceType);
