@@ -42,7 +42,7 @@ namespace ManagementService.Services
         /*
          * 
          */
-        public async Task<List<CustomerTreatment>> GetCustomerTreatmentsAsync(DateTime date)
+        public async Task<List<DailyEmployeeReport>> GetCustomerTreatmentsAsync(DateTime date)
         {
             var treatmentList = await _usersApiService.GetUsersTtreatments(date);
 

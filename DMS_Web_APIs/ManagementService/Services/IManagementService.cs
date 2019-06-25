@@ -12,6 +12,6 @@ namespace ManagementService.Services
     public interface IManagementService
     {
         Task<List<ScheduleModel>> GetScheduleAsync(DayOfWeek day);
-        Task<List<CustomerTreatment>> GetCustomerTreatmentsAsync(DateTime date);
+        Task<List<DailyEmployeeReport>> GetCustomerTreatmentsAsync(DateTime date);
     }
 }

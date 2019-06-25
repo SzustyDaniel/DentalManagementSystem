@@ -10,7 +10,7 @@ namespace ClinicManager.Services
 {
     public class ManagementApiService : IManagementApiService
     {
-        private const string GetDailyReportRoute = "reports?date={0}";
+        private const string GetDailyReportRoute = "management/reports?date={0}";
         private static readonly HttpClient HttpClient = new HttpClient
         {
             BaseAddress = new Uri(ConstantURI.managementServerURI)

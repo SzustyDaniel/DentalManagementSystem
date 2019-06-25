@@ -37,8 +37,8 @@ namespace ManagementService.Controllers
         }
         
 
-        [HttpGet("Reports/{date}")]
-        public async Task<IActionResult> GetTreatments(DateTime date)
+        [HttpGet("reports")]
+        public async Task<IActionResult> GetTreatments([FromQuery] DateTime date)
         {
 
             if (date == null)

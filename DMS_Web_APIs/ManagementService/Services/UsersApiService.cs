@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Common;
 using Common.UserModels;
+using Newtonsoft.Json;
 
 namespace ManagementService.Services
 {
@@ -21,14 +22,11 @@ namespace ManagementService.Services
         }
 
         /* Get the customer Treatments from the users API */
-        public virtual async Task<List<CustomerTreatment>> GetUsersTtreatments(DateTime date)
+        public virtual async Task<List<DailyEmployeeReport>> GetUsersTtreatments(DateTime date)
         {
-            HttpResponseMessage result = await client.GetAsync($"{ConstantURI.usersServerURI}Users/reports?date={date.ToShortDateString()}");
-            result.EnsureSuccessStatusCode();
-
-            var treatmentList = await result.Content.ReadAsAsync<List<CustomerTreatment>>();
-
-            return treatmentList;
+            string requestUri = string.Format("{0}Users/reports?date={1}",ConstantURI.usersServerURI,date.ToString("s"));
+            string result = await client.GetStringAsync(requestUri);
+            return JsonConvert.DeserializeObject<List<DailyEmployeeReport>>(result);
         }
 
     }
