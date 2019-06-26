@@ -16,7 +16,7 @@ namespace QueueDisplayTvClient.SignalRservice
     {
         public static async Task Builder(INotificationHandler handlers)
         {
-            HubConnection connection = new HubConnectionBuilder().WithUrl($"{ConstantURI.queueServerURI}/QueueNotificationsHub").Build();
+            HubConnection connection = new HubConnectionBuilder().WithUrl($"{ConstantURI.queueServerURI}QueueNotificationsHub").Build();
             connection.Closed += async (error) =>
             {
                 await Task.Delay(1000);

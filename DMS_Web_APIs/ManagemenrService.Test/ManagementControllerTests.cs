@@ -91,7 +91,26 @@ namespace Tests
         }
 
 
-        
+        // needs to be check might not be effective at all....
+        [Test]
+        public async System.Threading.Tasks.Task GetTreatments_IfNoTreatmentIsFound_TreatmentReturnedisNullAsync()
+        {
+            using (var context = GetInitializedUsersContext())
+            {
+                // Arrange
+                var managementService = new ManagementService.Services.ManagementService(context, new UsersApiServiceMock());
+                ManagementController controller = new ManagementController(managementService);
+
+                // Act
+                var answer = await managementService.GetCustomerTreatmentsAsync(DateTime.Now);
+
+                // Assert
+                Assert.IsNull(answer);
+            }
+
+        }
+
+
 
     }
 
