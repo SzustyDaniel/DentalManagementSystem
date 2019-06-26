@@ -4,46 +4,75 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525">
+    <Window.Resources>
+        <Style x:Key="txtStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="15,10"/>
+        </Style>
+        <Style x:Key="txbStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontFamily" Value="Ariel"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="15,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-        
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.4*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="0.4*"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
 
-            <TextBox Text="{Binding serviceType}"/>
+        <TextBox Text="{Binding serviceType}"/>
 
-            <ListView Grid.Row="1" Background="AliceBlue" ItemsSource="{Binding Items}" >
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            
-                            <Border Background="Black" BorderThickness="5">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
+        <ListView Grid.Row="1" Background="AliceBlue" ItemsSource="{Binding Items}" >
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
 
-                                    <TextBox Grid.Row="0" Text="{Binding StationNumber}"/>
-                                    <TextBox Grid.Row="1" Text="{Binding PatientNumber}"/>
+                        <Border BorderThickness="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                                </Grid>
-                            </Border>
-                            
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
-        
+                                <TextBlock Text="Station" Style="{StaticResource txtStyle}" Grid.Column="0" Grid.Row="0"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource txbStyle}" Text="{Binding StationNumber}"/>
+                                <TextBlock Text="Customer" Style="{StaticResource txtStyle}" Grid.Column="0" Grid.Row="1"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding PatientNumber,NotifyOnTargetUpdated=True}">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox" BasedOn="{StaticResource txbStyle}">
+                                            <Style.Triggers>
+                                                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ColorAnimation Duration="00:00:02" Storyboard.TargetProperty="(TextBox.Background).(SolidColorBrush.Color)" From="Green" To="White"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </Grid>
+                        </Border>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>
