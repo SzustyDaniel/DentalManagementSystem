@@ -27,19 +27,19 @@ namespace ClinicManager.ViewModels
 
         public DateTime? PickedDate { get; set; }
 
-        private bool _isBusy;
+        public bool IsBusy { get; private set; }
 
         public ICommand ShowReportCommand { get; }
         private async void ExecuteShowReportCommand(object parameter)
         {
-            _isBusy = true;
+            IsBusy = true;
             IEnumerable<DailyEmployeeReport> reports = await _managementApiService.GetDailyEmployeeReports(PickedDate.Value);
             DailyEmployeeReports = new ObservableCollection<DailyEmployeeReport>(reports);
-            _isBusy = false;
+            IsBusy = false;
         }
         private bool CanExecuteShowReportCommand(object parameter)
         {
-            return !_isBusy && PickedDate != default;
+            return !IsBusy && PickedDate != default;
         }
 
         public MainWindowViewModel(IManagementApiService managementApiService)
