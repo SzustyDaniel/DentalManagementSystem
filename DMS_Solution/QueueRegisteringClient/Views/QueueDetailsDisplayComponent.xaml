@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="QueueRegisteringClient.Views.QueueDetailsDisplayComponent"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/" Background="AliceBlue" BorderBrush="Black" BorderThickness="2"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style x:Key="textStyle" TargetType="TextBlock">
