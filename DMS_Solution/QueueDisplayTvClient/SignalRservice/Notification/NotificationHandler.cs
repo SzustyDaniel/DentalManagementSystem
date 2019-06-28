@@ -21,7 +21,7 @@ namespace QueueDisplayTvClient.SignalRservice.Notification
                 var newStation = Stations.FirstOrDefault(s => s.StationNumber == station);
                 if (newStation is null)
                 {
-                    Stations.Add(new Station { StationNumber = station, PatientNumber = -1 });
+                    Stations.Add(new Station { StationNumber = station });
                 }
             });
         }

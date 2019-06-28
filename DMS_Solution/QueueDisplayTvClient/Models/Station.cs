@@ -9,8 +9,8 @@ namespace QueueDisplayTvClient.Models
 {
     public class Station : BindableBase
     {
-        private int _patientNumber;
-        public int PatientNumber
+        private int? _patientNumber;
+        public int? PatientNumber
         {
             get { return _patientNumber; }
             set { SetProperty(ref _patientNumber, value); }

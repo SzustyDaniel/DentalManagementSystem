@@ -225,7 +225,8 @@ namespace QueueRegisteringClient.ViewModels
             if (schedule == null)
                 return false;
 
-            return (schedule.WorkingHours.StartTime <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay <= schedule.WorkingHours.EndTime) ? true : false;
+            TimeSpan timeOfDay = DateTime.Now.TimeOfDay;
+            return schedule.WorkingHours.StartTime <= timeOfDay && timeOfDay <= schedule.WorkingHours.EndTime;
         }
 
         /*
