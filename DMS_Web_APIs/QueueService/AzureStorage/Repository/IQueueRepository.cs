@@ -11,8 +11,6 @@ namespace QueueService.AzureStorage.Repository
 {
     public interface IQueueRepository
     {
-        //Task DeleteItem(ServiceType serviceType);
-
         Task<QueueItem> GetNextItem(ServiceType serviceType);
 
         Task AddItem(ServiceType serviceType, QueueItem item);

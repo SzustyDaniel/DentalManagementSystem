@@ -53,8 +53,6 @@ namespace QueueService.AzureStorage
 
             }
 
-            //await _repository.DeleteItem(item.ServiceType);
-
             return new DequeuePositionResult
             {
                 CustomerID = nextItem.UserID,

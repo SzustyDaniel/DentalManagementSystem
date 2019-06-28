@@ -74,7 +74,7 @@ namespace QueueService.Controller
         [HttpPut]
         public async Task<IActionResult> UpdateStationState([FromBody] EmployeeConnectionUpdate update)
         {
-            if(update.ServiceType == ServiceType.none)
+            if(update.Equals(default(EmployeeConnectionUpdate)) || update.ServiceType == ServiceType.none)
             {
                 return new BadRequestObjectResult("ServiceType is none");
             }

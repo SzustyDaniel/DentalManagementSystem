@@ -38,7 +38,12 @@ namespace QueueService.Test
         [Test]
         public async Task QueueServiceTest_RemoveFromQueue()
         {
+            QueueRepositoryMock repository = CreateQueueRepository();
+            IQueueStorageService serviceTest = new QueueStorageService(repository);
 
+            Assert.ThrowsAsync<ArgumentNullException>(async () => { await serviceTest.RemoveFromQueue(null); });
+            var result = await serviceTest.RemoveFromQueue(new DequeuePosition { ServiceType = ServiceType.Nurse });
+            Assert.AreEqual(1, result.CustomerNumberInQueue);
         }
     }
 }
