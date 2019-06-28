@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ClinicManager.Tests
 {
@@ -15,7 +16,7 @@ namespace ClinicManager.Tests
         [TestMethod]
         public void ShowReportCommand_CannotExecute_WhenDidNotPickDate()
         {
-            MainWindowViewModel model = new MainWindowViewModel(new ManagementApiServiceMock())
+            MainWindowViewModel model = new MainWindowViewModel(new ManagementApiServiceMock(), new DialogServiceMock())
             {
                 PickedDate = null
             };
@@ -27,7 +28,7 @@ namespace ClinicManager.Tests
         [TestMethod]
         public void DailyEmployeeReports_PickDateAndExecuteShowReportCommand_DailyEmployeeReportsNotEmpty()
         {
-            MainWindowViewModel model = new MainWindowViewModel(new ManagementApiServiceMock())
+            MainWindowViewModel model = new MainWindowViewModel(new ManagementApiServiceMock(), new DialogServiceMock())
             {
                 PickedDate = DateTime.Today
             };
@@ -48,6 +49,14 @@ namespace ClinicManager.Tests
                 new DailyEmployeeReport()
             };
             return Task.FromResult(list);
+        }
+    }
+
+    public class DialogServiceMock : IDialogService
+    {
+        public MessageBoxResult ShowMessageBox(string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon)
+        {
+            return MessageBoxResult.OK;
         }
     }
 }
