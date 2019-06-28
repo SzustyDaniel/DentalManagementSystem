@@ -40,9 +40,6 @@ namespace ManagementService.Controllers
         public async Task<ActionResult<List<DailyEmployeeReport>>> GetTreatments([FromQuery] DateTime date)
         {
 
-            if (date == null)
-                return BadRequest();
-
             var treatments = await managementService.GetCustomerTreatmentsAsync(date);
 
             if (treatments == null)

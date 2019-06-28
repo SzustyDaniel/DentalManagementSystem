@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ClinicManager.ViewModels
@@ -12,7 +13,7 @@ namespace ClinicManager.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly IManagementApiService _managementApiService;
-
+        private readonly IDialogService _dialogService;
         private ObservableCollection<DailyEmployeeReport> _dailyEmployeeReports;
         public ObservableCollection<DailyEmployeeReport> DailyEmployeeReports
         {
@@ -27,23 +28,35 @@ namespace ClinicManager.ViewModels
 
         public DateTime? PickedDate { get; set; }
 
-        private bool _isBusy;
+        public bool IsBusy { get; private set; }
 
         public ICommand ShowReportCommand { get; }
         private async void ExecuteShowReportCommand(object parameter)
         {
-            _isBusy = true;
-            IEnumerable<DailyEmployeeReport> reports = await _managementApiService.GetDailyEmployeeReports(PickedDate.Value);
-            DailyEmployeeReports = new ObservableCollection<DailyEmployeeReport>(reports);
-            _isBusy = false;
+            try
+            {
+                IsBusy = true;
+                IEnumerable<DailyEmployeeReport> reports = await _managementApiService.GetDailyEmployeeReports(PickedDate.Value);
+                DailyEmployeeReports = new ObservableCollection<DailyEmployeeReport>(reports);
+            }
+            catch (Exception)
+            {
+                _dialogService.ShowMessageBox(
+                    "There was a problem retrieving the report from server. Please try again", "Clinic Manager", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         private bool CanExecuteShowReportCommand(object parameter)
         {
-            return !_isBusy && PickedDate != default;
+            return !IsBusy && PickedDate != default;
         }
 
-        public MainWindowViewModel(IManagementApiService managementApiService)
+        public MainWindowViewModel(IManagementApiService managementApiService, IDialogService dialogService)
         {
+            _dialogService = dialogService;
             _managementApiService = managementApiService;
             ShowReportCommand = new CustomCommand(CanExecuteShowReportCommand, ExecuteShowReportCommand);
         }

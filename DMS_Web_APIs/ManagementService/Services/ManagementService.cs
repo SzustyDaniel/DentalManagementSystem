@@ -40,7 +40,8 @@ namespace ManagementService.Services
         }
 
         /*
-         * 
+         * Get treatments from the UsersApi service
+         * return the treatment list
          */
         public async Task<List<DailyEmployeeReport>> GetCustomerTreatmentsAsync(DateTime date)
         {
