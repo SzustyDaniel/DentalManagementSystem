@@ -74,6 +74,11 @@ namespace StaffStationClient.ViewModels
             {
                 DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
 
+                DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
+
+                DequeueModel.CustomerId = result.CustomerID;
+                DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
+
                 // Send last client as a treatment report
                 if (DequeueModel.CustomerId > 0)
                 {
@@ -85,13 +90,6 @@ namespace StaffStationClient.ViewModels
                     };
                     await http.SendTreatmentReportAsync(treatment);
                 }
-
-                DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
-
-
-                DequeueModel.CustomerId = result.CustomerID;
-                DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
-
 
             }
             catch (Exception e)
