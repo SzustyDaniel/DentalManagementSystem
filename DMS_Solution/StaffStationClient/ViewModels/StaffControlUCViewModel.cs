@@ -75,6 +75,11 @@ namespace StaffStationClient.ViewModels
                 DequeuePosition dequeuePosition = new DequeuePosition() { ServiceType = Model.StationServiceType, StationNumber = Model.StationNumber };
 
                 DequeuePositionResult result = await http.CallNextInQueueAsync(dequeuePosition);
+                if(result == null)
+                {
+                    dialog.ShowMessage("There are no client wating for treatment");
+                    return;
+                }
 
                 DequeueModel.CustomerId = result.CustomerID;
                 DequeueModel.QueueuNumber = result.CustomerNumberInQueue;
