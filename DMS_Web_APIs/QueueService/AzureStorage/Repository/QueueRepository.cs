@@ -47,7 +47,7 @@ namespace QueueService.AzureStorage.Repository
             CloudQueueMessage message = await queue.GetMessageAsync();
             if (message is null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             await queue.DeleteMessageAsync(message);

@@ -23,6 +23,7 @@ namespace QueueService.AzureStorage.StorageManagement
         private static async Task CreateAndSeedTableStorage(this CloudTableClient tableClient, string nextTable, List<string> rows)
         {
             CloudTable table = tableClient.GetTableReference(nextTable);
+            await table.DeleteIfExistsAsync();
             if (await table.CreateIfNotExistsAsync())
             {
                 foreach (var row in rows)
@@ -37,7 +38,9 @@ namespace QueueService.AzureStorage.StorageManagement
         {
             foreach (var name in queueNames)
             {
-                await queueClient.GetQueueReference(name).CreateIfNotExistsAsync();
+                var queue = queueClient.GetQueueReference(name);
+                await queue.DeleteIfExistsAsync();
+                await queue.CreateIfNotExistsAsync();
             }
         }
     }

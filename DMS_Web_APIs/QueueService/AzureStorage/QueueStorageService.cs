@@ -46,18 +46,25 @@ namespace QueueService.AzureStorage
                 throw new ArgumentNullException(nameof(item));
             }
 
-            QueueItem nextItem = await _repository.GetNextItem(item.ServiceType);
-
-            if(nextItem is null)
+            try
             {
+                QueueItem nextItem = await _repository.GetNextItem(item.ServiceType);
 
+                if (nextItem is null)
+                {
+                    return null;
+                }
+
+                return new DequeuePositionResult
+                {
+                    CustomerID = nextItem.UserID,
+                    CustomerNumberInQueue = nextItem.UserNumber
+                };
             }
-
-            return new DequeuePositionResult
+            catch(Exception e)
             {
-                CustomerID = nextItem.UserID,
-                CustomerNumberInQueue = nextItem.UserNumber
-            };
+                return null;
+            }
         }
     }
 }
